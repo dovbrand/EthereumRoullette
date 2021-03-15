@@ -10,6 +10,7 @@ contract Roullette {
         uint256 betAmount;
     }
     
+    
     struct Player {
         address payable playerAddress;
         bool playerExists; // Whether the player has already been added to map and array;
@@ -18,7 +19,11 @@ contract Roullette {
         // uint256 result;
         Bet[] bets;
         int256 totalWinnings; // Keeps track of player balance
+        
     }
+    
+ 
+
     
     // struct Game {
     //     Player[] playersInGame;
@@ -39,13 +44,16 @@ contract Roullette {
     uint256 winningNumber = 38;
     uint256 lastWinningNumber;
     bytes32 nonce;
-    // uint256 gameTimeOut;
+    uint256 gameTimeOut;
+    
     bool wheelSpun = false;
     
     constructor () public payable{
         // Casino initiates the contract
         casino = msg.sender;
     }
+    
+
     
     // Function to receive Ether. msg.data must be empty
     receive() external payable {}
@@ -61,6 +69,7 @@ contract Roullette {
     
     // Function for the casino to deposit money, must be called for the rest of the contract to work
     function depositMoney() public payable {
+        
         require(msg.sender == casino, "Only the casino can deposit money");
         casinoDeposit = casinoDeposit + msg.value;
     }
@@ -72,7 +81,7 @@ contract Roullette {
         winningNumber = uint256(keccak256(abi.encodePacked(now, msg.sender))) % 38;
         nonce = keccak256(abi.encodePacked(now));
         commitHash = keccak256(abi.encodePacked(winningNumber, nonce));
-        // gameTimeOut = now + 1 minutes;
+        gameTimeOut = now + 1 minutes;
         return commitHash;
     }
     
@@ -81,11 +90,15 @@ contract Roullette {
         casinoDeposit = casinoDeposit - _betAmount; // bet amount is deducted from casinoDeposit and but remains in the contract balance
     }
     
+
     function placeBet(uint256[] memory _numbers) public payable {
-        // require (now < gameTimeOut, "Betting period has ended");
+        require (casinoDeposit >= 1, "Casino must deposit money first");
+        // require(getCount != 0, "Bet description should not be empty");
+        require (now > gameTimeOut, "Betting period has ended");
+        gameTimeOut = now;
         address _playerAddress = msg.sender;
         require(_playerAddress != casino, "Casino cannot be a player");
-        require(msg.value * 36 < casinoDeposit, "Casino cannot cover bet"); // Bet must be less than the money in the casino deposit to ensure casino can cover the bet
+        require(msg.value < casinoDeposit, "Casino cannot cover bet"); // Bet must be less than the money in the casino deposit to ensure casino can cover the bet
         require(msg.value >= 1 wei, "Bets must be  at least 1 wei"); // Must be greater or equal to minimum bet of 1 wei
         require(msg.value <= maxBet, "Max bet exceeded"); // Must be less than or equal to max bet of .001 ether
         
@@ -99,14 +112,20 @@ contract Roullette {
     }
     
     function spinWheel() public payable returns (uint256){
-        // require(now > gameTimeOut, "Must wait for betting to end"); 
+        //Casino must deposit money before user can check their balance
+        require (casinoDeposit >= 1, "Casino must deposit money first");
+        require(now > gameTimeOut, "Must wait for betting to end"); 
         require(keccak256(abi.encodePacked(winningNumber, nonce)) ==  commitHash, "Hash doesn't match"); // Ensures winning number was not changed
         payout(msg.sender);
         return winningNumber;
     }
     
     function revealWinningNumber() public view returns (uint256)  {
-        // require (gameTimeOut > now, "Betting still in progress");
+        //Casino must deposit money before user can check their balance
+        require (casinoDeposit >= 1, "Casino must deposit money first");
+        
+        //require ( now < gameTimeOut, "Player must spin the wheel before revealing the number");
+        
         return winningNumber;
     }
     
@@ -156,15 +175,29 @@ contract Roullette {
     
     // Funtion to return total balance of the contract which is casinoDeposit + all bets currently on the table
     function getBalance() public view returns (uint) {
+        //Casino must deposit money before user can check their balance
+        require (casinoDeposit >= 1, "Casino must deposit money first");
         return address(this).balance;
+
+        
+        
     }
     
     // See current players bets
     function seeBets() public view returns (Bet[] memory){
+        //Bets can only be seen once the casino makes a deposit
+        require (casinoDeposit >= 1, "Casino must deposit money first");
+        //require(Bet.length > 0);
+        
         return playerMap[msg.sender].bets;
     }
     
     function seePlayerWinnings() public view returns (int256){
+        //Bets can only be seen once the casino makes a deposit
+        require (casinoDeposit >= 1, "Casino must deposit money first");
+        //Winnings can only be revealed once the wheel is wheel spun
+        require (winningNumber > now, "Player must spin the wheel before revealing the number");
+        
         return playerMap[msg.sender].totalWinnings;
     }
     
@@ -180,17 +213,14 @@ contract Roullette {
         winningNumber = 38;
     }
     
-    // TODO: Work on game flow
-    // TODO: How to implement randomness
+    // TODO: Allow players to withdraw bets
     // TODO: Break into small games?
+    // TODO: Automate casino processes (getOutcomeHash, gameReset)
+    // TODO: How to implement randomness
     
-    function removeBet(uint index) public {
-        address _playerAddress = msg.sender;
-        if (index >= playerMap[_playerAddress].bets.length) return ;
-        for (uint i = index; i< playerMap[_playerAddress].bets.length - 1; i++){
-            playerMap[_playerAddress].bets[i] = playerMap[_playerAddress].bets[i+1];
-        }
-        playerMap[_playerAddress].bets.pop();
-    }
+   
+    //How to make the placeBet only accept integers
     
+    
+     //   Casino makes a deposit, Player makes bet, Get outcome hash, Wheel is Spun, Number can be revealed
 }
