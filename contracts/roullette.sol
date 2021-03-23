@@ -20,6 +20,7 @@ contract Roullette {
         int256 totalWinnings; // Keeps track of player balance
     }
     
+
     // struct Game {
     //     Player[] playersInGame;
     //     uint256 gameTimeOut;
@@ -81,7 +82,7 @@ contract Roullette {
         casinoDeposit = casinoDeposit - _betAmount; // bet amount is deducted from casinoDeposit and but remains in the contract balance
     }
     
-    function placeBet(uint256[] memory _numbers) public payable {
+    function placeBet(uint256[][] memory _bets) public payable {
         // require (now < gameTimeOut, "Betting period has ended");
         address _playerAddress = msg.sender;
         require(_playerAddress != casino, "Casino cannot be a player");
@@ -95,7 +96,7 @@ contract Roullette {
             playerMap[_playerAddress].playerExists = true;
         }
         
-        playerMap[_playerAddress].bets.push(setBet(_numbers, msg.value));
+        setBet(_playerAddress, _bets, msg.value);
     }
     
     function spinWheel() public payable returns (uint256){
@@ -133,12 +134,30 @@ contract Roullette {
         gameReset();
     }
     
-    function setBet(uint256[] memory _numbers, uint256 _betAmount) internal pure returns ( Bet memory){
-        Bet memory _bet;
-        _bet.numbers = _numbers;
-        _bet.multiplier = 36/_numbers.length;
-        _bet.betAmount = _betAmount;
-        return _bet;
+    function setBet(address _playerAddress, uint256[][] memory _bets, uint256 _betTotal) internal{
+        // Sample Bets [[100,1,2,3,4],[100,20],[100,1,2,3,4,5,6,7,8,9,10,11,12]]
+        uint256 betTotal = 0;
+        uint256 n = _bets.length;
+        for(uint i = 0; i < n; i++){
+            betTotal += _bets[i][0];
+        }
+        require(betTotal == _betTotal, "Bet amount not equivalent to total bets");
+        for(uint i = 0; i < n; i++){
+            uint256  betAmount = _bets[i][0];
+            uint256 multiplier = 36/(_bets[i].length - 1);
+            uint256[] memory numbers = new uint256[](_bets[i].length - 1);
+            for(uint j = 1; j < _bets[i].length; j++){
+                numbers[j-1]= _bets[i][j];
+            //     playerMap[_playerAddress].bets[i].numbers[j- 1] = _bets[i][j];
+            }
+            
+            playerMap[_playerAddress].bets.push(Bet(numbers,multiplier,betAmount));
+            // playerMap[_playerAddress].bets[i].betAmount = _bets[i][0];
+            // playerMap[_playerAddress].bets[i].multiplier = 36/(_bets[i].length - 1);
+            //     for(uint j = 1; j < _bets[i].length; j++){
+            //     playerMap[_playerAddress].bets[i].numbers[j- 1] = _bets[i][j];
+            //     }
+        }
     }
     
     function payCasino(uint256 amount) internal{
@@ -178,11 +197,12 @@ contract Roullette {
         commitHash = 0;
         lastWinningNumber = winningNumber;
         winningNumber = 38;
+        for (uint i = 0; i < playerAddressArray.length; i++){
+            while(playerMap[playerAddressArray[i]].bets.length > 0){
+                playerMap[playerAddressArray[i]].bets.pop();
+            }
+        }
     }
-    
-    // TODO: Work on game flow
-    // TODO: How to implement randomness
-    // TODO: Break into small games?
     
     function removeBet(uint index) public {
         address _playerAddress = msg.sender;
@@ -192,5 +212,6 @@ contract Roullette {
         }
         playerMap[_playerAddress].bets.pop();
     }
+    
     
 }
