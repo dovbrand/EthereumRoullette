@@ -20,14 +20,14 @@ contract Roullette {
         int256 totalWinnings; // Keeps track of player balance
     }
     
-    // struct Game {
-    //     Player[] playersInGame;
-    //     uint256 gameTimeOut;
-    //     uint256 winningNumber;
-    //     //mapping(address => player) playersInGame;
-    // }
+    struct Game {
+        Player[] playersInGame;
+        uint256 gameTimeOut;
+        uint256 winningNumber;
+        //mapping(address => player) playersInGame;
+    }
     
-    // mapping(uint256 => Game) gameMap;
+    mapping(uint256 => Game) gameMap;
     
     mapping(address => Player) playerMap; // Map containing all players playing the game (this is not iterable)
     address[] playerAddressArray; // Array of all players addresses of players playing the game (this is iterable)
@@ -177,8 +177,6 @@ contract Roullette {
     
     function seePlayerWinnings() public view returns (int256){
         require (casinoDeposit >= 1, "Casino must deposit money first");
-        require (now < gameTimeOut, "Must spin the wheel before revealing their winnings");
-        
         return playerMap[msg.sender].totalWinnings;
     }
     
