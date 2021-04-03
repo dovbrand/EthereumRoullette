@@ -1,6 +1,13 @@
 import React, {useEffect, useState} from 'react';
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import Axios from 'axios';
 import './App.css';
+import background from './background.png';
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import Login from "./components/login.component";
+import SignUp from "./components/signup.component";
+import Landing from "./components/landing.page";
+import MainPage from './components/main.page';
 
 function App() {
 
@@ -43,8 +50,21 @@ function App() {
     })
   }, [])
   
-  return (
-    <div className="App">
+  return (<Router>
+    <div className="App" style={{ backgroundImage: `url(${background})`,
+                    backgroundRepeat: 'no-repeat', 
+                    backgroundSize: 'cover', 
+                    minWidth: '100%', 
+                    minHeight: '100%' }}>
+      <div className="auth-wrapper">
+          <Switch>
+            <Route exact path='/' component={Landing} />
+            <Route path="/landing" component={Landing} />
+            <Route path="/login" component={Login} />
+            <Route path="/sign-up" component={SignUp} />
+            <Route path="/main" component={MainPage} />
+          </Switch>
+        </div>
       <div className="registration">
         <h1>Registration</h1>
         <label>Username:</label>
@@ -79,7 +99,7 @@ function App() {
         <button onClick={login}> Log in </button> 
       </div>
       <h1>{loginStatus}</h1>
-    </div>
+    </div></Router>
   );
 }
 
