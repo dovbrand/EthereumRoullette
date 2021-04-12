@@ -1,9 +1,9 @@
 {
   "name": "roulette_bot",
   "version": "0.3.0",
-  "description": "Steal My Cryptocurrency Trading Bot!",
+  "description": "roullete casino bot",
   "engines": {
-    "node": "10.x"
+    "node": "14.x"
   },
   "main": "index.js",
   "scripts": {
@@ -21,7 +21,8 @@
     "lodash": "^4.17.15",
     "moment": "^2.25.3",
     "moment-timezone": "^0.5.28",
-    "numeral": "^2.0.6"
+    "numeral": "^2.0.6",
+    "web3": "^1.3.4"
   },
   "devDependencies": {
     "request": "^2.81.0"
