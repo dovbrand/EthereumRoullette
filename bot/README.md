@@ -1,6 +1,6 @@
-To use bot:
+## To use bot:
 
-Remove all files from bot directory and place in main directory
-npm install
-Configure ENV variables
-Run command "npm run start"
+1. Remove all files from bot directory and place in main directory
+2. npm install
+3. Configure ENV variables
+4. Run command "npm run start"
