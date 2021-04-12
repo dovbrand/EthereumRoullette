@@ -20,28 +20,20 @@ contract Roullette {
         int256 totalWinnings; // Keeps track of player balance
     }
     
-
-    // struct Game {
-    //     Player[] playersInGame;
-    //     uint256 gameTimeOut;
-    //     uint256 winningNumber;
-    //     mapping(address => player) playersInGame;
-    // }
-    
-    // mapping(uint256 => Game) gameMap;
-    
     mapping(address => Player) playerMap; // Map containing all players playing the game (this is not iterable)
     address[] playerAddressArray; // Array of all players addresses of players playing the game (this is iterable)
     address payable casino;  // Address of the casino, will not change after contract is deployed
-    uint256 public casinoDeposit = 0; // Value of the casino deposit
+    uint256 casinoDeposit = 0; // Value of the casino deposit
     uint256 maxBet = .001 ether; 
     address payable contractAddress = address(this);  // Address of this contract
-    bytes32 commitHash = 0;
+    bytes32 public commitHash = 0;
     uint256 winningNumber = 38;
     uint256 lastWinningNumber;
-    bytes32 nonce;
-    // uint256 gameTimeOut;
     bool wheelSpun = false;
+    
+    bool bettingPhase  = false;
+    bool payingPhase = false ;
+    bool resetPhase = true;
     
     constructor () public payable{
         // Casino initiates the contract
@@ -66,14 +58,18 @@ contract Roullette {
         casinoDeposit = casinoDeposit + msg.value;
     }
     
+    function getCasinoDeposit() public view returns (uint256){
+        return casinoDeposit;
+    }
     
     // How can we automate this?
-    function getOutcomeHash() public returns (bytes32) {
+    function getOutcomeHash(bytes32 _outcomeHash) public returns (bytes32) {
+        require (resetPhase);
+        require(msg.sender == casino, "Only the casino can generate outcome");
         require (commitHash == 0, "Hash already created");
-        winningNumber = uint256(keccak256(abi.encodePacked(now, msg.sender))) % 38;
-        nonce = keccak256(abi.encodePacked(now));
-        commitHash = keccak256(abi.encodePacked(winningNumber, nonce));
-        // gameTimeOut = now + 1 minutes;
+        commitHash = _outcomeHash;
+        resetPhase = false;
+        bettingPhase = true;
         return commitHash;
     }
     
@@ -83,7 +79,7 @@ contract Roullette {
     }
     
     function placeBet(uint256[][] memory _bets) public payable {
-        // require (now < gameTimeOut, "Betting period has ended");
+        require(bettingPhase);
         address _playerAddress = msg.sender;
         require(_playerAddress != casino, "Casino cannot be a player");
         require(msg.value * 36 < casinoDeposit, "Casino cannot cover bet"); // Bet must be less than the money in the casino deposit to ensure casino can cover the bet
@@ -99,19 +95,23 @@ contract Roullette {
         setBet(_playerAddress, _bets, msg.value);
     }
     
-    function spinWheel() public payable returns (uint256){
-        // require(now > gameTimeOut, "Must wait for betting to end"); 
-        require(keccak256(abi.encodePacked(winningNumber, nonce)) ==  commitHash, "Hash doesn't match"); // Ensures winning number was not changed
+    // This is the spin wheel function
+    function revealWinningNumber(uint256 _winningNumber, bytes32 _nonce) public payable returns (uint256){
+        require(msg.sender == casino, "Only the casino can revealWinningNumber");
+        require(keccak256(abi.encodePacked(_winningNumber, _nonce)) ==  commitHash, "Hash doesn't match"); // Ensures winning number was not changed
+        bettingPhase = false;
+        payingPhase = true;
         payout(msg.sender);
         return winningNumber;
     }
     
-    function revealWinningNumber() public view returns (uint256)  {
-        // require (gameTimeOut > now, "Betting still in progress");
+    function WinningNumber() public view returns (uint256)  {
+        require(payingPhase);
         return winningNumber;
     }
     
     function payout(address _playerAddress) internal{
+        require(payingPhase);
         uint256 winAmount = 0;
         uint256 loseAmount;
         for(uint256 i = 0; i < playerMap[_playerAddress].bets.length; i++){ // Loop through players bets
@@ -131,7 +131,7 @@ contract Roullette {
         payCasino(loseAmount);
         payPlayer(winAmount, _playerAddress);
         updateWinnings(winAmount, loseAmount, _playerAddress);
-        gameReset();
+        // gameReset();
     }
     
     function setBet(address _playerAddress, uint256[][] memory _bets, uint256 _betTotal) internal{
@@ -148,15 +148,9 @@ contract Roullette {
             uint256[] memory numbers = new uint256[](_bets[i].length - 1);
             for(uint j = 1; j < _bets[i].length; j++){
                 numbers[j-1]= _bets[i][j];
-            //     playerMap[_playerAddress].bets[i].numbers[j- 1] = _bets[i][j];
             }
             
             playerMap[_playerAddress].bets.push(Bet(numbers,multiplier,betAmount));
-            // playerMap[_playerAddress].bets[i].betAmount = _bets[i][0];
-            // playerMap[_playerAddress].bets[i].multiplier = 36/(_bets[i].length - 1);
-            //     for(uint j = 1; j < _bets[i].length; j++){
-            //     playerMap[_playerAddress].bets[i].numbers[j- 1] = _bets[i][j];
-            //     }
         }
     }
     
@@ -191,9 +185,12 @@ contract Roullette {
         playerMap[_playerAddress].totalWinnings = playerMap[_playerAddress].totalWinnings + int256(winAmount - loseAmount);
     }
     
-    // Automate this?
-    function gameReset() internal{
+    function gameReset() external{
+        require(msg.sender == casino, "Only the casino can reset game");
+        require(payingPhase);
         require(commitHash != 0);
+        payingPhase = false;
+        resetPhase = true;
         commitHash = 0;
         lastWinningNumber = winningNumber;
         winningNumber = 38;
