@@ -62,7 +62,6 @@ contract Roullette {
         return casinoDeposit;
     }
     
-    // How can we automate this?
     function getOutcomeHash(bytes32 _outcomeHash) public returns (bytes32) {
         require (resetPhase);
         require(msg.sender == casino, "Only the casino can generate outcome");
@@ -98,7 +97,7 @@ contract Roullette {
     // This is the spin wheel function
     function revealWinningNumber(uint256 _winningNumber, bytes32 _nonce) public payable returns (uint256){
         require(msg.sender == casino, "Only the casino can revealWinningNumber");
-        require(keccak256(abi.encodePacked(_winningNumber, _nonce)) ==  commitHash, "Hash doesn't match"); // Ensures winning number was not changed
+        require(keccak256(abi.encodePacked(_winningNumber, _nonce)) ==  commitHash, "Hash doesn't match"); // Ensures winning winningNumber was not changed
         bettingPhase = false;
         payingPhase = true;
         payout(msg.sender);
@@ -115,23 +114,68 @@ contract Roullette {
         uint256 winAmount = 0;
         uint256 loseAmount;
         for(uint256 i = 0; i < playerMap[_playerAddress].bets.length; i++){ // Loop through players bets
-            bool win = false;
-            for(uint256 j = 0; j < playerMap[_playerAddress].bets[i].numbers.length; j++){ // Loop through every number in the bet
-                
-                if(playerMap[_playerAddress].bets[i].numbers[j] == winningNumber){ // Check if any are winning number
-                    winAmount = winAmount + playerMap[_playerAddress].bets[i].multiplier * playerMap[_playerAddress].bets[i].betAmount;
-                    win = true;
-                    break;
+            playerMap[_playerAddress].win = false;
+            if (winningNumber == 0  || winningNumber == 38){ // Winning number is 0 or 00
+                playerMap[_playerAddress].win = (playerMap[_playerAddress].bets[i].numbers[0] == winningNumber);
+            }
+            else if(playerMap[_playerAddress].bets[i].numbers[0] == 39){ // Evens
+                playerMap[_playerAddress].win = (winningNumber % 2 == 0);
+            }
+            else if (playerMap[_playerAddress].bets[i].numbers[0] == 40){ // Odds
+                playerMap[_playerAddress].win = (winningNumber % 2 == 1);
+            }
+            else if (playerMap[_playerAddress].bets[i].numbers[0] == 41){  // Blacks
+                if (winningNumber <= 10 || (winningNumber >= 20 && winningNumber <= 28)) {
+                    playerMap[_playerAddress].win = (winningNumber % 2 == 0);
+                } 
+                else {
+                    playerMap[_playerAddress].win = (winningNumber % 2 == 1);
                 }
             }
-            if (win == false){
+            else if (playerMap[_playerAddress].bets[i].numbers[0] == 42 && winningNumber % 2 == 0){ // Reds
+                if (winningNumber <= 10 || (winningNumber >= 20 && winningNumber <= 28)) {
+                    playerMap[_playerAddress].win = (winningNumber % 2 == 1);
+                } 
+                else {
+                     playerMap[_playerAddress].win = (winningNumber % 2 == 0);
+                }
+            }
+            else if (playerMap[_playerAddress].bets[i].numbers[0] == 43){ // First dozen
+                playerMap[_playerAddress].win = (winningNumber <= 12);
+            }
+            else if (playerMap[_playerAddress].bets[i].numbers[0] == 44){ // Second dozen
+                playerMap[_playerAddress].win = (winningNumber > 12 && winningNumber <= 24);
+            }
+            else if (playerMap[_playerAddress].bets[i].numbers[0] == 45){ // Third dozen
+                playerMap[_playerAddress].win = (winningNumber > 24);
+            }
+            else if (playerMap[_playerAddress].bets[i].numbers[0] == 46){ // First Column
+                playerMap[_playerAddress].win = (winningNumber % 3 == 1);
+            }
+            else if (playerMap[_playerAddress].bets[i].numbers[0] == 47){ // Second Column
+                playerMap[_playerAddress].win = (winningNumber % 3 == 2);
+            }
+            else if (playerMap[_playerAddress].bets[i].numbers[0] == 48){ // Third Column
+                playerMap[_playerAddress].win = (winningNumber % 3 == 0);
+            }
+            else {
+                for(uint256 j = 0; j < playerMap[_playerAddress].bets[i].numbers.length; j++){ // Loop through every winningNumber in the bet
+                    if(playerMap[_playerAddress].bets[i].numbers[j] == winningNumber){ // Check if any are individual winning number
+                        playerMap[_playerAddress].win = true;
+                        break;
+                    }
+                }
+            }
+            if (playerMap[_playerAddress].win == false){
                 loseAmount = loseAmount + playerMap[_playerAddress].bets[i].betAmount;
+            }
+            else{
+                winAmount = winAmount + playerMap[_playerAddress].bets[i].multiplier * playerMap[_playerAddress].bets[i].betAmount;
             }
         }
         payCasino(loseAmount);
         payPlayer(winAmount, _playerAddress);
         updateWinnings(winAmount, loseAmount, _playerAddress);
-        // gameReset();
     }
     
     function setBet(address _playerAddress, uint256[][] memory _bets, uint256 _betTotal) internal{
@@ -143,13 +187,18 @@ contract Roullette {
         }
         require(betTotal == _betTotal, "Bet amount not equivalent to total bets");
         for(uint i = 0; i < n; i++){
-            uint256  betAmount = _bets[i][0];
+            uint256 betAmount = _bets[i][0];
             uint256 multiplier = 36/(_bets[i].length - 1);
+            if(_bets[i][1] == 39 || _bets[i][1] == 40 || _bets[i][1] == 41 || _bets[i][1] == 42){ // Evens
+                multiplier = 2;
+            }
+            else if (_bets[i][1] == 43 || _bets[i][1] == 44 || _bets[i][1] == 45 || _bets[i][1] == 46 || _bets[i][1] == 47 || _bets[i][1] == 48){ // First dozen
+                multiplier = 3;
+            }
             uint256[] memory numbers = new uint256[](_bets[i].length - 1);
             for(uint j = 1; j < _bets[i].length; j++){
                 numbers[j-1]= _bets[i][j];
             }
-            
             playerMap[_playerAddress].bets.push(Bet(numbers,multiplier,betAmount));
         }
     }
@@ -198,6 +247,7 @@ contract Roullette {
             while(playerMap[playerAddressArray[i]].bets.length > 0){
                 playerMap[playerAddressArray[i]].bets.pop();
             }
+            playerMap[playerAddressArray[i]].win = false;
         }
     }
     
