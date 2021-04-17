@@ -8,29 +8,45 @@ const bcrypt = require("bcrypt");
 const { Cookie } = require("express-session");
 const saltRounds = 10;
 
+// Setting up the app with CORS
 const app = express();
 
-// session and cookies
-app.use(express.json());
-app.use(cors({
-    origin: ["http://localhost:3000"],
-    methods: ["GET", "POST"],
-    credentials: true
-}));
-app.use(cookieParser());
-app.use(bodyParser.urlencoded({ extended: true}));
+var corsOptions = {
+    origin: 'http://localhost:3000',
+    credentials : true
+   }
+  
+app.use(cors(corsOptions));
 
-app.use(
-    session({
-        key: "userId",
-        secret: "rou",
-        resave: false,
-        saveUninitialized: false,
-        cookie: {
-            expires: 60 * 60 * 24
-        },
-    })
-);
+app.use(function(req, res, next) {
+    res.header(
+        "Access-Control-Allow-Headers", 
+        "x-access-token, Origin, Content-Type, Accept"
+        );
+    next();
+});
+
+// session and cookies
+// app.use(express.json());
+// app.use(cors({
+//     origin: ["http://localhost:3000"],
+//     methods: ["GET", "POST"],
+//     credentials: true
+// }));
+// app.use(cookieParser());
+// app.use(bodyParser.urlencoded({ extended: true}));
+
+// app.use(
+//     session({
+//         key: "userId",
+//         secret: "rou",
+//         resave: false,
+//         saveUninitialized: false,
+//         cookie: {
+//             expires: 60 * 60 * 24
+//         },
+//     })
+// );
 
 const db = mysql.createConnection({
     user: "root",
@@ -41,6 +57,9 @@ const db = mysql.createConnection({
 
 app.post('/register', (req, res) => {
 
+    const firstName = req.body.firstName;
+    const lastName = req.body.lastName;
+    const email = req.body.email;
     const username = req.body.username;
     const password = req.body.password;
 
@@ -60,19 +79,20 @@ app.post('/register', (req, res) => {
     })
 });
 
-app.get("/login", (req, res) => {
-    if (req.session.user) {
-        res.send({ loggedIn: true, user: req.session.user })
-    } else {
-        res.send({ loggedIn: false})
-    }
-})
+// app.get("/login", (req, res) => {
+//     if (req.session.user) {
+//         res.send({ loggedIn: true, user: req.session.user })
+//     } else {
+//         res.send({ loggedIn: false})
+//     }
+// });
 
 app.post('/login', (req, res) => {
-
+    alert("got it")
+    
     const username = req.body.username;
     const password = req.body.password;
-    
+
     db.query(
         "SELECT * FROM users WHERE username = ?;", 
         username, 
@@ -99,4 +119,4 @@ app.post('/login', (req, res) => {
 
 app.listen(3001, ()=>{
     console.log("running server");
-})
+});

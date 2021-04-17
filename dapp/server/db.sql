@@ -7,7 +7,7 @@ CREATE TABLE users (
 	lastname        VARCHAR(150) NOT NULL,                	# Last name of the user
 	email           VARCHAR(150) NOT NULL,                	# Email of user
     username  		VARCHAR(50) NOT NULL,					# username
-    password		VARCHAR(50) NOT NULL,					# password
+    password		VARCHAR(150) NOT NULL,					# password
 	PRIMARY KEY     (id)                                  	# Make the id the primary key
 );
 
