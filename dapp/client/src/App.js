@@ -75,7 +75,7 @@ class App extends Component {
                 </Link>
               </li>
 
-              {showModeratorBoard && (
+              {/* {showModeratorBoard && (
                 <li className="nav-item">
                   <Link to={"/mod"} className="nav-link">
                     Moderator Board
@@ -89,7 +89,7 @@ class App extends Component {
                     Admin Board
                   </Link>
                 </li>
-              )}
+              )} */}
 
               {currentUser && (
                 <li className="nav-item">
@@ -122,7 +122,7 @@ class App extends Component {
                 </li>
 
                 <li className="nav-item">
-                  <Link to={"/register"} className="nav-link">
+                  <Link to={"/signup"} className="nav-link">
                     Sign Up
                   </Link>
                 </li>
@@ -135,11 +135,11 @@ class App extends Component {
             <Switch>
               <Route exact path={["/", "/home"]} component={Home} />
               <Route exact path="/login" component={Login} />
-              <Route path="/sign-up" component={SignUp} />
+              <Route path="/signup" component={SignUp} />
               <Route path="/main" component={MainPage} />
               <Route path="/user" component={BoardUser} />
-              <Route path="/mod" component={BoardModerator} />
-              <Route path="/admin" component={BoardAdmin} />
+              {/* <Route path="/mod" component={BoardModerator} />
+              <Route path="/admin" component={BoardAdmin} /> */}
             </Switch>
           </div>
         </div>

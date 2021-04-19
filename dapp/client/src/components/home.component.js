@@ -39,14 +39,13 @@ export default class Home extends Component  {
                     backgroundSize: 'cover', 
                     minWidth: '100%', 
                     minHeight: '100%' }}>
-             <header className="jumbotron">
-                <h3>{this.state.content}</h3>
-            </header>        
+
             <div className="d-flex flex-col">
                 <div >
                     <img className="logo-home" src={logo} alt="Logo" />
                 </div>
                 <div className="play flex-row">
+                    <h3>{this.state.content}</h3>
                     <p>Rou simulates the world renowned game roulette which is a multiplayer game where players
                         come together to place bets on either a single number, various groupings of numbers, 
                         the colors red or black, whether the number is odd or even, or if the numbers are high or low. </p>

@@ -101,7 +101,7 @@ export default class Login extends Component {
                         >
 
                             <div className="login-sign-up-nav">
-                                <Link className="nav-link" to={"/sign-up"}>Sign up</Link>
+                                <Link className="nav-link" to={"/signup"}>Sign up</Link>
                                 <Link className="nav-link current" to={"/login"}>Login</Link>
                             </div>
                             
