@@ -72,11 +72,11 @@ body, html, .App, #root, .auth-wrapper{
 }
 
 .logo {
-  position: absolute;
-  width: 135px;
-  height: 130px;
-  left: 48px;
-  top: 25px;  
+  /* position: absolute; */
+  width: 75px;
+  /* height: 130px; */
+  /* left: 0px;
+  top: 0px;   */
 }
 
 .logo-home {
