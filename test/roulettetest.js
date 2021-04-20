@@ -10,13 +10,11 @@ contract('Roullette', function(accounts){
   });
 });
 
-
   it("Should run after each function", function(){
   afterEach(async () => {
     roullette = await Roullette.deployed();
   });
 });
-
 
   it("Should return casino's deposit", function(){
   return Roullette.deployed().then(function(instance){
