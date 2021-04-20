@@ -39,7 +39,9 @@ contract('Roullette', function(accounts){
 
   it("Should return the winning number for the WinningNumber function ", async () => {
     const instance = await Roullette.deployed();
+    // await instance.WinningNumber(); //throws an error due to require function written in contract
     await truffleAssert.reverts(instance.WinningNumber());
   });
+
 
 });
