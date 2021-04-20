@@ -1,86 +1,145 @@
-import React, {useEffect, useState} from 'react';
-import Axios from 'axios';
-import './App.css';
+import React, { Component } from "react";
+import { Switch, Route, Link } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./App.css";
+import './index.css';
+import logo from './images/logo-rectangle.png';
 
-function App() {
+import AuthService from "./services/auth.service";
 
-  const [usernameReg, setUsernameReg] = useState('');
-  const [passwordReg, setPasswordReg] = useState('');
+import Login from "./components/login.component";
+import Register from "./components/register.component";
+import Home from "./components/home.component";
+import Profile from "./components/profile.component";
+import BoardUser from "./components/board-user.component";
+import BoardModerator from "./components/board-moderator.component";
+import BoardAdmin from "./components/board-admin.component";
 
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
 
-  const [loginStatus, setLoginStatus] = useState('');
 
-  Axios.defaults.withCredentials = true;
+import background from './images/background.png';
 
-  const register = () => {
-    Axios.post("http://localhost:3001/register", {
-      username: usernameReg,
-      password: passwordReg,
-    }).then((response) => {
-      console.log(response);
-    })
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.logOut = this.logOut.bind(this);
+
+    this.state = {
+      showModeratorBoard: false,
+      showAdminBoard: false,
+      currentUser: undefined,
+    };
   }
 
-  const login = () => {
-    Axios.post("http://localhost:3001/login", {
-      username: username,
-      password: password,
-    }).then((response) => {
-      
-      if (response.data.message) {
-        setLoginStatus(response.data.message)
-      } else {
-        setLoginStatus(response.data[0].username)
-      }
-    })
+  componentDidMount() {
+    const user = AuthService.getCurrentUser();
+
+    if (user) {
+      this.setState({
+        currentUser: user,
+        showModeratorBoard: user.roles.includes("ROLE_MODERATOR"),
+        showAdminBoard: user.roles.includes("ROLE_ADMIN"),
+      });
+    }
   }
 
-  useEffect(() => {
-    Axios.get("http://localhost:3001/login").then((response) => {
-      console.log(response);
-    })
-  }, [])
-  
-  return (
-    <div className="App">
-      <div className="registration">
-        <h1>Registration</h1>
-        <label>Username:</label>
-        <input 
-          type="text" 
-          onChange={(e) => {
-            setUsernameReg(e.target.value);
-          }}
-        />
-        <label>Password:</label>
-        <input 
-          type="text" 
-          onChange={(e) => {
-            setPasswordReg(e.target.value);
-          }}
-        />
-        <button onClick={register}> Register </button> 
-      </div>
+  logOut() {
+    AuthService.logout();
+  }
 
-      <div className="login">
-        <h1>Log in</h1>
-        <input type="text" placeholder="Username..."
-          onChange={(e) => {
-            setUsername(e.target.value);
-          }}
-        />
-        <input type="text" placeholder="Password..."
-          onChange={(e) => {
-            setPassword(e.target.value);
-          }}  
-        />
-        <button onClick={login}> Log in </button> 
+  render() {
+    const { currentUser, showModeratorBoard, showAdminBoard } = this.state;
+
+    return (
+      <div
+        className="App" style={{ backgroundImage: `url(${background})`,
+        backgroundRepeat: 'no-repeat', 
+        backgroundSize: 'cover', 
+        overflow: 'hidden',
+        width: '100vw',
+        height: '100vh'}}
+      >
+        <nav className="navbar navbar-expand navbar-dark bg-dark">
+          <Link className="navbar-brand" to={"/"}> 
+            <img className="logo" src={logo} alt="Logo" />
+          </Link>
+
+          <div className="navbar-nav mr-auto">
+            {/* <li className="nav-item">
+              <Link to={"/home"} className="nav-link">
+                Home
+              </Link>
+            </li> */}
+
+            {showModeratorBoard && (
+              <li className="nav-item">
+                <Link to={"/mod"} className="nav-link">
+                  Moderator Board
+                </Link>
+              </li>
+            )}
+
+            {showAdminBoard && (
+              <li className="nav-item">
+                <Link to={"/admin"} className="nav-link">
+                  Admin Board
+                </Link>
+              </li>
+            )}
+
+            {currentUser && (
+              <li className="nav-item">
+                <Link to={"/user"} className="nav-link">
+                  User
+                </Link>
+              </li>
+            )}
+          </div>
+
+          {currentUser ? (
+            <div className="navbar-nav ml-auto">
+              <li className="nav-item">
+                <Link to={"/profile"} className="nav-link">
+                  {currentUser.username}
+                </Link>
+              </li>
+              <li className="nav-item">
+                <a href="/login" className="nav-link" onClick={this.logOut}>
+                  LogOut
+                </a>
+              </li>
+            </div>
+          ) : (
+            <div className="navbar-nav ml-auto">
+              <li className="nav-item">
+                <Link to={"/login"} className="nav-link">
+                  Login
+                </Link>
+              </li>
+
+              <li className="nav-item">
+                <Link to={"/register"} className="nav-link">
+                  Sign Up
+                </Link>
+              </li>
+            </div>
+          )}
+        </nav>
+
+        <div className="container mt-3">
+          <Switch>
+            <Route exact path={["/", "/home"]} component={Home} />
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/register" component={Register} />
+            <Route exact path="/profile" component={Profile} />
+            <Route path="/user" component={BoardUser} />
+            <Route path="/mod" component={BoardModerator} />
+            <Route path="/admin" component={BoardAdmin} />
+          </Switch>
+        </div>
       </div>
-      <h1>{loginStatus}</h1>
-    </div>
-  );
+    );
+  }
 }
 
 export default App;

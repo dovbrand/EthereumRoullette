@@ -1,0 +1,12 @@
+SHOW DATABASES;
+USE rou;
+SHOW TABLES;
+
+SELECT * FROM myGames;
+SELECT * FROM games;
+SELECT * FROM users;
+
+DROP TABLE games;
+DROP VIEW myGames;
+DROP TABLE ranking;
+
