@@ -6,7 +6,6 @@ import image1 from './Navbarpics/how-to-icon.png'
 import image2 from './Navbarpics/rankings-icon.png'
 import image3 from './Navbarpics/account-icon.png'
 import image4 from './Navbarpics/logout-icon.png' 
-import {IconContext} from 'react-icons/lib'
 
 const Navbar = (props) =>{
    
@@ -20,7 +19,6 @@ const Navbar = (props) =>{
    
     
         return(
-            <IconContext.Provider value={{color: '#fff'}}>
             <nav className="NavbarItems">
                 <img alt=" " src={logo} className="navbar-logo"></img>
                 <div className="menu-icon" onClick={handleClick}>
@@ -59,7 +57,6 @@ const Navbar = (props) =>{
                    
                 </ul>
             </nav>
-            </IconContext.Provider>
 
 
         )

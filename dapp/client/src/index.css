@@ -112,14 +112,6 @@ body, html, .App, #root, .auth-wrapper{
   left: 500px;
 }
 
-.logo {
-  position: absolute;
-  width: 135px;
-  height: 130px;
-  left: 48px;
-  top: 25px;  
-}
-
 .logo-home {
   margin: 50px;
   width: 530px;
