@@ -3,7 +3,7 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import Axios from 'axios';
 import './App.css';
 import background from './background.png';
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Login from "./components/login.component";
 import SignUp from "./components/signup.component";
 import Landing from "./components/landing.page";
@@ -22,7 +22,7 @@ function App() {
   Axios.defaults.withCredentials = true;
 
   const register = () => {
-    Axios.post("http://localhost:3001/register", {
+    Axios.post("http://localhost:3000/signup", {
       username: usernameReg,
       password: passwordReg,
     }).then((response) => {
@@ -31,7 +31,7 @@ function App() {
   }
 
   const login = () => {
-    Axios.post("http://localhost:3001/login", {
+    Axios.post("http://localhost:3000/login", {
       username: username,
       password: password,
     }).then((response) => {
@@ -45,7 +45,7 @@ function App() {
   }
 
   useEffect(() => {
-    Axios.get("http://localhost:3001/login").then((response) => {
+    Axios.get("http://localhost:3000/login").then((response) => {
       console.log(response);
     })
   }, [])
