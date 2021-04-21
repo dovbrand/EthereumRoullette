@@ -20,7 +20,7 @@ import $ from 'jquery';
 					case 'num':
 					default:
 						nums = String(btn.data('num')).split(',');
-						for (var i = 0, len = nums.length; i < len; i++) {
+						for ( i = 0, len = nums.length; i < len; i++) {
 							cells.push(table_nums[nums[i]]);
 						}
 						btn.data('cells', cells)
@@ -139,9 +139,9 @@ import $ from 'jquery';
 				sectors['8'].push(i);
 			}
 
-			if (numbers.red.indexOf(i) != -1) {
+			if (numbers.red.indexOf(i) !== -1) {
 				sectors['9'].push(i);
-			} else if (numbers.black.indexOf(i) != -1) {
+			} else if (numbers.black.indexOf(i) !== -1) {
 				sectors['10'].push(i);
 			}
 		}
@@ -179,7 +179,7 @@ import $ from 'jquery';
 			if(typeof $(this).data('sector') != 'undefined'){
 				console.log("SECTOR "+$(this).data('sector'));
 				
-				if(e.button==2)ChangeBet(36+$(this).data('sector'),-1);
+				if(e.button===2)ChangeBet(36+$(this).data('sector'),-1);
 				else ChangeBet(36+$(this).data('sector'),+1);
 			}
 			else{
@@ -188,8 +188,8 @@ import $ from 'jquery';
 				if(typeof numbers.length ==='undefined')numbers=[numbers];
 				else numbers=numbers.split(',');
 				
-				if(e.button==2)for(var i=0;i<numbers.length;i++)ChangeBet(numbers[i],-1);
-				else for(var i=0;i<numbers.length;i++)ChangeBet(numbers[i],+1);
+				if(e.button===2)for(var i=0;i<numbers.length;i++)ChangeBet(numbers[i],-1);
+				else for( i=0;i<numbers.length;i++)ChangeBet(numbers[i],+1);
 			}
 		});
 	})();
@@ -213,7 +213,7 @@ for(var i=0;i<divs.length;i++){
 		squares[index][1]=rekt.top+10;
 		squares[index][0]=rekt.left+16;
 	}else{
-		if(attr.indexOf(',')!=-1)continue;
+		if(attr.indexOf(',')!==-1)continue;
 		var rekt=divs[i].getBoundingClientRect();
 		squares[attr]=new Array(2);
 		squares[attr][1]=rekt.top+10;
@@ -225,7 +225,7 @@ function UpdateBets(){
 	var betdiv=document.getElementById("bets");
 	betdiv.innerHTML='';
 	for(var i=37;i<bets.length;i++)if(bets[i]>0)betdiv.innerHTML+=sectors[i-37]+": "+(bets[i]*CurrentTier).toFixed(2)+"<br>";
-	for(var i=0;i<37;i++)if(bets[i]>0)betdiv.innerHTML+="Number "+i+": "+(bets[i]*CurrentTier).toFixed(2)+"<br>";
+	for( i=0;i<37;i++)if(bets[i]>0)betdiv.innerHTML+="Number "+i+": "+(bets[i]*CurrentTier).toFixed(2)+"<br>";
 }
 
 function Reset(){
@@ -252,7 +252,7 @@ function rInt(min,max){
 var chips=new Array(48);
 
 function ChangeBet(id,amount){
-	if(amount>0&&TotalBets()==50){
+	if(amount>0&&TotalBets()===50){
 		//maybe some beep
 		return;
 	}
@@ -293,7 +293,7 @@ function UpdateBalance(){
 
 function Place(){
 	var bet=0;
-	for(var i=0;i<bets.length;i++)if(bets[i]!=0)bet+=bets[i];
+	for(var i=0;i<bets.length;i++)if(bets[i]!==0)bet+=bets[i];
 	bet*=CurrentTier;
 	
 	if(bet>balance){
@@ -305,8 +305,8 @@ function Place(){
 	var result=Math.floor(Math.random()*37);
 	
 	var win=0;
-	if(bets[result]!=0)win+=bets[result]*36;
-	for(var i=37;i<bets.length;i++)if(bets[i]!=0)win+=bets[i]*sectormultipliers[i-37][result];
+	if(bets[result]!==0)win+=bets[result]*36;
+	for(i=37;i<bets.length;i++)if(bets[i]!==0)win+=bets[i]*sectormultipliers[i-37][result];
 	
 	win*=CurrentTier;
 	win-=bet;
