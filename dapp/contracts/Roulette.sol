@@ -2,7 +2,7 @@ pragma solidity ^0.6.6;
 pragma experimental ABIEncoderV2;
 
 
-contract Roullette { 
+contract Roulette { 
     
     struct Bet {
         uint256[] numbers;
@@ -189,7 +189,7 @@ contract Roullette {
         for(uint i = 0; i < n; i++){
             uint256 betAmount = _bets[i][0];
             uint256 multiplier = 36/(_bets[i].length - 1);
-            if(_bets[i][1] == 39 || _bets[i][1] == 40 || _bets[i][1] == 41 || _bets[i][1] == 42){ // Evens. odds, blacks, reds
+            if(_bets[i][1] == 39 || _bets[i][1] == 40 || _bets[i][1] == 41 || _bets[i][1] == 42){ // Evens
                 multiplier = 2;
             }
             else if (_bets[i][1] == 43 || _bets[i][1] == 44 || _bets[i][1] == 45 || _bets[i][1] == 46 || _bets[i][1] == 47 || _bets[i][1] == 48){ // First dozen
@@ -259,4 +259,6 @@ contract Roullette {
         }
         playerMap[_playerAddress].bets.pop();
     }
+    
+    
 }

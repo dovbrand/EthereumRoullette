@@ -1,3 +1,4 @@
+// import and initialize neccesary modules and routes, listen for connections.
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
@@ -18,7 +19,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // database
 const db = require("./app/models");
-const Role = db.role;
 
 db.sequelize.sync();
 // force: true will drop the table if it already exists
@@ -41,20 +41,3 @@ const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
-
-function initial() {
-  Role.create({
-    id: 1,
-    name: "user"
-  });
- 
-  Role.create({
-    id: 2,
-    name: "moderator"
-  });
- 
-  Role.create({
-    id: 3,
-    name: "admin"
-  });
-}

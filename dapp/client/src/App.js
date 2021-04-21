@@ -12,12 +12,15 @@ import Register from "./components/register.component";
 import Home from "./components/home.component";
 import Profile from "./components/profile.component";
 import BoardUser from "./components/board-user.component";
-import BoardModerator from "./components/board-moderator.component";
-import BoardAdmin from "./components/board-admin.component";
 
 import background from './images/background.png';
+import getWeb3 from "./getWeb3";
+import RouletteContract from './contracts/Roulette.json';
 
 class App extends Component {
+
+  // state = { storageValue: 0, web3: null, accounts: null, contract: null };
+
   constructor(props) {
     super(props);
     this.logOut = this.logOut.bind(this);
@@ -29,23 +32,22 @@ class App extends Component {
     };
   }
 
-  componentDidMount() {
+  componentDidMount = async () => {
     const user = AuthService.getCurrentUser();
 
     if (user) {
       this.setState({
         currentUser: user,
-        showModeratorBoard: user.roles.includes("ROLE_MODERATOR"),
-        showAdminBoard: user.roles.includes("ROLE_ADMIN"),
       });
     }
-  }
+  };
 
   logOut() {
     AuthService.logout();
   }
 
   render() {
+
     const { currentUser, showModeratorBoard, showAdminBoard } = this.state;
 
     return (
@@ -131,8 +133,6 @@ class App extends Component {
             <Route exact path="/register" component={Register} />
             <Route exact path="/profile" component={Profile} />
             <Route path="/user" component={BoardUser} />
-            <Route path="/mod" component={BoardModerator} />
-            <Route path="/admin" component={BoardAdmin} />
           </Switch>
         </div>
       </div>
