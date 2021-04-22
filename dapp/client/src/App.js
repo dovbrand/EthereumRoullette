@@ -8,9 +8,9 @@ import logo from './images/logo-rectangle.png';
 
 import AuthService from "./services/auth.service";
 
+import Home from "./components/home.component";
 import Login from "./components/login.component";
 import Register from "./components/register.component";
-import Home from "./components/home.component";
 import Profile from "./components/profile.component";
 import BoardUser from "./components/board-user.component";
 import Main from "./components/main.page.jsx";
@@ -100,7 +100,7 @@ class App extends Component {
         width: '100vw',
         height: '100vh'}}
       >
-        <nav className="navbar navbar-expand navbar-dark bg-dark">
+        <nav className="navbar navbar-expand navbar-dark ">
           <Link className="navbar-brand" to={"/"}> 
             <img className="logo" src={logo} alt="Logo" />
           </Link>
@@ -110,7 +110,7 @@ class App extends Component {
             {currentUser && (
               <li className="nav-item">
                 <Link to={"/user"} className="nav-link">
-                 { this.state.account}
+                { this.state.account}
                 </Link>
               </li>
             )}
@@ -131,17 +131,7 @@ class App extends Component {
             </div>
           ) : (
             <div className="navbar-nav ml-auto">
-              <li className="nav-item">
-                <Link to={"/login"} className="nav-link">
-                  Login
-                </Link>
-              </li>
-
-              <li className="nav-item">
-                <Link to={"/register"} className="nav-link">
-                  Sign Up
-                </Link>
-              </li>
+              
             </div>
           )}
         </nav>
@@ -154,12 +144,12 @@ class App extends Component {
 
         <div className="container mt-3">
           <Switch>
-            <Route exact path={["/", "/main"]} component={Main} />
+            <Route exact path={["/", "/home"]} component={Home} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/profile" component={Profile} />
-            <Route path="/main" component={Main} />
-            <Route path="/user" component={BoardUser} />
+            <Route exact path="/main" component={Main} />
+            <Route exact path="/user" component={BoardUser}/>
           </Switch>
         </div>
       </div>

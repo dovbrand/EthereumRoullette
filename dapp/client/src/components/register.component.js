@@ -23,7 +23,7 @@ const email = value => {
   if (!isEmail(value)) {
     return (
       <div className="alert alert-danger" role="alert">
-        This is not a valid email.
+        Please enter a valid email.
       </div>
     );
   }
@@ -136,8 +136,8 @@ export default class Register extends Component {
               }}
             >
               <div className="login-sign-up-nav">
-                  <Link className="nav-link" to={"/register"}>Sign up</Link>
-                  <Link className="nav-link current" to={"/login"}>Login</Link>
+                  <Link className="nav-link current" to={"/register"}>Sign up</Link>
+                  <Link className="nav-link" to={"/login"}>Login</Link>
               </div>
               {!this.state.successful && (
                 <div>
@@ -178,7 +178,7 @@ export default class Register extends Component {
                   </div>
 
                   <div className="form-group">
-                    <button className="btn btn-primary btn-block">Sign Up</button>
+                    <button className="btn btn-danger btn-block">Sign Up</button>
                   </div>
                 </div>
               )}

@@ -1,7 +1,7 @@
 import React, { Component, useState } from 'react';
 import MenuItems from './MenuItems'
 import './Navbar.css'
-import logo from './Navbarpics/Rou-logo-white.png'
+import { Link } from "react-router-dom";
 import image1 from './Navbarpics/how-to-icon.png'
 import image2 from './Navbarpics/rankings-icon.png'
 import image3 from './Navbarpics/account-icon.png'
@@ -20,7 +20,7 @@ const Navbar = (props) =>{
     
         return(
             <nav className="NavbarItems">
-                <img alt=" " src={logo} className="navbar-logo"></img>
+               
                 <div className="menu-icon" onClick={handleClick}>
                     <i className={clicked ? 'fas fa-times' : 
                     'fas fa-bars'}></i>

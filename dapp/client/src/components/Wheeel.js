@@ -40,21 +40,21 @@ const data = [
     { option: '35' },
     { option: '3' },
     { option: '26' },
-    { option: '0', style: { backgroundColor: 'green'}  },
+    { option: '0', style: { backgroundColor: '#F0F0EE', textColor: '#29313D'}  },
     
   ];
   
-  const backgroundColors = ['#CC0000', 'black'];
-  const textColors = ['white'];
-  const outerBorderColor = '#FFCC33';
-  const outerBorderWidth = 10;
-  const innerBorderColor = 'black';
-  const innerBorderWidth = 30;
-  const innerRadius = 35;
-  const radiusLineColor = '#FFCC33';
-  const radiusLineWidth = 2;
-  const fontSize = 15;
-  const textDistance = 75;
+  const backgroundColors = ['#A91607', '#3a4353'];
+  const textColors = ['#F0F0EE'];
+  const outerBorderColor = '#29313D';
+  const outerBorderWidth = 7;
+  const innerBorderColor = '#29313D';
+  const innerBorderWidth = 20;
+  const innerRadius = 60;
+  const radiusLineColor = '#29313D';
+  const radiusLineWidth = 3;
+  const fontSize = 16;
+  const textDistance = 85;
   
   
   const Wheeel = () => {
@@ -69,9 +69,6 @@ const data = [
   
     return (
       <div className='wheel'>
-           <button className={'spin-button'} onClick={handleSpinClick}>
-            SPIN
-          </button>
        
           <Wheel
             mustStartSpinning={mustSpin}
@@ -95,7 +92,10 @@ const data = [
               setMustSpin(false)
             }}
           />
-          
+
+          <button className={'spin-button'} onClick={handleSpinClick}>
+            S P I N
+          </button>
          
       </div>
     );

@@ -58,7 +58,7 @@ export default class Login extends Component {
     if (this.checkBtn.context._errors.length === 0) {
       AuthService.login(this.state.username, this.state.password).then(
         () => {
-          this.props.history.push("/profile");
+          this.props.history.push("/user");
           window.location.reload();
         },
         error => {
@@ -123,15 +123,7 @@ export default class Login extends Component {
               </div>
 
               <div className="form-group">
-                <button
-                  className="btn btn-primary btn-block"
-                  disabled={this.state.loading}
-                >
-                  {this.state.loading && (
-                    <span className="spinner-border spinner-border-sm"></span>
-                  )}
-                  <span>Login</span>
-                </button>
+              <button className="btn btn-danger btn-block">Login</button>
               </div>
 
               {this.state.message && (
