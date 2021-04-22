@@ -1,8 +1,5 @@
 import React, {useState} from "react";
-import logo from './Rou-logo-white.png';
-import wheel from './Roulette-wheel-icon.png';
 import './board.js'
-import { Link } from "react-router-dom";
 import Navbar from './Navbar/Navbar';
 import HowtoModal from './HowtoModal';
 import RankingsModal from './RankingsModal';

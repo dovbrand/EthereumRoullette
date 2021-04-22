@@ -1,13 +1,6 @@
 import React, {useEffect, useState, Component} from 'react';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import Axios from 'axios';
 import './App.css';
-import background from './background.png';
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Login from "./components/login.component";
-import SignUp from "./components/signup.component";
-import Landing from "./components/landing.page";
-import MainPage from './components/main.page';
 import { Switch, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import './index.css';
@@ -20,6 +13,7 @@ import Register from "./components/register.component";
 import Home from "./components/home.component";
 import Profile from "./components/profile.component";
 import BoardUser from "./components/board-user.component";
+import Main from "./components/main.page.jsx";
 
 import background from './images/background.png';
 import getWeb3 from "./getWeb3";
@@ -136,11 +130,11 @@ class App extends Component {
 
         <div className="container mt-3">
           <Switch>
-            <Route exact path={["/", "/home"]} component={Home} />
+            <Route exact path={["/", "/main"]} component={Main} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/profile" component={Profile} />
-            <Route path="/user" component={BoardUser} />
+            <Route path="/main" component={Main} />
           </Switch>
         </div>
       </div>
