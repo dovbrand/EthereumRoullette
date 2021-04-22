@@ -1,7 +1,8 @@
-import React, { Component } from "react";
+import React, {useEffect, useState, Component} from 'react';
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import './App.css';
 import { Switch, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./App.css";
 import './index.css';
 import logo from './images/logo-rectangle.png';
 
@@ -12,6 +13,7 @@ import Register from "./components/register.component";
 import Home from "./components/home.component";
 import Profile from "./components/profile.component";
 import BoardUser from "./components/board-user.component";
+import Main from "./components/main.page.jsx";
 
 import background from './images/background.png';
 import Web3 from "web3";
@@ -43,6 +45,17 @@ class App extends Component {
     const accounts = await web3.eth.getAccounts()
     console.log(accounts)
     this.setState({ account: accounts[0]})
+    // Network ID
+    const networkId = await web3.eth.net.getId()
+    const networkData = RouletteContract.networks[networkId]
+
+    if(networkData) {
+      const rou = new web3.eth.Contract(RouletteContract.abi, networkData.address)
+      this.setState({ rou})
+      this.setState({ loading: false})
+    } else {
+      window.alert('Roulette contract not deployed to detected network.')
+    }
   }
 
   constructor(props) {
@@ -52,6 +65,10 @@ class App extends Component {
     this.state = {
       currentUser: undefined,
       account: '',
+      rou: null,
+      betArray: [],
+      valueBet: 0,
+      loading: true
     };
   }
 
@@ -129,12 +146,19 @@ class App extends Component {
           )}
         </nav>
 
+            {/* {this.state.loading
+              ?<div id="loader" className="text-center mt-5"><p>Loading...</p></div>
+              :<Main
+              />
+            } */}
+
         <div className="container mt-3">
           <Switch>
-            <Route exact path={["/", "/home"]} component={Home} />
+            <Route exact path={["/", "/main"]} component={Main} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/profile" component={Profile} />
+            <Route path="/main" component={Main} />
             <Route path="/user" component={BoardUser} />
           </Switch>
         </div>
