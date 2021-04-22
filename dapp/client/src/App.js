@@ -14,21 +14,44 @@ import Profile from "./components/profile.component";
 import BoardUser from "./components/board-user.component";
 
 import background from './images/background.png';
-import getWeb3 from "./getWeb3";
+import Web3 from "web3";
 import RouletteContract from './contracts/Roulette.json';
 
 class App extends Component {
 
-  // state = { storageValue: 0, web3: null, accounts: null, contract: null };
+  async componentWillMount() {
+    await this.loadWeb3()
+    await this.loadBlockchainData()
+  }
+
+  async loadWeb3() {
+    if (window.ethereum) {
+      window.web3 = new Web3(window.ethereum)
+      await window.ethereum.enable()
+    }
+    else if (window.web3) {
+      window.web3 = new Web3(window.web3.currentUserProvider)
+    }
+    else {
+      window.alert('non-Ethereum browser detected.')
+    }
+  }
+
+  async loadBlockchainData() {
+    const web3 = window.web3
+    // Load account
+    const accounts = await web3.eth.getAccounts()
+    console.log(accounts)
+    this.setState({ account: accounts[0]})
+  }
 
   constructor(props) {
     super(props);
     this.logOut = this.logOut.bind(this);
 
     this.state = {
-      showModeratorBoard: false,
-      showAdminBoard: false,
       currentUser: undefined,
+      account: '',
     };
   }
 
@@ -40,6 +63,7 @@ class App extends Component {
         currentUser: user,
       });
     }
+
   };
 
   logOut() {
@@ -48,7 +72,7 @@ class App extends Component {
 
   render() {
 
-    const { currentUser, showModeratorBoard, showAdminBoard } = this.state;
+    const { currentUser } = this.state;
 
     return (
       <div
@@ -65,32 +89,11 @@ class App extends Component {
           </Link>
 
           <div className="navbar-nav mr-auto">
-            {/* <li className="nav-item">
-              <Link to={"/home"} className="nav-link">
-                Home
-              </Link>
-            </li> */}
-
-            {showModeratorBoard && (
-              <li className="nav-item">
-                <Link to={"/mod"} className="nav-link">
-                  Moderator Board
-                </Link>
-              </li>
-            )}
-
-            {showAdminBoard && (
-              <li className="nav-item">
-                <Link to={"/admin"} className="nav-link">
-                  Admin Board
-                </Link>
-              </li>
-            )}
 
             {currentUser && (
               <li className="nav-item">
                 <Link to={"/user"} className="nav-link">
-                  User
+                 { this.state.account}
                 </Link>
               </li>
             )}
