@@ -13,6 +13,10 @@ body {
   color: #29313D;
 }
 
+p {
+  color: #ffffff;
+}
+
 h1,h2,h3,h4,h5,h6,label,span {
   font-weight: 100;
   font-style: normal;
@@ -110,6 +114,9 @@ body, html, .App, #root, .auth-wrapper{
   width: 700px;
   height: 700px;
   left: 500px;
+  
+.logo {
+  width: 75px;
 }
 
 .logo-home {

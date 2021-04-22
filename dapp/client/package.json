@@ -1,5 +1,5 @@
 {
-  "name": "client",
+  "name": "dapp-cleint",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -23,7 +23,11 @@
     "styled-components": "^5.2.3",
     "swiper": "^6.5.7",
     "web-vitals": "^1.0.1",
-    "webpack": "^4.44.2"
+    "webpack": "^4.44.2",
+    "validator": "^12.2.0",
+    "@openzeppelin/network": "^0.4.3",
+    "react-validation": "^3.0.7",
+    "react-web3": "^1.2.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -32,10 +36,7 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "extends": "react-app"
   },
   "browserslist": {
     "production": [
