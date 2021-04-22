@@ -1,5 +1,5 @@
-const Roullette = artifacts.require("Roullette");
+const Roulette = artifacts.require("Roulette");
 
 module.exports = function (deployer) {
-  deployer.deploy(Roullette);
+  deployer.deploy(Roulette);
 };

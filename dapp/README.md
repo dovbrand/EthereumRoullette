@@ -11,7 +11,7 @@ To get started, you need to create a 'localhost' server with a database named 'r
 
 - Create a database called 'Rou'
 
-- Navegate to 
+- navigate to 
 ``` 
 ./server/app/config/db.config.js 
 ```
@@ -33,7 +33,7 @@ module.exports = {
 ```
 
 Once completed those steps:
-* Navegate to 'client' directory
+* navigate to 'client' directory
 ``` cd client ```
 
 ## Client (FrontEnd)
@@ -52,13 +52,13 @@ npm start
 ```
 
 Runs the app in the development mode.\
-Open [http://localhost:8081](http://localhost:8081) to view it in the browser.
+Open [http://localhost:8080](http://localhost:8080) to view it in the browser.
 
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
 
 * Create a new terminal window or tab
-* From the source folder, Navegate to 'server' directory
+* From the source folder, navigate to 'server' directory
 ``` cd server ```
 
 ## Server (BackEnd)

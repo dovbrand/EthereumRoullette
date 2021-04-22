@@ -1,3 +1,4 @@
+// configure MySQL database & Sequelize
 module.exports = {
   HOST: "localhost",
   USER: "root",

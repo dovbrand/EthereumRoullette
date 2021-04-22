@@ -16,7 +16,7 @@ function Wallet() {
         await window.ethereum.enable();
         web3.eth.getAccounts().then(accounts => {
           setAddress(accounts[0]);
-          updateBalance(accounts[0]);
+          updateBalance(accounts[0]); //balanceBefore
         });
       } catch (error) {
         console.error(error);
@@ -39,9 +39,9 @@ function Wallet() {
     await web3.eth.sendTransaction({
       from: address,
       to: recipient,
-      value: web3.utils.toWei(amount, "ether")
+      value: web3.utils.toWei(amount, "ether")  //betting ammount
     });
-    updateBalance(address);
+    updateBalance(address);     //balanceAfter
   };
 
   return (
