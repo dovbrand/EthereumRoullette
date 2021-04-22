@@ -6,10 +6,14 @@
 To get started, you need to create a 'localhost' server with a database named 'rou'
 
 - Make sure you have MySQL or MySQL Workbench installed. 
+- if you have a macbook BigSur, download [this 8.0.21 version of MySQL Workbench](https://downloads.mysql.com/archives/workbench/)
 
 - Follow these steps: [Configure MySQL Workbench](https://docs.bitnami.com/installer/infrastructure/lamp/configuration/configure-workbench/)
 
 - Create a database called 'Rou'
+```
+CREATE DATABASE Rou;
+```
 
 - navigate to 
 ``` 

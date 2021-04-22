@@ -1,5 +1,5 @@
 {
-  "name": "dapp-cleint",
+  "name": "dapp-client",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
