@@ -8,15 +8,15 @@ import logo from './images/logo-rectangle.png';
 
 import AuthService from "./services/auth.service";
 
+import Home from "./components/home.component";
 import Login from "./components/login.component";
 import Register from "./components/register.component";
-import Home from "./components/home.component";
 import Profile from "./components/profile.component";
 import BoardUser from "./components/board-user.component";
 import Main from "./components/main.page.jsx";
 
 import background from './images/background.png';
-import getWeb3 from "./getWeb3";
+import Web3 from "web3";
 import RouletteContract from './contracts/Roulette.json';
 
 class App extends Component {
@@ -50,7 +50,7 @@ class App extends Component {
 
   render() {
 
-    const { currentUser, showModeratorBoard, showAdminBoard } = this.state;
+    const { currentUser } = this.state;
 
     return (
       <div
@@ -61,38 +61,17 @@ class App extends Component {
         width: '100vw',
         height: '100vh'}}
       >
-        <nav className="navbar navbar-expand navbar-dark bg-dark">
+        <nav className="navbar navbar-expand navbar-dark ">
           <Link className="navbar-brand" to={"/"}> 
             <img className="logo" src={logo} alt="Logo" />
           </Link>
 
           <div className="navbar-nav mr-auto">
-            {/* <li className="nav-item">
-              <Link to={"/home"} className="nav-link">
-                Home
-              </Link>
-            </li> */}
-
-            {showModeratorBoard && (
-              <li className="nav-item">
-                <Link to={"/mod"} className="nav-link">
-                  Moderator Board
-                </Link>
-              </li>
-            )}
-
-            {showAdminBoard && (
-              <li className="nav-item">
-                <Link to={"/admin"} className="nav-link">
-                  Admin Board
-                </Link>
-              </li>
-            )}
 
             {currentUser && (
               <li className="nav-item">
                 <Link to={"/user"} className="nav-link">
-                  User
+                { this.state.account}
                 </Link>
               </li>
             )}
@@ -113,28 +92,19 @@ class App extends Component {
             </div>
           ) : (
             <div className="navbar-nav ml-auto">
-              <li className="nav-item">
-                <Link to={"/login"} className="nav-link">
-                  Login
-                </Link>
-              </li>
-
-              <li className="nav-item">
-                <Link to={"/register"} className="nav-link">
-                  Sign Up
-                </Link>
-              </li>
+              
             </div>
           )}
         </nav>
 
         <div className="container mt-3">
           <Switch>
-            <Route exact path={["/", "/main"]} component={Main} />
+            <Route exact path={["/", "/home"]} component={Home} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/profile" component={Profile} />
-            <Route path="/main" component={Main} />
+            <Route exact path="/main" component={Main} />
+            <Route exact path="/user" component={BoardUser}/>
           </Switch>
         </div>
       </div>

@@ -74,7 +74,7 @@ import $ from 'jquery';
 			// add to instances array
 			table_nums[num] = $this;
 			// add to colors array
-			for (var color in numbers) {
+			for (color in numbers) {
 				if ($this.hasClass(classes[color])) {
 					numbers[color].push(num);
 					$this.data('color', color);

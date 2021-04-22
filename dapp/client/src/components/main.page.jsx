@@ -28,10 +28,6 @@ const toggleModal = () =>{
                 <div className="d-flex flex-col">
                 <div className="spin flex-row">
                     <Wheeel/>
-                    <br></br>
-                    <div className="btn-spin">
-                        <button className="btn btn-danger btn-block">Spin</button>
-                    </div>
                 </div>
                 <div className="bet-table flex-row">
                     <div class="roulette">
