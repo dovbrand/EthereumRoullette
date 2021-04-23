@@ -103,7 +103,7 @@ export default class Register extends Component {
         response => {
           this.setState({
             message: response.data.message,
-            successful: true
+            successful: true,
           });
         },
         error => {
