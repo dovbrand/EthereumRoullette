@@ -63,14 +63,11 @@ export default class BoardUser extends Component {
         {/* <Navbar click ={openHowtoModal} click2={toggleModal} />
             {(modalIsOpen == true)?<HowtoModal click ={toggleModal}/>:null}
             {(showHowToModal == true)?<RankingsModal click ={openHowtoModal}/>:null} */}
+            
         <div className="auth-inner-2" style={{position: 'absolute', left: '50%', top: '57%',transform: 'translate(-50%, -50%)'}}>
             <div className="d-flex flex-col">
             <div className="spin flex-row">
                 <Wheeel/>
-                <br></br>
-                <div className="btn-spin">
-                    <button className="btn btn-danger btn-block">Spin</button>
-                </div>
             </div>
             <div className="bet-table flex-row">
                 <div class="roulette">
