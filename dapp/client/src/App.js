@@ -4,9 +4,6 @@ import './App.css';
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import './index.css';
-import logo from './images/logo-rectangle.png';
-
-import AuthService from "./services/auth.service";
 
 import Home from "./components/home.component";
 import Login from "./components/login.component";
@@ -59,10 +56,8 @@ class App extends Component {
 
   constructor(props) {
     super(props);
-    this.logOut = this.logOut.bind(this);
-
+    
     this.state = {
-      currentUser: undefined,
       account: '',
       rou: null,
       betArray: [],
@@ -71,74 +66,24 @@ class App extends Component {
     };
   }
 
-  componentDidMount = async () => {
-    const user = AuthService.getCurrentUser();
-
-    if (user) {
-      this.setState({
-        currentUser: user,
-      });
-    }
-
-  };
-
-  logOut() {
-    AuthService.logout();
-  }
-
   render() {
 
-    const { currentUser } = this.state;
-
-    return (<Router>
-      <div className="App" >
-        <div className="auth-wrapper"> 
-        <nav className="navbar navbar-expand ">
-          <Link className="navbar-brand" to={"/"}> 
-            <img className="logo" src={logo} alt="Logo" />
-          </Link>
-
-          <div className="navbar-nav mr-auto">
-
-            {currentUser && (
-              <li className="nav-item">
-                <Link to={"/main"} className="nav-link">
-                { this.state.account}
-                </Link>
-              </li>
-            )}
+    return (
+    
+      <Router>
+        <div className="App" >
+          <div className="auth-wrapper"> 
+            <Switch>
+              <Route exact path={["/", "/main"]} component={BoardUser} />
+              <Route path="/home" component={Home} />
+              <Route path="/login" component={Login} />
+              <Route path="/register" component={Register} />
+              <Route path="/profile" component={Profile} />
+              <Route path="/main" component={BoardUser}/>
+            </Switch>
           </div>
-
-          {currentUser ? (
-            <div className="navbar-nav ml-auto">
-              <li className="nav-item">
-                <Link to={"/profile"} className="nav-link">
-                  {currentUser.username}
-                </Link>
-              </li>
-              <li className="nav-item">
-                <a href="/login" className="nav-link" onClick={this.logOut}>
-                  LogOut
-                </a>
-              </li>
-              
-            </div>
-          ) : (
-            <div className="navbar-nav ml-auto">
-              
-            </div>
-          )}
-        </nav> 
-          <Switch>
-            <Route exact path={["/", "/main"]} component={BoardUser} />
-            <Route path="/home" component={Home} />
-            <Route path="/login" component={Login} />
-            <Route path="/register" component={Register} />
-            <Route path="/profile" component={Profile} />
-            <Route path="/main" component={BoardUser}/>
-          </Switch>
         </div>
-      </div></Router>
+      </Router>
     );
   }
 }

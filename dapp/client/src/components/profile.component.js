@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import '../index.css';
 import { Redirect } from "react-router-dom";
 import AuthService from "../services/auth.service";
+import Navbar from './Navbar';
 
 export default class Profile extends Component {
   async componentWillMount() {
@@ -42,7 +43,11 @@ export default class Profile extends Component {
     const { currentUser } = this.state;
     
     return (
+      
       <div className="container">
+        
+        <Navbar account = {this.state.account} />  
+
         {(this.state.userReady) ?
         <div>
           <header className="jumbotron">
