@@ -4,7 +4,10 @@ import { Redirect } from "react-router-dom";
 import AuthService from "../services/auth.service";
 
 export default class Profile extends Component {
-  
+  async componentWillMount() {
+    await this.loadBlockchainData()
+  }
+
   constructor(props) {
     super(props);
 
@@ -12,8 +15,16 @@ export default class Profile extends Component {
       redirect: null,
       userReady: false,
       currentUser: { username: "" },
+      account: '',
     };
 
+  }
+
+  async loadBlockchainData() {
+    const web3 = window.web3
+    // Load account
+    const accounts = await web3.eth.getAccounts()
+    this.setState({ account: accounts[0]})
   }
 
   componentDidMount() {
@@ -52,14 +63,10 @@ export default class Profile extends Component {
             <strong>Email:</strong>{" "}
             {currentUser.email}
           </p>
-          {/* <p>
-            <strong>Network:</strong>{" "}
-            {networkId ? `${networkId} – ${networkName}` : 'No connection'}
-          </p>
           <p>
-            <strong>Provider:</strong>{" "}
-            {providerName}
-          </p> */}
+            <strong>Account:</strong>{" "}
+            { this.state.account}
+          </p>
         </div>: null}
       </div>
     );
