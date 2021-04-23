@@ -39,10 +39,8 @@ export default class Home extends Component {
         className="App" style={{ backgroundImage: `url(${background2})`,
         backgroundRepeat: 'no-repeat', 
         backgroundSize: 'cover', 
-        overflow: 'hidden',
-        width: '100vw',
-        height: '100vh'}}
-      >
+        minWidth: '100%', 
+        minHeight: '100%' }}>
         <div className="d-flex flex-col">
         <div >
         <img className="logo-home" src={logo} alt="Logo" />

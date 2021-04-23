@@ -214,7 +214,7 @@ for(var i=0;i<divs.length;i++){
 		squares[index][0]=rekt.left+16;
 	}else{
 		if(attr.indexOf(',')!==-1)continue;
-		var rekt=divs[i].getBoundingClientRect();
+		rekt=divs[i].getBoundingClientRect();
 		squares[attr]=new Array(2);
 		squares[attr][1]=rekt.top+10;
 		squares[attr][0]=rekt.left+16;
@@ -313,7 +313,7 @@ function Place(){
 	
 	console.log("BET: "+bet+" WIN: "+win);
 	
-	var betdiv=document.getElementById("result");
+	betdiv=document.getElementById("result");
 	if(win>=bet)betdiv.innerHTML="Lucky number: "+result+" you won "+win.toFixed(2)+" ETH!";
 	else betdiv.innerHTML="Lucky number: "+result+" you lost "+win.toFixed(2)+" ETH!";
 	

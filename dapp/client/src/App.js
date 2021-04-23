@@ -1,7 +1,7 @@
 import React, {useEffect, useState, Component} from 'react';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
-import { Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import './index.css';
 import logo from './images/logo-rectangle.png';
@@ -13,7 +13,6 @@ import Login from "./components/login.component";
 import Register from "./components/register.component";
 import Profile from "./components/profile.component";
 import BoardUser from "./components/board-user.component";
-import Main from "./components/main.page.jsx";
 
 import background from './images/background.png';
 import Web3 from "web3";
@@ -91,16 +90,10 @@ class App extends Component {
 
     const { currentUser } = this.state;
 
-    return (
-      <div
-        className="App" style={{ backgroundImage: `url(${background})`,
-        backgroundRepeat: 'no-repeat', 
-        backgroundSize: 'cover', 
-        overflow: 'hidden',
-        width: '100vw',
-        height: '100vh'}}
-      >
-        <nav className="navbar navbar-expand navbar-dark ">
+    return (<Router>
+      <div className="App" >
+        <div className="auth-wrapper"> 
+        <nav className="navbar navbar-expand ">
           <Link className="navbar-brand" to={"/"}> 
             <img className="logo" src={logo} alt="Logo" />
           </Link>
@@ -109,7 +102,7 @@ class App extends Component {
 
             {currentUser && (
               <li className="nav-item">
-                <Link to={"/user"} className="nav-link">
+                <Link to={"/main"} className="nav-link">
                 { this.state.account}
                 </Link>
               </li>
@@ -128,31 +121,24 @@ class App extends Component {
                   LogOut
                 </a>
               </li>
+              
             </div>
           ) : (
             <div className="navbar-nav ml-auto">
               
             </div>
           )}
-        </nav>
-
-            {/* {this.state.loading
-              ?<div id="loader" className="text-center mt-5"><p>Loading...</p></div>
-              :<Main
-              />
-            } */}
-
-        <div className="container mt-3">
+        </nav> 
           <Switch>
-            <Route exact path={["/", "/home"]} component={Home} />
-            <Route exact path="/login" component={Login} />
-            <Route exact path="/register" component={Register} />
-            <Route exact path="/profile" component={Profile} />
-            <Route exact path="/main" component={Main} />
-            <Route exact path="/user" component={BoardUser}/>
+            <Route exact path={["/", "/main"]} component={BoardUser} />
+            <Route path="/home" component={Home} />
+            <Route path="/login" component={Login} />
+            <Route path="/register" component={Register} />
+            <Route path="/profile" component={Profile} />
+            <Route path="/main" component={BoardUser}/>
           </Switch>
         </div>
-      </div>
+      </div></Router>
     );
   }
 }
