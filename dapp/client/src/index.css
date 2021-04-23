@@ -29,6 +29,15 @@ body, html, .App, #root, .auth-wrapper{
   height: 100%;
 }
 
+.login-bg {
+  background: './images/background.png';
+  background-repeat: no-repeat;
+  background-size: cover;
+  overflow: hidden;
+  min-width: 100%;
+  min-height: 100%;
+}
+
 .login-sign-up-nav {
   justify-content: center;
   flex-direction: row;

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import '../index.css';
 import { Link } from "react-router-dom";
 
+import background from "../images/background.png";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
@@ -58,7 +59,7 @@ export default class Login extends Component {
     if (this.checkBtn.context._errors.length === 0) {
       AuthService.login(this.state.username, this.state.password).then(
         () => {
-          this.props.history.push("/user");
+          this.props.history.push("/main");
           window.location.reload();
         },
         error => {
@@ -84,8 +85,13 @@ export default class Login extends Component {
 
   render() {
     return (
-      <div className="login" >
-        <div className="auth-wrapper" >
+      <div className="login" style={{ backgroundImage: `url(${background})`,
+                              backgroundRepeat: 'no-repeat', 
+                              backgroundSize: 'cover', 
+                              minWidth: '100%', 
+                              minHeight: '100%' }}>
+                  
+        <div className="auth-wrapper">
           <div className="auth-inner" style={{position: 'absolute', left: '50%', top: '50%',transform: 'translate(-50%, -50%)'}}>
 
             <Form
