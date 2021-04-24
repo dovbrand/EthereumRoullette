@@ -1,368 +1,391 @@
+import React from 'react';
 import $ from 'jquery'; 
+ 
 
-(function($) {
+
+
+function board() {
 	
-	// table
-	(function() {
-		"use strict"
-		
-		function getButtonCells(btn) {
-			var cells = btn.data('cells');
-			if (!cells || !cells.length) {
-				cells = [];
-				switch (btn.data('type')) {
-					case 'sector':
-						var nums = sectors[btn.data('sector')];
-						for (var i = 0, len = nums.length; i < len; i++) {
-							cells.push(table_nums[nums[i]]);
-						}
-						return cells;
-					case 'num':
-					default:
-						nums = String(btn.data('num')).split(',');
-						for ( i = 0, len = nums.length; i < len; i++) {
-							cells.push(table_nums[nums[i]]);
-						}
-						btn.data('cells', cells)
-						return btn.data('cells');
-				}
-			}
-			return cells;
-		};
 
-		// props
-		var active = true,
-			selectors = {
-				roulette : '.roulette',
-				num : '.num',
-				sector : '.sector',
-				table_btns : '.controlls .btn'
-			},
-			classes = {
-				red : 'red',
-				black : 'black',
-				green : 'green',
-				hover : 'hover'
-			},
-			numbers = {
-				red : [],
-				black : [],
-				green : []
-			},
-			sectors = {
-				'1' : [], // 1st row
-				'2' : [], // 2nd row
-				'3' : [], // 3rd row
-				'4' : [], // 1st 12
-				'5' : [], // 2nd 12
-				'6' : [], // 3rd 12
-				'7' : [], // 1 to 18
-				'8' : [], // EVEN
-				'9' : [], // RED
-				'10' : [], // BLACK
-				'11' : [], // ODD
-				'12' : [], // 19 to 36
-			},
-			table_nums = {},
-			table_sectors = {};
 
-		// init
-		$(selectors.num).each(function() {
-			var $this = $(this),
-				color,
-				num = Number($this.text());
-			// add to instances array
-			table_nums[num] = $this;
-			// add to colors array
-			for (var color in numbers) {
-				if ($this.hasClass(classes[color])) {
-					numbers[color].push(num);
-					$this.data('color', color);
-				}
-			}
-		})
+	return (
+		<div>
+			<div class="roulette">
+                        <table>
+                            <tr class="nums">
+                                <td class="num green zero" rowspan="3"><span>0</span></td>
+                                <td class="num red"><span>3</span></td>
+                                <td class="num black"><span>6</span></td>
+                                <td class="num red"><span>9</span></td>
+                                <td class="num red"><span>12</span></td>
+                                <td class="num black"><span>15</span></td>
+                                <td class="num red"><span>18</span></td>
+                                <td class="num red"><span>21</span></td>
+                                <td class="num black"><span>24</span></td>
+                                <td class="num red"><span>27</span></td>
+                                <td class="num red"><span>30</span></td>
+                                <td class="num black"><span>33</span></td>
+                                <td class="num red"><span>36</span></td>
+                                <td class="sector" data-sector="1"><span class="vt">2 to 1</span></td>
+                            </tr>
+                            <tr class="nums">
+                                <td class="hidden"></td>
+                                <td class="num black"><span>2</span></td>
+                                <td class="num red"><span>5</span></td>
+                                <td class="num black"><span>8</span></td>
+                                <td class="num black"><span>11</span></td>
+                                <td class="num red"><span>14</span></td>
+                                <td class="num black"><span>17</span></td>
+                                <td class="num black"><span>20</span></td>
+                                <td class="num red"><span>23</span></td>
+                                <td class="num black"><span>26</span></td>
+                                <td class="num black"><span>29</span></td>
+                                <td class="num red"><span>32</span></td>
+                                <td class="num black"><span>35</span></td>
+                                <td class="sector" data-sector="2"><span class="vt">2 to 1</span></td>
+                            </tr>
+                            <tr class="nums">
+                                <td class="hidden"></td>
+                                <td class="num red"><span>1</span></td>
+                                <td class="num black"><span>4</span></td>
+                                <td class="num red"><span>7</span></td>
+                                <td class="num black"><span>10</span></td>
+                                <td class="num black"><span>13</span></td>
+                                <td class="num red"><span>16</span></td>
+                                <td class="num red"><span>19</span></td>
+                                <td class="num black"><span>22</span></td>
+                                <td class="num red"><span>25</span></td>
+                                <td class="num black"><span>28</span></td>
+                                <td class="num black"><span>31</span></td>
+                                <td class="num red"><span>34</span></td>
+                                <td class="sector" data-sector="3"><span class="vt">2 to 1</span></td>
+                            </tr>
+                            <tr>
+                                <td class="empty"></td>
+                                <td colspan="4" class="sector" data-sector="4">1st 12</td>
+                                <td colspan="4" class="sector" data-sector="5">2nd 12</td>
+                                <td colspan="4" class="sector" data-sector="6">3rd 12</td>
+                                <td class="empty"></td>
+                            </tr><tr>
+                                <td class="empty"></td>
+                                <td colspan="2" class="sector" data-sector="7">1 to 18</td>
+                                <td colspan="2" class="sector" data-sector="8">EVEN</td>
+                                <td colspan="2" class="sector red" data-sector="9">RED</td>
+                                <td colspan="2" class="sector black" data-sector="10">BLACK</td>
+                                <td colspan="2" class="sector" data-sector="11">ODD</td>
+                                <td colspan="2" class="sector" data-sector="12">19 to 36</td>
+                                <td class="empty"></td>
+                            </tr>
+                        </table>
+                        <div class="controlls">
+                            <div class="btn btn-zero" data-num="0"></div>
+                            {/* col6 */}
+                            <div class="col1">
+                                <div class="row1">
+                                    <div class="btn v rm cv" data-num="0,3"></div>
+                                    <div class="btn m rm cm" data-num="3"></div>
+                                </div>
+                                <div class="row2">
+                                    <div class="btn c rh cv" data-num="0,2,3"></div>
+                                    <div class="btn v rm cv" data-num="0,2"></div>
+                                    <div class="btn h rh cm" data-num="2,3"></div>
+                                    <div class="btn m rm cm" data-num="2"></div>
+                                </div>
+                                <div class="row3">
+                                    <div class="btn c rh cv" data-num="0,1,2"></div>
+                                    <div class="btn v rm cv" data-num="0,1"></div>
+                                    <div class="btn c rb cv" data-num="0,1,2,3"></div>
+                                    <div class="btn h rh cm" data-num="1,2"></div>
+                                    <div class="btn m rm cm" data-num="1"></div>
+                                    <div class="btn h rb cm" data-num="1,2,3"></div>
+                                </div>
+                                <div class="row4">
+                                    <div class="btn ms4 rm cm" data-type="sector" data-sector="4"></div>
+                                </div>
+                                <div class="row5">
+                                    <div class="btn ms2 rm cm" data-type="sector" data-sector="7"></div>
+                                </div>
+                            </div>
+                            {/* col2 */}
+                            <div class="col2">
+                                <div class="row1">
+                                    <div class="btn v rm cv" data-num="3,6"></div>
+                                    <div class="btn m rm cm" data-num="6"></div>
+                                </div>
+                                <div class="row2">
+                                    <div class="btn c rh cv" data-num="2,3,5,6"></div>
+                                    <div class="btn v rm cv" data-num="2,5"></div>
+                                    <div class="btn h rh cm" data-num="5,6"></div>
+                                    <div class="btn m rm cm" data-num="5"></div>
+                                </div>
+                                <div class="row3">
+                                    <div class="btn c rh cv" data-num="1,2,4,5"></div>
+                                    <div class="btn v rm cv" data-num="1,4"></div>
+                                    <div class="btn c rb cv" data-num="1,2,3,4,5,6"></div>
+                                    <div class="btn h rh cm" data-num="4,5"></div>
+                                    <div class="btn m rm cm" data-num="4"></div>
+                                    <div class="btn h rb cm" data-num="4,5,6"></div>
+                                </div>
+                            </div>
+                            {/* col3 */}
+                            <div class="col3">
+                                <div class="row1">
+                                    <div class="btn v rm cv" data-num="6,9"></div>
+                                    <div class="btn m rm cm" data-num="9"></div>
+                                </div>
+                                <div class="row2">
+                                    <div class="btn c rh cv" data-num="5,6,8,9"></div>
+                                    <div class="btn v rm cv" data-num="5,8"></div>
+                                    <div class="btn h rh cm" data-num="8,9"></div>
+                                    <div class="btn m rm cm" data-num="8"></div>
+                                </div>
+                                <div class="row3">
+                                    <div class="btn c rh cv" data-num="4,5,7,8"></div>
+                                    <div class="btn v rm cv" data-num="4,7"></div>
+                                    <div class="btn c rb cv" data-num="4,5,6,7,8,9"></div>
+                                    <div class="btn h rh cm" data-num="7,8"></div>
+                                    <div class="btn m rm cm" data-num="7"></div>
+                                    <div class="btn h rb cm" data-num="7,8,9"></div>
+                                </div>
+                                <div class="row5">
+                                    <div class="btn ms2 rm cm" data-type="sector" data-sector="8"></div>
+                                </div>
+                            </div>
+                            {/* col4 */}
+                            <div class="col4">
+                                <div class="row1">
+                                    <div class="btn v rm cv" data-num="9,12"></div>
+                                    <div class="btn m rm cm" data-num="12"></div>
+                                </div>
+                                <div class="row2">
+                                    <div class="btn c rh cv" data-num="8,9,11,12"></div>
+                                    <div class="btn v rm cv" data-num="8,11"></div>
+                                    <div class="btn h rh cm" data-num="11,12"></div>
+                                    <div class="btn m rm cm" data-num="11"></div>
+                                </div>
+                                <div class="row3">
+                                    <div class="btn c rh cv" data-num="7,8,10,11"></div>
+                                    <div class="btn v rm cv" data-num="7,10"></div>
+                                    <div class="btn c rb cv" data-num="7,8,9,10,11,12"></div>
+                                    <div class="btn h rh cm" data-num="10,11"></div>
+                                    <div class="btn m rm cm" data-num="10"></div>
+                                    <div class="btn h rb cm" data-num="10,11,12"></div>
+                                </div>
+                            </div>
+                            {/* col5 */}
+                            <div class="col5">
+                                <div class="row1">
+                                    <div class="btn v rm cv" data-num="12,15"></div>
+                                    <div class="btn m rm cm" data-num="15"></div>
+                                </div>
+                                <div class="row2">
+                                    <div class="btn c rh cv" data-num="11,12,14,15"></div>
+                                    <div class="btn v rm cv" data-num="11,14"></div>
+                                    <div class="btn h rh cm" data-num="14,15"></div>
+                                    <div class="btn m rm cm" data-num="14"></div>
+                                </div>
+                                <div class="row3">
+                                    <div class="btn c rh cv" data-num="10,11,13,14"></div>
+                                    <div class="btn v rm cv" data-num="10,13"></div>
+                                    <div class="btn c rb cv" data-num="10,11,12,13,14,15"></div>
+                                    <div class="btn h rh cm" data-num="13,14"></div>
+                                    <div class="btn m rm cm" data-num="13"></div>
+                                    <div class="btn h rb cm" data-num="13,14,15"></div>
+                                </div>
+                                <div class="row4">
+                                    <div class="btn ms4 rm cm" data-type="sector" data-sector="5"></div>
+                                </div>
+                                <div class="row5">
+                                    <div class="btn ms2 rm cm" data-type="sector" data-sector="9"></div>
+                                </div>
+                            </div>
+                            {/* col6 */}
+                            <div class="col6">
+                                <div class="row1">
+                                    <div class="btn v rm cv" data-num="15,18"></div>
+                                    <div class="btn m rm cm" data-num="18"></div>
+                                </div>
+                                <div class="row2">
+                                    <div class="btn c rh cv" data-num="14,15,17,18"></div>
+                                    <div class="btn v rm cv" data-num="14,17"></div>
+                                    <div class="btn h rh cm" data-num="17,18"></div>
+                                    <div class="btn m rm cm" data-num="17"></div>
+                                </div>
+                                <div class="row3">
+                                    <div class="btn c rh cv" data-num="13,14,16,17"></div>
+                                    <div class="btn v rm cv" data-num="13,16"></div>
+                                    <div class="btn c rb cv" data-num="13,14,15,16,17,18"></div>
+                                    <div class="btn h rh cm" data-num="16,17"></div>
+                                    <div class="btn m rm cm" data-num="16"></div>
+                                    <div class="btn h rb cm" data-num="16,17,18"></div>
+                                </div>
+                            </div>
+                            {/* col7 */}
+                            <div class="col7">
+                                <div class="row1">
+                                    <div class="btn v rm cv" data-num="18,21"></div>
+                                    <div class="btn m rm cm" data-num="21"></div>
+                                </div>
+                                <div class="row2">
+                                    <div class="btn c rh cv" data-num="17,18,20,21"></div>
+                                    <div class="btn v rm cv" data-num="17,20"></div>
+                                    <div class="btn h rh cm" data-num="20,21"></div>
+                                    <div class="btn m rm cm" data-num="20"></div>
+                                </div>
+                                <div class="row3">
+                                    <div class="btn c rh cv" data-num="16,17,19,20"></div>
+                                    <div class="btn v rm cv" data-num="16,19"></div>
+                                    <div class="btn c rb cv" data-num="16,17,18,19,20,21"></div>
+                                    <div class="btn h rh cm" data-num="19,20"></div>
+                                    <div class="btn m rm cm" data-num="19"></div>
+                                    <div class="btn h rb cm" data-num="19,20,21"></div>
+                                </div>
+                                <div class="row5">
+                                    <div class="btn ms2 rm cm" data-type="sector" data-sector="10"></div>
+                                </div>
+                            </div>
+                            {/* col8 */}
+                            <div class="col8">
+                                <div class="row1">
+                                    <div class="btn v rm cv" data-num="21,24"></div>
+                                    <div class="btn m rm cm" data-num="24"></div>
+                                </div>
+                                <div class="row2">
+                                    <div class="btn c rh cv" data-num="20,21,23,24"></div>
+                                    <div class="btn v rm cv" data-num="20,23"></div>
+                                    <div class="btn h rh cm" data-num="23,24"></div>
+                                    <div class="btn m rm cm" data-num="23"></div>
+                                </div>
+                                <div class="row3">
+                                    <div class="btn c rh cv" data-num="19,20,22,23"></div>
+                                    <div class="btn v rm cv" data-num="19,22"></div>
+                                    <div class="btn c rb cv" data-num="19,20,21,22,23,24"></div>
+                                    <div class="btn h rh cm" data-num="22,23"></div>
+                                    <div class="btn m rm cm" data-num="22"></div>
+                                    <div class="btn h rb cm" data-num="22,23,24"></div>
+                                </div>
+                            </div>
+                            {/* col9 */}
+                            <div class="col9">
+                                <div class="row1">
+                                    <div class="btn v rm cv" data-num="24,27"></div>
+                                    <div class="btn m rm cm" data-num="27"></div>
+                                </div>
+                                <div class="row2">
+                                    <div class="btn c rh cv" data-num="23,24,26,27"></div>
+                                    <div class="btn v rm cv" data-num="23,26"></div>
+                                    <div class="btn h rh cm" data-num="26,27"></div>
+                                    <div class="btn m rm cm" data-num="26"></div>
+                                </div>
+                                <div class="row3">
+                                    <div class="btn c rh cv" data-num="22,23,25,26"></div>
+                                    <div class="btn v rm cv" data-num="22,25"></div>
+                                    <div class="btn c rb cv" data-num="22,23,24,25,26,27"></div>
+                                    <div class="btn h rh cm" data-num="25,26"></div>
+                                    <div class="btn m rm cm" data-num="25"></div>
+                                    <div class="btn h rb cm" data-num="25,26,27"></div>
+                                </div>
+                                <div class="row4">
+                                    <div class="btn ms4 rm cm" data-type="sector" data-sector="6"></div>
+                                </div>
+                                <div class="row5">
+                                    <div class="btn ms2 rm cm" data-type="sector" data-sector="11"></div>
+                                </div>
+                            </div>
+                            {/* col10 */}
+                            <div class="col10">
+                                <div class="row1">
+                                    <div class="btn v rm cv" data-num="27,30"></div>
+                                    <div class="btn m rm cm" data-num="30"></div>
+                                </div>
+                                <div class="row2">
+                                    <div class="btn c rh cv" data-num="26,27,29,30"></div>
+                                    <div class="btn v rm cv" data-num="26,29"></div>
+                                    <div class="btn h rh cm" data-num="29,30"></div>
+                                    <div class="btn m rm cm" data-num="29"></div>
+                                </div>
+                                <div class="row3">
+                                    <div class="btn c rh cv" data-num="25,26,28,29"></div>
+                                    <div class="btn v rm cv" data-num="25,28"></div>
+                                    <div class="btn c rb cv" data-num="25,26,27,28,29,30"></div>
+                                    <div class="btn h rh cm" data-num="28,29"></div>
+                                    <div class="btn m rm cm" data-num="28"></div>
+                                    <div class="btn h rb cm" data-num="28,29,30"></div>
+                                </div>
+                            </div>
+                            {/* col11 */}
+                            <div class="col11">
+                                <div class="row1">
+                                    <div class="btn v rm cv" data-num="30,33"></div>
+                                    <div class="btn m rm cm" data-num="33"></div>
+                                </div>
+                                <div class="row2">
+                                    <div class="btn c rh cv" data-num="29,30,32,33"></div>
+                                    <div class="btn v rm cv" data-num="29,32"></div>
+                                    <div class="btn h rh cm" data-num="32,33"></div>
+                                    <div class="btn m rm cm" data-num="32"></div>
+                                </div>
+                                <div class="row3">
+                                    <div class="btn c rh cv" data-num="28,29,31,32"></div>
+                                    <div class="btn v rm cv" data-num="28,31"></div>
+                                    <div class="btn c rb cv" data-num="28,29,30,31,32,33"></div>
+                                    <div class="btn h rh cm" data-num="31,32"></div>
+                                    <div class="btn m rm cm" data-num="31"></div>
+                                    <div class="btn h rb cm" data-num="31,32,33"></div>
+                                </div>
+                                <div class="row5">
+                                    <div class="btn ms2 rm cm" data-type="sector" data-sector="12"></div>
+                                </div>
+                            </div>
+                            {/* col12 */}
+                            <div class="col12">
+                                <div class="row1">
+                                    <div class="btn v rm cv" data-num="33,36"></div>
+                                    <div class="btn m rm cm" data-num="36"></div>
+                                </div>
+                                <div class="row2">
+                                    <div class="btn c rh cv" data-num="32,33,35,36"></div>
+                                    <div class="btn v rm cv" data-num="32,35"></div>
+                                    <div class="btn h rh cm" data-num="35,36"></div>
+                                    <div class="btn m rm cm" data-num="35"></div>
+                                </div>
+                                <div class="row3">
+                                    <div class="btn c rh cv" data-num="31,32,34,35"></div>
+                                    <div class="btn v rm cv" data-num="31,34"></div>
+                                    <div class="btn c rb cv" data-num="31,32,33,34,35,36"></div>
+                                    <div class="btn h rh cm" data-num="34,35"></div>
+                                    <div class="btn m rm cm" data-num="34"></div>
+                                    <div class="btn h rb cm" data-num="34,35,36"></div>
+                                </div>
+                            </div>
+                            {/* col13 */}
+                            <div class="col13">
+                                <div class="row1">
+                                    <div class="btn m rm cm" data-type="sector" data-sector="1"></div>
+                                </div>
+                                <div class="row2">
+                                    <div class="btn m rm cm" data-type="sector" data-sector="2"></div>
+                                </div>
+                                <div class="row3">
+                                    <div class="btn m rm cm" data-type="sector" data-sector="3"></div>
+                                </div>
+                            </div>
+                        </div>
+		             </div>
+                      Your bets:
+                        <div>
+                            <button onClick='Place()'>Place bet</button>
+                            <button onClick='Reset()'>Reset</button>
+                            <div id='bets'></div>
+                            <div id='balance'>Balance: 1.00 ETH</div>
+                            <div id='result'></div>
+                        </div>
+		</div>
+	);
 
-		$(selectors.sector).each(function() { 
-			var $this = $(this),
-				color;
-			if ($this.hasClass(classes.red)) {
-				color = 'red';
-			} else if ($this.hasClass(classes.black)) {
-				color = 'black';
-			} else {
-				color = 'sector';
-			}
-			$this.data('color', color);
-			table_sectors[$this.data('sector')] = $this;
-		});
-
-		// sort numbers
-		for (var color in numbers) {
-			numbers[color].sort(function(a, b) { return a - b; });
-		}
-
-		// populate sectors
-		for (var i = 1; i <= 36; i++) {
-			// 1st row, 2nd row, 3rd row
-			switch (i%3) {
-				case 0:
-					sectors['1'].push(i);
-					break;
-				case 1:
-					sectors['3'].push(i);
-					break;
-				case 2:
-					sectors['2'].push(i);
-					break;
-			}
-
-			// 1st 12, 2nd 12, 3rd 12
-			if (i <= 12) {
-				sectors['4'].push(i);
-			} else if (i <= 24) {
-				sectors['5'].push(i);
-			} else {
-				sectors['6'].push(i);
-			}
-
-			// 1 to 18, 19 to 36
-			if (i <= 18) {
-				sectors['7'].push(i);
-			} else {
-				sectors['12'].push(i);
-			}
-
-			// ODD, EVEN
-			if (i%2) {
-				sectors['11'].push(i);
-			} else {
-				sectors['8'].push(i);
-			}
-
-			if (numbers.red.indexOf(i) !== -1) {
-				sectors['9'].push(i);
-			} else if (numbers.black.indexOf(i) !== -1) {
-				sectors['10'].push(i);
-			}
-		}
-
-		// buttons
-		var table_btns = $(selectors.table_btns).hover(
-			function() {
-				hovering=1;
-				if (active) {
-					var $this = $(this),
-						cells = getButtonCells($this);
-					for (var i = 0, len = cells.length; i < len; i++) {
-						cells[i].addClass(classes.hover);
-					}
-					var sector = $this.data('sector');
-					if (sector) {
-						table_sectors[sector].addClass(classes.hover);
-					}
-				}
-			},
-			function() {
-				hovering=0;
-				var $this = $(this),
-					cells = getButtonCells($this);
-				for (var i = 0, len = cells.length; i < len; i++) {
-					cells[i].removeClass(classes.hover);
-				}
-				var sector = $this.data('sector');
-				if (sector) {
-					table_sectors[sector].removeClass(classes.hover);
-				}
-			}
-		).mousedown(function(e) {
-			var numbers=[];
-			if(typeof $(this).data('sector') != 'undefined'){
-				console.log("SECTOR "+$(this).data('sector'));
-				
-				if(e.button===2)ChangeBet(36+$(this).data('sector'),-1);
-				else ChangeBet(36+$(this).data('sector'),+1);
-			}
-			else{
-				numbers=$(this).data('num');
-				
-				if(typeof numbers.length ==='undefined')numbers=[numbers];
-				else numbers=numbers.split(',');
-				
-				if(e.button===2)for(var i=0;i<numbers.length;i++)ChangeBet(numbers[i],-1);
-				else for( i=0;i<numbers.length;i++)ChangeBet(numbers[i],+1);
-			}
-		});
-	})();
 	
-document.oncontextmenu = function() {if(hovering)return false;};
-
-})($);
-
-
-var squares=new Array(48);
-var divs=document.getElementsByTagName("div");
-for(var i=0;i<divs.length;i++){
-	var attr=divs[i].getAttribute("data-num");
-	if(attr==null){
-		attr=divs[i].getAttribute("data-sector");
-		if(attr==null)continue;
-		var index=36+parseInt(attr);
-		
-		var rekt=divs[i].getBoundingClientRect();
-		squares[index]=new Array(2);
-		squares[index][1]=rekt.top+10;
-		squares[index][0]=rekt.left+16;
-	}else{
-		if(attr.indexOf(',')!==-1)continue;
-		var rekt=divs[i].getBoundingClientRect();
-		squares[attr]=new Array(2);
-		squares[attr][1]=rekt.top+10;
-		squares[attr][0]=rekt.left+16;
-	}
 }
 
-function UpdateBets(){
-	var betdiv=document.getElementById("bets");
-	betdiv.innerHTML='';
-	for(var i=37;i<bets.length;i++)if(bets[i]>0)betdiv.innerHTML+=sectors[i-37]+": "+(bets[i]*CurrentTier).toFixed(2)+"<br>";
-	for( i=0;i<37;i++)if(bets[i]>0)betdiv.innerHTML+="Number "+i+": "+(bets[i]*CurrentTier).toFixed(2)+"<br>";
-}
+export default board
 
-function Reset(){
-	for(var i=0;i<bets.length;i++){
-		bets[i]=0;
-		if(chips[i]!=null)for(var j=0;chips[i].length>0;j++)document.body.removeChild(chips[i].pop());
-	}
-	balance=1;
-	
-	UpdateBets();
-	UpdateBalance();
-}
 
-function TotalBets(){
-	var r=0;
-	for(var i=0;i<bets.length;i++)r+=bets[i];
-	return r;
-}
-
-function rInt(min,max){
-	return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-var chips=new Array(48);
-
-function ChangeBet(id,amount){
-	if(amount>0&&TotalBets()===50){
-		//maybe some beep
-		return;
-	}
-	
-	if(amount>0){
-		var img = document.createElement('img');
-		img.src="https://image.flaticon.com/icons/png/128/138/138528.png";
-		img.style.zIndex="0";
-		img.style.position="absolute";
-		
-		var rX=rInt(-16,16);
-		var rY=rInt(-16,16);
-		
-		img.style.left=(squares[id][0]+rX)+"px";
-		img.style.top=(squares[id][1]+rY)+"px";
-		
-		img.style.width="20px";
-		img.style.pointerEvents="none";
-		
-		document.body.appendChild(img);
-		
-		if(chips[id]==null)chips[id]=new Array(0);
-		chips[id].push(img);
-	}if(amount<0&&chips[id]!=null&&chips[id].length>0)document.body.removeChild(chips[id].pop());
-	
-	bets[id]+=amount;
-	if(bets[id]<0)bets[id]=0;
-	UpdateBets();
-	UpdateBalance();
-}
-
-function UpdateBalance(){
-	var e=document.getElementById("balance");
-	e.innerHTML="Balance: "+balance.toFixed(2)+" ETH";
-	var tb=TotalBets();
-	if(tb>0)e.innerHTML+=" ("+(tb*CurrentTier).toFixed(2)+")";
-}
-
-function Place(){
-	var bet=0;
-	for(var i=0;i<bets.length;i++)if(bets[i]!==0)bet+=bets[i];
-	bet*=CurrentTier;
-	
-	if(bet>balance){
-		var betdiv=document.getElementById("result");
-		betdiv.innerHTML="Insufficient balance!";
-		return;
-	}
-	
-	var result=Math.floor(Math.random()*37);
-	
-	var win=0;
-	if(bets[result]!==0)win+=bets[result]*36;
-	for(i=37;i<bets.length;i++)if(bets[i]!==0)win+=bets[i]*sectormultipliers[i-37][result];
-	
-	win*=CurrentTier;
-	win-=bet;
-	
-	console.log("BET: "+bet+" WIN: "+win);
-	
-	var betdiv=document.getElementById("result");
-	if(win>=bet)betdiv.innerHTML="Lucky number: "+result+" you won "+win.toFixed(2)+" ETH!";
-	else betdiv.innerHTML="Lucky number: "+result+" you lost "+win.toFixed(2)+" ETH!";
-	
-	balance+=win;
-	UpdateBalance();
-}
-
-var balance=1;
-
-var CurrentTier=0.01;
-
-var tiers=[
-	0.0001,
-	0.0002,
-	0.001,
-	0.002,
-	0.01,
-	0.02
-];
-
-var sectors=[
-	"3rd column",
-	"2nd column",
-	"1st column",
-	"1st 12",
-	"2nd 12",
-	"3rd 12",
-	"1 to 18",
-	"Even",
-	"Red",
-	"Black",
-	"Odd",
-	"19 to 36"
-];
-
-var hovering=0;
-var bets=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-
-var sectormultipliers=[
-	[0,0,0,3,0,0,3,0,0,3,0,0,3,0,0,3,0,0,3,0,0,3,0,0,3,0,0,3,0,0,3,0,0,3,0,0,3],//3rd column
-	[0,0,3,0,0,3,0,0,3,0,0,3,0,0,3,0,0,3,0,0,3,0,0,3,0,0,3,0,0,3,0,0,3,0,0,3,0],//2nd column
-	[0,3,0,0,3,0,0,3,0,0,3,0,0,3,0,0,3,0,0,3,0,0,3,0,0,3,0,0,3,0,0,3,0,0,3,0,0],//1st column
-	[0,3,3,3,3,3,3,3,3,3,3,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],//1st 12
-	[0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,3,3,3,3,3,3,3,3,3,3,0,0,0,0,0,0,0,0,0,0,0,0],//2nd 12
-	[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,3,3,3,3,3,3,3,3,3,3],//3rd 12
-	[0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],//1 to 18
-	[0,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2],//even
-	[0,2,0,2,0,2,0,2,0,2,0,0,2,0,2,0,2,0,2,2,0,2,0,2,0,2,0,2,0,0,2,0,2,0,2,0,2],//Red
-	[0,0,2,0,2,0,2,0,2,0,2,2,0,2,0,2,0,2,0,0,2,0,2,0,2,0,2,0,2,2,0,2,0,2,0,2,0],//Black
-	[0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0],//odd
-	[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2] //19 to 36
-];
