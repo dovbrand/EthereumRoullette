@@ -5,8 +5,6 @@ import RouletteContract from '../contracts/Roulette.json';
 
 import './board.js'
 import Navbar from './Navbar';
-import HowtoModal from './HowtoModal';
-import RankingsModal from './RankingsModal';
 import Wheeel from './Wheeel';
 
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import logo from '../images/logo-rectangle.png';
-import { Switch, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import AuthService from "../services/auth.service";
 
