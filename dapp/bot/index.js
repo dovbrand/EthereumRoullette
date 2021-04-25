@@ -19,197 +19,197 @@ const web3 = new Web3(new HDWalletProvider({privateKeys: [process.env.PRIVATE_KE
 
 const CONTRACT_ADDRESS = "0x5bBFCE7124f5C97b1556Fa2718086ECf3E5bA3d4";
 const CONTRACT_ABI = [
-    {
-        "inputs": [],
-        "stateMutability": "payable",
-        "type": "constructor"
-    },
-    {
-        "stateMutability": "payable",
-        "type": "fallback"
-    },
-    {
-        "inputs": [],
-        "name": "commitHash",
-        "outputs": [
-        {
-            "internalType": "bytes32",
-            "name": "",
-            "type": "bytes32"
-        }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "stateMutability": "payable",
-        "type": "receive"
-    },
-    {
-        "inputs": [],
-        "name": "depositMoney",
-        "outputs": [],
-        "stateMutability": "payable",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "getCasinoDeposit",
-        "outputs": [
-        {
+  {
+    "inputs": [],
+    "stateMutability": "payable",
+    "type": "constructor"
+  },
+  {
+    "stateMutability": "payable",
+    "type": "fallback"
+  },
+  {
+    "inputs": [],
+    "name": "commitHash",
+    "outputs": [
+      {
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "stateMutability": "payable",
+    "type": "receive"
+  },
+  {
+    "inputs": [],
+    "name": "depositMoney",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getCasinoDeposit",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "_outcomeHash",
+        "type": "bytes32"
+      }
+    ],
+    "name": "getOutcomeHash",
+    "outputs": [
+      {
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256[][]",
+        "name": "_bets",
+        "type": "uint256[][]"
+      }
+    ],
+    "name": "placeBet",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_winningNumber",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bytes32",
+        "name": "_nonce",
+        "type": "bytes32"
+      }
+    ],
+    "name": "revealWinningNumber",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "WinningNumber",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getBalance",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "seeBets",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256[]",
+            "name": "numbers",
+            "type": "uint256[]"
+          },
+          {
             "internalType": "uint256",
-            "name": "",
+            "name": "multiplier",
             "type": "uint256"
-        }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-        {
-            "internalType": "bytes32",
-            "name": "_outcomeHash",
-            "type": "bytes32"
-        }
-        ],
-        "name": "getOutcomeHash",
-        "outputs": [
-        {
-            "internalType": "bytes32",
-            "name": "",
-            "type": "bytes32"
-        }
-        ],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-        {
-            "internalType": "uint256[][]",
-            "name": "_bets",
-            "type": "uint256[][]"
-        }
-        ],
-        "name": "placeBet",
-        "outputs": [],
-        "stateMutability": "payable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-        {
+          },
+          {
             "internalType": "uint256",
-            "name": "_winningNumber",
+            "name": "betAmount",
             "type": "uint256"
-        },
-        {
-            "internalType": "bytes32",
-            "name": "_nonce",
-            "type": "bytes32"
-        }
+          }
         ],
-        "name": "revealWinningNumber",
-        "outputs": [
-        {
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-        }
-        ],
-        "stateMutability": "payable",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "WinningNumber",
-        "outputs": [
-        {
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-        }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "getBalance",
-        "outputs": [
-        {
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-        }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "seeBets",
-        "outputs": [
-        {
-            "components": [
-            {
-                "internalType": "uint256[]",
-                "name": "numbers",
-                "type": "uint256[]"
-            },
-            {
-                "internalType": "uint256",
-                "name": "multiplier",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "betAmount",
-                "type": "uint256"
-            }
-            ],
-            "internalType": "struct Roulette.Bet[]",
-            "name": "",
-            "type": "tuple[]"
-        }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "seePlayerWinnings",
-        "outputs": [
-        {
-            "internalType": "int256",
-            "name": "",
-            "type": "int256"
-        }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "gameReset",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-        {
-            "internalType": "uint256",
-            "name": "index",
-            "type": "uint256"
-        }
-        ],
-        "name": "removeBet",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    }
+        "internalType": "struct Roulette.Bet[]",
+        "name": "",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "seePlayerWinnings",
+    "outputs": [
+      {
+        "internalType": "int256",
+        "name": "",
+        "type": "int256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "gameReset",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "index",
+        "type": "uint256"
+      }
+    ],
+    "name": "removeBet",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
 ];
 const RouletteContract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
 const account = process.env.ACCOUNT;
