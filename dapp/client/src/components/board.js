@@ -1,12 +1,8 @@
 import React from 'react';
-import $ from 'jquery'; 
- 
-
+//import '../public/index.html';
 
 
 function board() {
-	
-
 
 	return (
 		<div>
