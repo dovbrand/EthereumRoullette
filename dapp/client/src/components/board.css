@@ -1,0 +1,336 @@
+/*******************************************************/
+
+/* BETTING TABLE */
+
+
+  
+.roulette {
+    margin: 40px;
+    padding: 40px;
+    background: #F0F0EE;
+    display: table;
+    position: relative;
+    width: 775px;
+    /*transform: rotate(90deg);
+    margin:300px 0 0 -230px;*/
+    
+  }
+  
+  .roulette table {
+    float: left;
+  }
+  
+  .roulette table,
+  tr {
+    border-collapse: collapse;
+    /*border-spacing: 0;*/
+    
+  }
+  
+  .roulette td {
+    border-spacing: 5;
+    border-collapse: separate;
+    border: 5px solid #29313D;
+    width: 60px;
+    height: 56px;
+    text-align: center;
+    vertical-align: middle;
+    font-weight: bold;
+    font-size: 18px;
+    color: #F0F0EE;
+    white-space: nowrap;
+  }
+  
+  /* elements */
+  .roulette .sector {
+    background: #F0F0EE;
+    color: #29313D;
+  }
+  
+  .roulette .sector .vt {
+    font-size: 15px;
+  }
+  
+  .roulette .num {
+    font-size: 22px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 200;
+  }
+  
+  .roulette .num span {
+    display: block;
+    transform: rotate(270deg);
+  }
+  
+  .roulette .zero {
+    width: 70px;
+    font-size: 56px;
+  }
+  
+  .roulette .empty {
+    border: none;
+  }
+  
+  /* colors */
+  .roulette .green {
+    background: #F0F0EE;
+    color: #F0F0EE;
+  }
+  
+  .roulette .red {
+    background: #A91607;
+    color: #F0F0EE;
+  }
+  
+  .roulette .black {
+    background: #434f64;
+    color: #F0F0EE;
+  }
+  
+  /* cells hovers */
+  .roulette .sector.hover,
+  .roulette .num.hover {
+    font-size: 26px;
+    -moz-box-shadow: inset 0 0 5px #FFF, inset 0 0 5px #FFF;
+    -webkit-box-shadow: inset 0 0 5px #FFF, inset 0 0 5px #FFF;
+    box-shadow: inset 0 0 5px #FFF, inset 0 0 5px #FFF;
+  }
+  
+  .roulette .sector.hover .vt {
+    font-size: 17px;
+  }
+  
+  .roulette .sector.hover {
+    font-size: 22px;
+    background: #29313D !important;
+    color: #F0F0EE !important;
+  }
+  
+  .roulette .green.hover {
+    font-size: 68px;
+    background: #29313D !important;
+    color: #F0F0EE !important;
+  }
+  
+  .roulette .red.hover {
+    background: #C00 !important;
+    color: #F0F0EE!important;
+  }
+  
+  .roulette .black.hover {
+    background: #516480 !important;
+    color: #F0F0EE !important;
+  }
+  
+  /* orientation */
+  .roulette .vt {
+    display: block;
+    transform: rotate(270deg);
+    white-space: nowrap;
+  }
+  
+  /* controlls */
+  .roulette .controlls {
+    position: relative;
+    top: 0;
+    left: 0;
+    opacity: 0;
+  }
+  
+  .roulette .controlls .btn {
+    /*opacity: 0.5;*/
+    position: absolute;
+    cursor: pointer;
+    z-index: 1;
+  }
+  
+  /* zero */
+  .roulette .controlls .btn-zero {
+    width: 75px;
+    height: 152px;
+    z-index: 0;
+    left: 500px;
+  }
+  
+  /* positions */
+  .roulette .controlls .h {
+    width: 37px;
+    height: 15px;
+  }
+  
+  .roulette .controlls .v {
+    width: 17px;
+    height: 35px;
+  }
+  
+  .roulette .controlls .c {
+    width: 17px;
+    height: 15px;
+  }
+  
+  .roulette .controlls .m {
+    width: 54px;
+    height: 50px;
+    margin-top: -7px;
+    margin-left: -10px;
+    z-index: 0;
+  }
+  
+  .roulette .controlls .ms4 {
+    width: 216px;
+    height: 50px;
+    margin-top: -7px;
+    margin-left: -10px;
+    z-index: 0;
+  }
+  
+  .roulette .controlls .ms2 {
+    width: 108px;
+    height: 50px;
+    margin-top: -7px;
+    margin-left: -10px;
+    z-index: 0;
+  }
+  
+  /* rows */
+  .roulette .controlls .row1 .rh {
+    top: -13px;
+  }
+  
+  .roulette .controlls .row1 .rm {
+    top: 8px;
+  }
+  
+  .roulette .controlls .row2 .rh {
+    top: 43px;
+  }
+  
+  .roulette .controlls .row2 .rm {
+    top: 58px;
+  }
+  
+  .roulette .controlls .row3 .rh {
+    top: 99px;
+  }
+  
+  .roulette .controlls .row3 .rm {
+    top: 108px;
+  }
+  
+  .roulette .controlls .row3 .rb {
+    top: 160px;
+  }
+  
+  .roulette .controlls .row4 .rm {
+    top: 170px;
+  }
+  
+  .roulette .controlls .row5 .rm {
+    top: 255px;
+  }
+  
+  /* cols */
+  .roulette .controlls .col1 .cv {
+    left: 41px;
+  }
+  
+  .roulette .controlls .col1 .cm {
+    left: 60px;
+  }
+  
+  .roulette .controlls .col2 .cv {
+    left: 85px;
+  }
+  
+  .roulette .controlls .col2 .cm {
+    left: 114px;
+  }
+  
+  .roulette .controlls .col3 .cv {
+    left: 144px;
+  }
+  
+  .roulette .controlls .col3 .cm {
+    left: 166px;
+  }
+  
+  .roulette .controlls .col4 .cv {
+    left: 185px;
+  }
+  
+  .roulette .controlls .col4 .cm {
+    left: 210px;
+  }
+  
+  .roulette .controlls .col5 .cv {
+    left: 236px;
+  }
+  
+  .roulette .controlls .col5 .cm {
+    left: 250px;
+  }
+  
+  .roulette .controlls .col6 .cv {
+    left: 280px;
+  }
+  
+  .roulette .controlls .col6 .cm {
+    left: 300px;
+  }
+  
+  .roulette .controlls .col7 .cv {
+    left: 330px;
+  }
+  
+  .roulette .controlls .col7 .cm {
+    left: 360px;
+  }
+  
+  .roulette .controlls .col8 .cv {
+    left: 380px;
+  }
+  
+  .roulette .controlls .col8 .cm {
+    left: 395px;
+  }
+  
+  .roulette .controlls .col9 .cv {
+    left: 425px;
+  }
+  
+  .roulette .controlls .col9 .cm {
+    left: 450px;
+  }
+  
+  .roulette .controlls .col10 .cv {
+    left: 473px;
+  }
+  
+  .roulette .controlls .col10 .cm {
+    left: 500px;
+  }
+  
+  .roulette .controlls .col11 .cv {
+    left: 520px;
+  }
+  
+  .roulette .controlls .col11 .cm {
+    left: 545px;
+  }
+  
+  .roulette .controlls .col12 .cv {
+    left: 572px;
+  }
+  
+  .roulette .controlls .col12 .cm {
+    left: 600px;
+  }
+  
+  .roulette .controlls .col13 .cm {
+    left: 650px;
+  }
+  
+  /* others */
+  .hidden {
+    display: none;
+  }
