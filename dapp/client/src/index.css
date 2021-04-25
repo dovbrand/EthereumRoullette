@@ -31,13 +31,7 @@ body, html, .App, #root, .auth-wrapper{
   display: flex;
 }
 
-.nav-link {
-  font-weight: 100;
-  font-size: x-large;
-  font-style: normal;
-  font-family: 'Poppins', sans-serif;
-  color: #9C9C9C;
-}
+
 
 .current {
   font-weight: 100;
@@ -47,59 +41,7 @@ body, html, .App, #root, .auth-wrapper{
   color: #29313D;
 }
 
-.play {
-  margin: 50px;
-  width: 580px;
-  height: 526px;
-  padding-left: 30px;
-  margin-right: 80px;
-  margin-top: 240px; 
-  font-weight: 100;
-  font-size: x-large;
-  font-style: normal;
-  font-family: 'Poppins', sans-serif;
-  color:#F0F0EE;
-  justify-content: center;
-  flex-direction: column;
-  text-align: left;
-}
 
-.spin {
-  width: 400px;
-  font-family: 'Poppins', sans-serif;
-  color:#F0F0EE;
-  justify-content: center;
-  flex-direction: row;
-  margin-top: 35px;
-  margin-left: 35px;
-  margin-bottom: auto;
-}
-
-.bet-table{
-  font-family: 'Poppins', sans-serif;
-  color:#F0F0EE;
-  justify-content: center;
-  flex-direction: row;
-  margin-top: 45px;
-  margin-left: 100px;
-}
-
-
-
-
-
-.wheel-main {
-  position: absolute;
-  width: 409.7px;
-  height: 400px;
-}
-
-.board-main {
-  position: absolute;
-  width: 700px;
-  height: 700px;
-  left: 500px;
-}
 
 .logo {
   position: absolute;
@@ -154,12 +96,7 @@ body, html, .App, #root, .auth-wrapper{
   border: 1px solid #E5E5E5;
 }
 
-.auth-wrapper h3 {
-  text-align: center;
-  margin: 0;
-  line-height: 1;
-  padding-bottom: 20px;
-}
+
 
 .custom-control-label {
   font-weight: 400;
