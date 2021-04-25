@@ -3,6 +3,7 @@ import '../index.css';
 import { Link } from "react-router-dom";
 
 import background from "../images/background.png";
+import logo from "../images/logo-rectangle.png";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
@@ -127,10 +128,15 @@ export default class Register extends Component {
   render() {
     return (
       <div className="signup" style={{ backgroundImage: `url(${background})`,
-      backgroundRepeat: 'no-repeat', 
-      backgroundSize: 'cover', 
-      minWidth: '100%', 
-      minHeight: '100%' }}>
+                              backgroundRepeat: 'no-repeat', 
+                              backgroundSize: 'cover', 
+                              minWidth: '100%', 
+                              minHeight: '100%' }}>
+          <nav className="navbar navbar-expand-lg navbar-dark fixed-top">
+            <div className="container">
+              <Link className="navbar-brand" to={"/home"}> <img className="logo" src={logo} alt="Logo" /></Link>
+            </div>
+          </nav> 
           <div className="auth-wrapper">
             <div className="auth-inner" style={{position: 'absolute', left: '50%', top: '50%',transform: 'translate(-50%, -50%)'}}>
 

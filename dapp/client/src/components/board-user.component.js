@@ -88,11 +88,11 @@ export default class BoardUser extends Component {
             <div className="auth-wrapper">
        
             <div className="auth-inner-2" style={{position: 'absolute', left: '50%', top: '57%',transform: 'translate(-50%, -50%)'}}>
-            <div className="d-flex flex-col">
-            <div className="spin flex-row">
+            <div className="flex-container">
+            <div className="flex-child spin">
                 <Wheeel/>
             </div>
-            <div className="bet-table flex-row">
+            <div className="flex-child bet-table">
                 <Board/>
                
             </div>

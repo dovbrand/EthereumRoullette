@@ -10,8 +10,9 @@ import Login from "./components/login.component";
 import Register from "./components/register.component";
 import Profile from "./components/profile.component";
 import BoardUser from "./components/board-user.component";
+import Rankings from "./components/RankingsModal";
+import HowTo from "./components/HowtoModal";
 
-import background from './images/background.png';
 import Web3 from "web3";
 import RouletteContract from './contracts/Roulette.json';
 
@@ -74,12 +75,14 @@ class App extends Component {
         <div className="App" >
           <div className="auth-wrapper"> 
             <Switch>
-              <Route exact path={["/", "/home"]} component={Home} />
+              <Route exact path={["/", "/main"]} component={BoardUser} />
               <Route path="/home" component={Home} />
               <Route path="/login" component={Login} />
               <Route path="/register" component={Register} />
               <Route path="/profile" component={Profile} />
               <Route path="/main" component={BoardUser}/>
+              <Route path="/rankings" component={Rankings}/>
+              <Route path="/how-to" component={HowTo}/>
             </Switch>
           </div>
         </div>

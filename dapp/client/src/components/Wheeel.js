@@ -92,7 +92,7 @@ const data = [
               setMustSpin(false)
             }}
           />
-
+    
           <button className={'spin-button'} onClick={handleSpinClick}>
             S P I N
           </button>
