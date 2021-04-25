@@ -2,13 +2,11 @@ import React, {useState} from 'react';
 import styled from 'styled-components';
 import Navbar from './Navbar/Navbar'
 import { MdClose } from 'react-icons/md';
-import image5 from './roulette-image.jpg';
-import image6 from './user-avatar-placeholder.png';
 
 const Background = styled.div`
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.45);
   position: fixed;
   display: flex;
   justify-content: center;
@@ -20,29 +18,32 @@ const Background = styled.div`
 const ModalWrapper = styled.div`
   width: 1000px;
   height: 700px;
-  color: #000;
+
   position: relative;
   z-index: 10;
-  border-radius: 10px;
-  background-color:white;
+  border-radius: 20px;
+  background-color:#F0F0EE;
+  mix-blend-mode: normal;
 `;
 
-const ModalImg = styled.img`
-  width: 100%;
-  height: 100%;
-  border-radius: 10px 0 0 10px;
-  background: #000;
-`;
 
 const ModalContent = styled.div`
+
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  line-height: 1.8;
+  margin-top: 45px;
+  text-align: center;
   
-  color: #141414;
-  background-color:white;
   h1{
-    background-color:white;
+    font-weight: 100;
+    font-style: normal;  
+    font-family: 'Poppins', sans-serif;
+    color: #29313D;
+    background-color:#F0F0EE;
   }
   p {
-    margin-bottom: 1rem;
     background-color:white;
     
   }
@@ -81,7 +82,7 @@ const CloseModalButton = styled(MdClose)`
   height: 32px;
   padding: 0;
   z-index: 10;
-  background-color: white;`
+  background-color: #F0F0EE;`
 
   
 
@@ -107,6 +108,7 @@ const RankingsModal = (props) =>{
              
             <ModalContent>
             <h1>Leaderboard</h1>
+            <br></br>
                 <div>
                     <div className="card">
                         <div className="card-body">
@@ -121,7 +123,6 @@ const RankingsModal = (props) =>{
                                                 <td className="border=0">
                                        
                                                     <div className="d-flex">
-                                                        <img src={image6} style={{width:'50px', height:'50px'}} alt="ima"/>
                                                         <div className="align-self-center-pl-3">
                                                             <span className="font-weight-bold">Pierce Taylor</span>
                                                         </div>

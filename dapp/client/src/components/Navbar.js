@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import logo from '../images/logo-rectangle.png';
-import { Link } from "react-router-dom";
+import logout from '../images/logout-icon.png';
+import { Switch, Route, Link } from "react-router-dom";
+import './Navbar.css';
+import account from '../images/account-icon.png';
+import rankings from '../images/rankings-icon.png';
+import howto from '../images/how-to-icon.png';
 
 import AuthService from "../services/auth.service";
 
@@ -41,23 +46,28 @@ export default class  Navbar extends Component {
 
                 {currentUser ? (
                 <div className="navbar-nav ml-auto">
-                    <li className="nav-item">   
-                        <small className="text-secondary">
-                            <small id="account"> 
-                                <Link to={"/profile"} className="nav-link">
-                                {this.props.account}
-                                </Link>
-                            </small>
-                        </small>
+                    <li className="nav-item">
+                        <Link to={"/how-to"} className="nav-link">
+                        <img className="how-to-img" src={howto} alt="How to Play"></img>
+                        How to Play
+                        </Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link to={"/rankings"} className="nav-link">
+                        <img className="rankings-img" src={rankings} alt="Rankings"></img>
+                        Rankings
+                        </Link>
                     </li>
                     <li className="nav-item">
                         <Link to={"/profile"} className="nav-link">
+                        <img className="account-img" src={account} alt="Account"/>
                             {currentUser.username}
                         </Link>
                     </li>
                     <li className="nav-item">
                         <a href="/login" className="nav-link" onClick={this.logOut}>
-                        LogOut
+                        <img className="logout-img" src={logout} alt="Logout"/>
+                        Logout
                         </a>
                     </li>
                     

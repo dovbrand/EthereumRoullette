@@ -44,34 +44,36 @@ export default class Profile extends Component {
     
     return (
       
-      <div className="container">
+      <div className="profile">
         
         <Navbar account = {this.state.account} />  
 
         {(this.state.userReady) ?
-        <div>
-          <header className="jumbotron">
+        <div className="auth-wrapper">
+        <div className="auth-inner-2" style={{position: 'absolute', left: '50%', top: '57%',transform: 'translate(-50%, -50%)'}}>
+          <br></br>
             <h3>
-              <strong>{currentUser.username}</strong> Profile
+              <strong>{currentUser.username}</strong>
             </h3>
-          </header>
-          <p>
+            <br></br>
+          <p className="user-info">
             <strong>Token:</strong>{" "}
             {currentUser.accessToken.substring(0, 20)} ...{" "}
             {currentUser.accessToken.substr(currentUser.accessToken.length - 20)}
           </p>
-          <p>
+          <p className="user-info">
             <strong>Id:</strong>{" "}
             {currentUser.id}
           </p>
-          <p>
+          <p className="user-info">
             <strong>Email:</strong>{" "}
             {currentUser.email}
           </p>
-          <p>
+          <p className="user-info">
             <strong>Account:</strong>{" "}
             { this.state.account}
           </p>
+        </div>
         </div>: null}
       </div>
     );

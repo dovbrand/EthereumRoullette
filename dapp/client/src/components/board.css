@@ -149,7 +149,6 @@
     width: 75px;
     height: 152px;
     z-index: 0;
-    left: 500px;
   }
   
   /* positions */
@@ -239,7 +238,7 @@
   }
   
   .roulette .controlls .col2 .cv {
-    left: 85px;
+    left: 90px;
   }
   
   .roulette .controlls .col2 .cm {
