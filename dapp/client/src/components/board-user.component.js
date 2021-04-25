@@ -3,19 +3,18 @@ import UserService from "../services/user.service";
 import Web3 from "web3";
 import RouletteContract from '../contracts/Roulette.json';
 
-import Board from './board';
-import './board.css';
+import './board.js'
 import Navbar from './Navbar';
-import HowtoModal from './HowtoModal';
-import RankingsModal from './RankingsModal';
 import Wheeel from './Wheeel';
 
 
 export default class BoardUser extends Component {
+
     // loads web3 and interacts with contract
     async componentWillMount() {
         await this.loadWeb3()
         await this.loadBlockchainData()
+        await this.placeBet()
     }
 
     async loadWeb3() {
@@ -43,19 +42,24 @@ export default class BoardUser extends Component {
 
         if(networkData) {
             const rou = new web3.eth.Contract(RouletteContract.abi, networkData.address)
-            this.setState({ rou})
+            this.setState({ rou })
             this.setState({ loading: false})
         } else {
             window.alert('Roulette contract not deployed to detected network.')
         }
     }
 
+    async placeBet() {
+        await this.state.rou.methods.placeBet().send()
+    }
+
     constructor(props) {
         super(props);
 
         this.state = {
-            account: ''
-        
+            account: '',
+            rou: null,
+            bets: [],
         };
     }
 
