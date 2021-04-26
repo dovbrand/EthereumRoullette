@@ -21,6 +21,7 @@ Open http://localhost:8081 to view it in the browser.
 The page will show you the message
 {"message":"Welcome to Rou application by Lette."}
 
+---
 ### Bot (Back End)
 Steps to run bot:
 
@@ -30,9 +31,11 @@ Create .env file and copy contents of .env.example file into it
 Configure .env variables
 Run command "npm run start"
 
+---
 ### Contract (Back End)
 Download our roullette.sol file and deploy using RemixIDE.
 
+---
 ### Testing (Back End)
 Steps for testing the contract;
 
@@ -42,5 +45,6 @@ Steps for testing the contract;
 4. Open a new terminal window and run `truffle develop` to deploy the contract and then use the command `test` to see all the available tests written in the javascript file.
 5. There should be 6 available test files to view.
 
+---
 ### Front End
 
