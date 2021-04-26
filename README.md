@@ -41,4 +41,5 @@ Steps for testing the contract;
 3. To begin the testing process, one must run the testrpc client from the terminal, which starts the server to connect the contract to the testing file.
 4. Open a new terminal window and run `truffle develop` to deploy the contract and then use the command `test` to see all the available tests written in the javascript file.
 
+### Front End
 
