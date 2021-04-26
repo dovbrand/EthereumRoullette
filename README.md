@@ -7,7 +7,7 @@
  - Node.js (Express, Mysql2, Sequelize)
  - Truffle
  - Metamask
-## Instructions 
+## Instructions and Configuration
 
 ### Server (Back End)
 In the project directory, you can run the backend server:
