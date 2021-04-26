@@ -1,4 +1,6 @@
 import React from 'react';
+import './board.css';
+
 //import '../public/index.html';
 
 
@@ -368,15 +370,15 @@ function board() {
                             </div>
                         </div>
 		             </div>
-                      Your bets:
-                        <div>
-                            <button onClick='Place()'>Place bet</button>
-                            <button onClick='Reset()'>Reset</button>
-                            <div id='bets'></div>
-                            <div id='balance'>Balance: 1.00 ETH</div>
-                            <div id='result'></div>
-                        </div>
-		</div>
+                    Your bets:
+                    <div>
+                        <button onClick='Place()'>Place bet</button>
+                        <button onClick='Reset()'>Reset</button>
+                        <div id='bets'></div>
+                        <div id='balance'>Balance: 1.00 ETH</div>
+                        <div id='result'></div>
+                    </div>
+        </div>
 	);
 
 	

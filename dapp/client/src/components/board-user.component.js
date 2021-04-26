@@ -2,8 +2,9 @@ import React, { Component } from "react";
 import UserService from "../services/user.service";
 import Web3 from "web3";
 import RouletteContract from '../contracts/Roulette.json';
+import './board.css';
 
-import './board.js'
+import Board from './board.js'
 import Navbar from './Navbar';
 import Wheeel from './Wheeel';
 
@@ -14,7 +15,7 @@ export default class BoardUser extends Component {
     async componentWillMount() {
         await this.loadWeb3()
         await this.loadBlockchainData()
-        await this.placeBet()
+        // await this.placeBet()
     }
 
     async loadWeb3() {
