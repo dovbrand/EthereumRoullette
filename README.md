@@ -10,13 +10,52 @@
  
 ---
 ### Metamask 
-#### Installation and Configuration
 
  - Add Metamask as an extension to the browser 
  - Create and account
  - Connect account with Remix
  - Link tokens using: `0xa36085F69e2889c224210F603D836748e7dC0088` 
  Find a more detailed instructions [here](https://developers.rsk.co/tutorials/ethereum-devs/remix-and-metamask-with-rsk-testnet/)
+ 
+ 
+### MySql
+
+To get started, you need to create a 'localhost' server with a database named 'rou'
+
+- Make sure you have MySQL or MySQL Workbench installed. 
+- if you have a macbook BigSur, download [this 8.0.21 version of MySQL Workbench](https://downloads.mysql.com/archives/workbench/)
+
+- Follow these steps: [Configure MySQL Workbench](https://docs.bitnami.com/installer/infrastructure/lamp/configuration/configure-workbench/)
+
+- Create a database called 'Rou'
+```
+CREATE DATABASE Rou;
+```
+
+- navigate to 
+``` 
+./server/app/config/db.config.js 
+```
+and modify to your host. For example mine is:
+```
+module.exports = {
+    HOST: "localhost",
+    USER: "root",
+    PASSWORD: "password",
+    DB: "rou",
+    dialect: "mysql",
+    pool: {
+        max: 5,
+        min: 0,
+        acquire: 30000,
+        idle: 10000
+    }
+};
+```
+
+Once completed those steps:
+* navigate to 'client' directory
+``` cd client ```
  
 ---
 
@@ -68,7 +107,7 @@ Steps for testing the contract;
 5. There should be 6 available test files to view.
 
 ---
-## Client (FrontEnd)
+### Client (FrontEnd)
 
 In the project directory, you can run the front-end server:
 
@@ -92,46 +131,7 @@ You will also see any lint errors in the console.
 * Create a new terminal window or tab
 * From the source folder, navigate to 'server' directory
 ``` cd server ```
+---
 
 
-
-
-## MySql
-
-To get started, you need to create a 'localhost' server with a database named 'rou'
-
-- Make sure you have MySQL or MySQL Workbench installed. 
-- if you have a macbook BigSur, download [this 8.0.21 version of MySQL Workbench](https://downloads.mysql.com/archives/workbench/)
-
-- Follow these steps: [Configure MySQL Workbench](https://docs.bitnami.com/installer/infrastructure/lamp/configuration/configure-workbench/)
-
-- Create a database called 'Rou'
-```
-CREATE DATABASE Rou;
-```
-
-- navigate to 
-``` 
-./server/app/config/db.config.js 
-```
-and modify to your host. For example mine is:
-```
-module.exports = {
-    HOST: "localhost",
-    USER: "root",
-    PASSWORD: "password",
-    DB: "rou",
-    dialect: "mysql",
-    pool: {
-        max: 5,
-        min: 0,
-        acquire: 30000,
-        idle: 10000
-    }
-};
-```
-
-Once completed those steps:
-* navigate to 'client' directory
-``` cd client ```
 
