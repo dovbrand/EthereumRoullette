@@ -44,60 +44,64 @@ const data = [
     
   ];
   
-  const backgroundColors = ['#A91607', '#3a4353'];
-  const textColors = ['#F0F0EE'];
-  const outerBorderColor = '#29313D';
-  const outerBorderWidth = 7;
-  const innerBorderColor = '#29313D';
-  const innerBorderWidth = 20;
-  const innerRadius = 60;
-  const radiusLineColor = '#29313D';
-  const radiusLineWidth = 3;
-  const fontSize = 16;
-  const textDistance = 85;
+const backgroundColors = ['#A91607', '#3a4353'];
+const textColors = ['#F0F0EE'];
+const outerBorderColor = '#29313D';
+const outerBorderWidth = 7;
+const innerBorderColor = '#29313D';
+const innerBorderWidth = 20;
+const innerRadius = 60;
+const radiusLineColor = '#29313D';
+const radiusLineWidth = 3;
+const fontSize = 16;
+const textDistance = 85;
+
   
+const Wheeel = () => {
+
+  const [mustSpin, setMustSpin] = useState(false);
+  const [prizeNumber, setPrizeNumber] = useState(0);
+  const [perpendicularText, setperpendicularText] = useState(true);
+
+  const handleSpinClick = (props) => {
+    const newPrizeNumber = props.winningNumber
+    console.log(newPrizeNumber)
+    setPrizeNumber(newPrizeNumber)
+    setMustSpin(true)
+  }
   
-  const Wheeel = () => {
-    const [mustSpin, setMustSpin] = useState(false);
-    const [prizeNumber, setPrizeNumber] = useState(0);
-    const [perpendicularText, setperpendicularText] = useState(true);
-    const handleSpinClick = () => {
-      const newPrizeNumber = Math.floor(Math.random() * data.length)
-      setPrizeNumber(newPrizeNumber)
-      setMustSpin(true)
-    }
+  return (
+    <div className='wheel'>
+      
+        <Wheel
+          mustStartSpinning={mustSpin}
+          prizeNumber={prizeNumber}
+          data={data}
+          backgroundColors={backgroundColors}
+          textColors={textColors}
+          fontSize={fontSize}
+          outerBorderColor={outerBorderColor}
+          outerBorderWidth={outerBorderWidth}
+          innerRadius={innerRadius}
+          innerBorderColor={innerBorderColor}
+          innerBorderWidth={innerBorderWidth}
+          radiusLineColor={radiusLineColor}
+          radiusLineWidth={radiusLineWidth}
+          perpendicularText={perpendicularText}
+          textDistance={textDistance}
+      
+
+          onStopSpinning={() => {
+            setMustSpin(false)
+          }}
+        />
   
-    return (
-      <div className='wheel'>
-       
-          <Wheel
-            mustStartSpinning={mustSpin}
-            prizeNumber={prizeNumber}
-            data={data}
-            backgroundColors={backgroundColors}
-            textColors={textColors}
-            fontSize={fontSize}
-            outerBorderColor={outerBorderColor}
-            outerBorderWidth={outerBorderWidth}
-            innerRadius={innerRadius}
-            innerBorderColor={innerBorderColor}
-            innerBorderWidth={innerBorderWidth}
-            radiusLineColor={radiusLineColor}
-            radiusLineWidth={radiusLineWidth}
-            perpendicularText={perpendicularText}
-            textDistance={textDistance}
+        <button className={'spin-button btn btn-danger btn-block'} onClick={handleSpinClick}>
+          Spin
+        </button>
         
-  
-            onStopSpinning={() => {
-              setMustSpin(false)
-            }}
-          />
-    
-          <button className={'spin-button'} onClick={handleSpinClick}>
-            S P I N
-          </button>
-         
-      </div>
-    );
-  };
+    </div>
+  );
+};
+
 export default Wheeel
