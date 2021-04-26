@@ -67,6 +67,37 @@ body, html, .App, #root, .auth-wrapper{
   color: #29313D;
 }
 
+.bets {
+  background-color: #E5E5E5;
+  border-radius: 15px;
+  width: 200px;
+  height: 150px;
+  text-align: center;
+}
+
+.time {
+  margin-top: 25px;
+}
+
+.display-bets {
+  font-weight: 100;
+  font-style: normal;
+  font-family: 'Poppins', sans-serif;
+  color: #29313D;
+}
+
+.betting-action {
+  width: 200px;
+  font-weight: 100;
+  font-style: normal;
+  font-family: 'Poppins', sans-serif;
+  color: #29313D;
+  align-items: center; 
+  justify-content: center; 
+  text-align: center;
+  margin-top: 30px;
+  margin-bottom: auto;
+}
 
 .play {
   margin: 50px;
@@ -94,37 +125,39 @@ body, html, .App, #root, .auth-wrapper{
   align-items: center; 
   justify-content: center; 
   text-align: center;
-  margin-top: 35px;
+  margin-top: 45px;
   margin-bottom: auto;
 }
 
 .place-btn {
-  margin-top: 22px;
-  margin-left: 35px;
+  margin-top: 10px;
   border: 0;    
   color: #F0F0EE;
   width: 200px;
   height: 35px;
-  padding-top: 3px;
-  margin-left: 115px;
+  margin-left: 50px;
 }
 
 .reset-btn {
-  margin-top: 22px;
-  margin-left: 35px;
+  margin-top: 10px;
   border: 0;
   color: #F0F0EE;
   width: 200px;
   height: 35px;
-  padding-top: 3px;
-  margin-left: 115px;
+  margin-left: 50px;
+}
+
+.place-btn .reset-btn {
+  display: inline-block;
 }
 
 .bet-table{
   font-family: 'Poppins', sans-serif;
   color:#F0F0EE;
   justify-content: center;
-  margin-top: 10px;
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
 }
 
 .flex-container {
@@ -176,10 +209,10 @@ body, html, .App, #root, .auth-wrapper{
 
 .auth-inner-2 {
   width: 1324px;
-  height: 639px;
+  height: 659px;
   background: #F0F0EE;
   box-shadow: none;
-  padding: 25px 30px 25px 30px;
+  padding: 10px 30px 5px 30px;
   border-radius: 15px;
   transition: all .3s;
 }
