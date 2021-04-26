@@ -33,7 +33,7 @@ Run command "npm run start"
 
 ---
 ### Contract (Back End)
-Download our roullette.sol file and deploy using RemixIDE.
+1. Download our roullette.sol file and deploy using RemixIDE.
 
 ---
 ### Testing (Back End)
