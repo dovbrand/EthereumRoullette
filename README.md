@@ -112,6 +112,7 @@ Steps for testing the contract;
 ### Client (Front End)
 
 In the project directory, you can run the front-end server:
+*Note: The user should be in the directory dapp/client to run npm start
 
 ### Project setup
 ```
