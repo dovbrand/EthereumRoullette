@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import UserService from "../services/user.service";
 import Web3 from "web3";
 import RouletteContract from '../contracts/Roulette.json';
-import './board.css';
+import Countdown from 'react-countdown';
 
 import Board from './board.js'
 import './board.css'
@@ -92,6 +92,18 @@ export default class BoardUser extends Component {
 
 
   render() {
+    const Completionist = () => <span className="bet-status-msg">Betting closed</span>;
+ 
+    // Renderer callback with condition
+    const renderer = ({ minutes, seconds, completed }) => {
+      if (completed) {
+        // Render a completed state
+        return <Completionist />;
+      } else {
+        // Render a countdown
+        return <span>{minutes}:{seconds < 10 ? `0${ seconds }` : seconds}</span>;
+      }
+    };
     // const { rou } = this.state;
     return (
         <div className="main">
@@ -105,6 +117,9 @@ export default class BoardUser extends Component {
                 <Wheeel rouContract = { this.state.rou }/>
             </div>
             <div className="flex-child bet-table">
+                <div className="bet-status">
+                    <h3><strong>Time remaining:</strong> <Countdown date={Date.now() + 120000} renderer={renderer}/></h3>
+                </div>
                 <div>
                     <Board/>
                 </div>
