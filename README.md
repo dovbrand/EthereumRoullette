@@ -97,8 +97,7 @@ Run command "npm run start"
 3. Player will join contract by switching account addresses 
 4. Player will deposit their bet amount 
 5. Player can now place their bet 
-  - Player can remove or see their current bets on the table 
-6. 
+  -Player can remove or see their current bets on the table 
 ---
 ### Testing (Back End)
 Steps for testing the contract;
