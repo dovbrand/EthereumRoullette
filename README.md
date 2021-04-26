@@ -106,7 +106,7 @@ Steps for testing the contract;
 5. There should be 6 available test files to view.
 
 ---
-### Client (FrontEnd)
+### Client (Front End)
 
 In the project directory, you can run the front-end server:
 
