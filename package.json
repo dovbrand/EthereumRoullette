@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "@truffle/hdwallet-provider": "^1.3.0",
-    "read-scripts": "^1.1.0"
-  }
-}
