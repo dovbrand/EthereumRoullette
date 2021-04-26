@@ -57,7 +57,6 @@ Once completed those steps:
 * navigate to 'client' directory
 ``` cd client ```
  
----
 
 ## Instructions and Configuration
 
