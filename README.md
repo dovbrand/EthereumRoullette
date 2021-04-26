@@ -68,7 +68,33 @@ Steps for testing the contract;
 5. There should be 6 available test files to view.
 
 ---
-### Front End
+## Client (FrontEnd)
+
+In the project directory, you can run the front-end server:
+
+### Project setup
+```
+npm install
+```
+Runs package.json to install all the dependecies.
+
+### Run
+```
+npm start
+```
+
+Runs the app in the development mode.\
+Open [http://localhost:8080](http://localhost:8080) to view it in the browser.
+
+The page will reload if you make edits.\
+You will also see any lint errors in the console.
+
+* Create a new terminal window or tab
+* From the source folder, navigate to 'server' directory
+``` cd server ```
+
+
+
 
 ## MySql
 
@@ -108,30 +134,4 @@ module.exports = {
 Once completed those steps:
 * navigate to 'client' directory
 ``` cd client ```
-
-## Client (FrontEnd)
-
-In the project directory, you can run the front-end server:
-
-### Project setup
-```
-npm install
-```
-Runs package.json to install all the dependecies.
-
-### Run
-```
-npm start
-```
-
-Runs the app in the development mode.\
-Open [http://localhost:8080](http://localhost:8080) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-* Create a new terminal window or tab
-* From the source folder, navigate to 'server' directory
-``` cd server ```
-
 
