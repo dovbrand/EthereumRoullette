@@ -2,6 +2,8 @@ import {React, useState}  from 'react'
 import { Wheel } from 'react-custom-roulette'
 import './Wheeel.css'
 
+import Web3 from 'web3';
+import { ROU_ABI, ROU_ADDRESS } from '../config'
 
 const data = [
     { option: '32' },
@@ -44,60 +46,66 @@ const data = [
     
   ];
   
-  const backgroundColors = ['#A91607', '#3a4353'];
-  const textColors = ['#F0F0EE'];
-  const outerBorderColor = '#29313D';
-  const outerBorderWidth = 7;
-  const innerBorderColor = '#29313D';
-  const innerBorderWidth = 20;
-  const innerRadius = 60;
-  const radiusLineColor = '#29313D';
-  const radiusLineWidth = 3;
-  const fontSize = 16;
-  const textDistance = 85;
+const backgroundColors = ['#A91607', '#3a4353'];
+const textColors = ['#F0F0EE'];
+const outerBorderColor = '#29313D';
+const outerBorderWidth = 7;
+const innerBorderColor = '#29313D';
+const innerBorderWidth = 20;
+const innerRadius = 60;
+const radiusLineColor = '#29313D';
+const radiusLineWidth = 3;
+const fontSize = 16;
+const textDistance = 85;
+
+const web3 = new Web3(Web3.givenProvider);
+const rou = new web3.eth.Contract(ROU_ABI, ROU_ADDRESS)
+
+export default function Wheeel (){
   
+  const [mustSpin, setMustSpin] = useState(false);
+  const [prizeNumber, setPrizeNumber] = useState(0);
+  const [perpendicularText, setperpendicularText] = useState(true);
+
   
-  const Wheeel = () => {
-    const [mustSpin, setMustSpin] = useState(false);
-    const [prizeNumber, setPrizeNumber] = useState(0);
-    const [perpendicularText, setperpendicularText] = useState(true);
-    const handleSpinClick = () => {
-      const newPrizeNumber = Math.floor(Math.random() * data.length)
-      setPrizeNumber(newPrizeNumber)
-      setMustSpin(true)
-    }
-  
-    return (
-      <div className='wheel'>
-       
-          <Wheel
-            mustStartSpinning={mustSpin}
-            prizeNumber={prizeNumber}
-            data={data}
-            backgroundColors={backgroundColors}
-            textColors={textColors}
-            fontSize={fontSize}
-            outerBorderColor={outerBorderColor}
-            outerBorderWidth={outerBorderWidth}
-            innerRadius={innerRadius}
-            innerBorderColor={innerBorderColor}
-            innerBorderWidth={innerBorderWidth}
-            radiusLineColor={radiusLineColor}
-            radiusLineWidth={radiusLineWidth}
-            perpendicularText={perpendicularText}
-            textDistance={textDistance}
-        
-  
-            onStopSpinning={() => {
-              setMustSpin(false)
-            }}
-          />
+  const handleSpinClick = () => {
+    const newPrizeNumber = 0
+    rou.methods.WinningNumber().call().then(
+        data => setPrizeNumber( data )
+    )
     
-          <button className={'spin-button btn btn-danger btn-block'} onClick={handleSpinClick}>
-            Spin
-          </button>
-         
-      </div>
-    );
-  };
-export default Wheeel
+    console.log("Winning Number is:" + prizeNumber)
+    setMustSpin(true)
+  }
+
+  return (
+    <div className='wheel'>
+      <Wheel
+        mustStartSpinning={mustSpin}
+        prizeNumber={prizeNumber}
+        data={data}
+        backgroundColors={backgroundColors}
+        textColors={textColors}
+        fontSize={fontSize}
+        outerBorderColor={outerBorderColor}
+        outerBorderWidth={outerBorderWidth}
+        innerRadius={innerRadius}
+        innerBorderColor={innerBorderColor}
+        innerBorderWidth={innerBorderWidth}
+        radiusLineColor={radiusLineColor}
+        radiusLineWidth={radiusLineWidth}
+        perpendicularText={perpendicularText}
+        textDistance={textDistance}
+    
+
+        onStopSpinning={() => {
+          setMustSpin(false)
+        }}
+      />
+  
+      <button className={'spin-button btn btn-danger btn-block'} onClick={handleSpinClick}>
+        Spin
+      </button>
+    </div>
+  );
+};

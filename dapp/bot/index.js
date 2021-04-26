@@ -17,16 +17,18 @@ const server = http.createServer(app).listen(PORT, () => console.log(`Listening 
 // WEB3 CONFIG
 const web3 = new Web3(new HDWalletProvider({privateKeys: [process.env.PRIVATE_KEY], providerOrUrl: process.env.RPC_URL}))
 
-const CONTRACT_ADDRESS = "0x5bBFCE7124f5C97b1556Fa2718086ECf3E5bA3d4";
+const CONTRACT_ADDRESS = "0x26F6455B2B2E97769Fa0296C9629aabFbB8eC45E";
 const CONTRACT_ABI = [
   {
     "inputs": [],
     "stateMutability": "payable",
-    "type": "constructor"
+    "type": "constructor",
+    "payable": true
   },
   {
     "stateMutability": "payable",
-    "type": "fallback"
+    "type": "fallback",
+    "payable": true
   },
   {
     "inputs": [],
@@ -39,18 +41,21 @@ const CONTRACT_ABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "stateMutability": "payable",
-    "type": "receive"
+    "type": "receive",
+    "payable": true
   },
   {
     "inputs": [],
     "name": "depositMoney",
     "outputs": [],
     "stateMutability": "payable",
-    "type": "function"
+    "type": "function",
+    "payable": true
   },
   {
     "inputs": [],
@@ -63,7 +68,8 @@ const CONTRACT_ABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -95,7 +101,8 @@ const CONTRACT_ABI = [
     "name": "placeBet",
     "outputs": [],
     "stateMutability": "payable",
-    "type": "function"
+    "type": "function",
+    "payable": true
   },
   {
     "inputs": [
@@ -119,7 +126,8 @@ const CONTRACT_ABI = [
       }
     ],
     "stateMutability": "payable",
-    "type": "function"
+    "type": "function",
+    "payable": true
   },
   {
     "inputs": [],
@@ -132,7 +140,8 @@ const CONTRACT_ABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [],
@@ -145,7 +154,8 @@ const CONTRACT_ABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [],
@@ -175,7 +185,8 @@ const CONTRACT_ABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [],
@@ -188,7 +199,8 @@ const CONTRACT_ABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [],
@@ -209,8 +221,28 @@ const CONTRACT_ABI = [
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getGameState",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
   }
 ];
+
 const RouletteContract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
 const account = process.env.ACCOUNT;
 

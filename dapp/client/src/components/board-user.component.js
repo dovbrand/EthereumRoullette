@@ -9,6 +9,7 @@ import './board.css'
 import Navbar from './Navbar';
 import Wheeel from './Wheeel';
 
+import { ROU_ABI, ROU_ADDRESS } from '../config'
 
 export default class BoardUser extends Component {
 
@@ -16,7 +17,6 @@ export default class BoardUser extends Component {
     async componentWillMount() {
         await this.loadWeb3()
         await this.loadBlockchainData()
-        await this.placeBet()
     }
 
     async loadWeb3() {
@@ -36,7 +36,7 @@ export default class BoardUser extends Component {
         const web3 = window.web3
         // Load account
         const accounts = await web3.eth.getAccounts()
-        console.log(accounts)
+        console.log("MEtamask Accoount loaded: " + accounts)
         this.setState({ account: accounts[0]})
         // Network ID
         const networkId = await web3.eth.net.getId()
@@ -44,16 +44,21 @@ export default class BoardUser extends Component {
 
         if(networkData) {
             const rou = new web3.eth.Contract(RouletteContract.abi, networkData.address)
+            // const rou = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS)
             this.setState({ rou })
             this.setState({ loading: false})
+            console.log(rou)
         } else {
             window.alert('Roulette contract not deployed to detected network.')
         }
     }
 
-    async placeBet() {
-        await this.state.rou.methods.placeBet().send()
-    }
+    PlaceBet() {
+        this.state.rou.methods.placeBet(this.state.bets).send({from: this.state.account})
+        .on('receipt', function(){
+            console.log("bet placed")
+        });
+    };
 
     constructor(props) {
         super(props);
@@ -61,7 +66,8 @@ export default class BoardUser extends Component {
         this.state = {
             account: '',
             rou: null,
-            bets: [],
+            bets: [[100,1,2,3,4],[100,20],[100,1,2,3,4,5,6,7,8,9,10,11,12]], // array to keep track of bets ie. [[100,1,2,3,4],[100,20],[100,1,2,3,4,5,6,7,8,9,10,11,12]]
+            totalBetAmmount: 0 // stores the bet ammount
         };
     }
 
@@ -81,8 +87,7 @@ export default class BoardUser extends Component {
                 error.message ||
                 error.toString()
             });
-        }
-        );
+        });
     }
 
 
@@ -99,6 +104,7 @@ export default class BoardUser extends Component {
         return <span>{minutes}:{seconds < 10 ? `0${ seconds }` : seconds}</span>;
       }
     };
+    // const { rou } = this.state;
     return (
         <div className="main">
             <Navbar account = {this.state.account} />  
@@ -108,7 +114,7 @@ export default class BoardUser extends Component {
             <div className="auth-inner-2" style={{position: 'absolute', left: '50%', top: '57%',transform: 'translate(-50%, -50%)'}}>
             <div className="flex-container">
             <div className="flex-child spin">
-                <Wheeel/>
+                <Wheeel rouContract = { this.state.rou }/>
             </div>
             <div className="flex-child bet-table">
                 <div className="bet-status">

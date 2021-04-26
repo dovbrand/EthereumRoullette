@@ -19,8 +19,8 @@ import RouletteContract from './contracts/Roulette.json';
 class App extends Component {
 
   async componentWillMount() {
-    await this.loadWeb3()
-    await this.loadBlockchainData()
+    // await this.loadWeb3()
+    // await this.loadBlockchainData()
   }
 
   async loadWeb3() {
@@ -48,7 +48,8 @@ class App extends Component {
 
     if(networkData) {
       const rou = new web3.eth.Contract(RouletteContract.abi, networkData.address)
-      this.setState({ rou})
+      // const rou = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS)
+      this.setState({ rou })
       this.setState({ loading: false})
     } else {
       window.alert('Roulette contract not deployed to detected network.')
@@ -60,10 +61,6 @@ class App extends Component {
     
     this.state = {
       account: '',
-      rou: null,
-      betArray: [],
-      valueBet: 0,
-      loading: true
     };
   }
 
