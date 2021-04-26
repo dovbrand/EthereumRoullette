@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import UserService from "../services/user.service";
 import Web3 from "web3";
 import RouletteContract from '../contracts/Roulette.json';
+import Countdown from 'react-countdown';
 
 import Board from './board.js'
 import './board.css'
@@ -84,40 +85,20 @@ export default class BoardUser extends Component {
         );
     }
 
-    state = {
-        minutes: 2,
-        seconds: 0,
-    }
-
-    componentDidMount() {
-        this.myInterval = setInterval(() => {
-            const { seconds, minutes } = this.state
-
-            if (seconds > 0) {
-                this.setState(({ seconds }) => ({
-                    seconds: seconds - 1
-                }))
-            }
-            if (seconds === 0) {
-                if (minutes === 0) {
-                    clearInterval(this.myInterval)
-                } else {
-                    this.setState(({ minutes }) => ({
-                        minutes: minutes - 1,
-                        seconds: 59
-                    }))
-                }
-            } 
-        }, 1000);
-    }
-
-    componentWillUnmount() {
-        clearInterval(this.myInterval)
-    }
-
 
   render() {
-    const { minutes, seconds } = this.state
+    const Completionist = () => <span className="bet-status-msg">Betting closed</span>;
+ 
+    // Renderer callback with condition
+    const renderer = ({ minutes, seconds, completed }) => {
+      if (completed) {
+        // Render a completed state
+        return <Completionist />;
+      } else {
+        // Render a countdown
+        return <span>{minutes}:{seconds < 10 ? `0${ seconds }` : seconds}</span>;
+      }
+    };
     return (
         <div className="main">
             <Navbar account = {this.state.account} />  
@@ -130,11 +111,8 @@ export default class BoardUser extends Component {
                 <Wheeel/>
             </div>
             <div className="flex-child bet-table">
-                <div>
-                    { minutes === 0 && seconds === 0
-                        ? <h1 className="time">Time's up!</h1>
-                        : <h1 className="time">Time Remaining: {minutes}:{seconds < 10 ? `0${seconds}` : seconds}</h1>
-                    }
+                <div className="bet-status">
+                    <h3><strong>Time remaining:</strong> <Countdown date={Date.now() + 120000} renderer={renderer}/></h3>
                 </div>
                 <div>
                     <Board/>
