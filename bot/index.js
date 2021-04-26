@@ -294,15 +294,17 @@ async function runScript() {
   }
 
   // Create Casino Hash
-  await generateHash();
+  generateHash();
 
-  await sleep(10000); // Betting period is two minutes
+  await sleep(120000); // Betting period is two minutes
 
   // Wait until betting is complete and reveal winning number
-  await revealWinningNumber();
+  revealWinningNumber();
+  await sleep(30000); // Wait 30 seconds
 
   // After revealing the number reset the contract
-  await resetContract();
+  resetContract();
+  await sleep(15000); // Wait 15 seconds
 
 } catch (error) {
   console.error(error)
@@ -315,5 +317,5 @@ async function runScript() {
 }
 
 // runs script every n seconds
-const POLLING_INTERVAL = 10000 // 3 minutes
+const POLLING_INTERVAL = 10000 // 10 seconds
 script = setInterval(async () => { await runScript() }, POLLING_INTERVAL)

@@ -102,7 +102,7 @@ contract Roullette {
         require(keccak256(abi.encodePacked(_winningNumber, _nonce)) ==  commitHash, "Hash doesn't match"); // Ensures winning winningNumber was not changed
         bettingPhase = false;
         payingPhase = true;
-        phaseEndTime = now + 2 minutes; 
+        phaseEndTime = now + 30 seconds; 
         payout();
         return winningNumber;
     }
@@ -247,7 +247,7 @@ contract Roullette {
         require(commitHash != 0);
         payingPhase = false;
         resetPhase = true;
-        phaseEndTime = now + 30 seconds;
+        phaseEndTime = now + 15 seconds;
         commitHash = 0;
         lastWinningNumber = winningNumber;
         winningNumber = 38;
