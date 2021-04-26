@@ -109,6 +109,9 @@ Steps for testing the contract;
 ### Client (Front End)
 
 In the project directory, you can run the front-end server:
+1. Commitment Hash is called
+2. Casino deposits 1 ether 
+3. 
 
 ### Project setup
 ```
