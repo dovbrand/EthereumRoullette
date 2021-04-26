@@ -36,7 +36,7 @@ export default class BoardUser extends Component {
         const web3 = window.web3
         // Load account
         const accounts = await web3.eth.getAccounts()
-        console.log(accounts)
+        console.log("MEtamask Accoount loaded: " + accounts)
         this.setState({ account: accounts[0]})
         // Network ID
         const networkId = await web3.eth.net.getId()
@@ -47,6 +47,7 @@ export default class BoardUser extends Component {
             // const rou = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS)
             this.setState({ rou })
             this.setState({ loading: false})
+            console.log(rou)
         } else {
             window.alert('Roulette contract not deployed to detected network.')
         }
@@ -91,7 +92,7 @@ export default class BoardUser extends Component {
 
 
   render() {
-    const { rou } = this.state;
+    // const { rou } = this.state;
     return (
         <div className="main">
             <Navbar account = {this.state.account} />  
@@ -101,7 +102,7 @@ export default class BoardUser extends Component {
             <div className="auth-inner-2" style={{position: 'absolute', left: '50%', top: '57%',transform: 'translate(-50%, -50%)'}}>
             <div className="flex-container">
             <div className="flex-child spin">
-                <Wheeel rouContract = { rou }/>
+                <Wheeel rouContract = { this.state.rou }/>
             </div>
             <div className="flex-child bet-table">
                 <div>

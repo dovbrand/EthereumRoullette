@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
-import Navbar from './Navbar/Navbar'
 import { MdClose } from 'react-icons/md';
 
 const Background = styled.div`

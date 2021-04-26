@@ -1,8 +1,9 @@
 import {React, useState}  from 'react'
 import { Wheel } from 'react-custom-roulette'
 import './Wheeel.css'
-import Web3 from "web3";
 
+import Web3 from 'web3';
+import { ROU_ABI, ROU_ADDRESS } from '../config'
 
 const data = [
     { option: '32' },
@@ -57,57 +58,54 @@ const radiusLineWidth = 3;
 const fontSize = 16;
 const textDistance = 85;
 
-  
-function Wheeel ({rou}){
+const web3 = new Web3(Web3.givenProvider);
+const rou = new web3.eth.Contract(ROU_ABI, ROU_ADDRESS)
 
+export default function Wheeel (){
+  
   const [mustSpin, setMustSpin] = useState(false);
   const [prizeNumber, setPrizeNumber] = useState(0);
   const [perpendicularText, setperpendicularText] = useState(true);
 
+  
   const handleSpinClick = () => {
     const newPrizeNumber = 0
-    
     rou.methods.WinningNumber().call().then(
-        data => this.setState({ newPrizeNumber: data})
+        data => setPrizeNumber( data )
     )
     
-    console.log(newPrizeNumber)
-    setPrizeNumber(newPrizeNumber)
+    console.log("Winning Number is:" + prizeNumber)
     setMustSpin(true)
   }
 
   return (
     <div className='wheel'>
-      
-        <Wheel
-          mustStartSpinning={mustSpin}
-          prizeNumber={prizeNumber}
-          data={data}
-          backgroundColors={backgroundColors}
-          textColors={textColors}
-          fontSize={fontSize}
-          outerBorderColor={outerBorderColor}
-          outerBorderWidth={outerBorderWidth}
-          innerRadius={innerRadius}
-          innerBorderColor={innerBorderColor}
-          innerBorderWidth={innerBorderWidth}
-          radiusLineColor={radiusLineColor}
-          radiusLineWidth={radiusLineWidth}
-          perpendicularText={perpendicularText}
-          textDistance={textDistance}
-      
+      <Wheel
+        mustStartSpinning={mustSpin}
+        prizeNumber={prizeNumber}
+        data={data}
+        backgroundColors={backgroundColors}
+        textColors={textColors}
+        fontSize={fontSize}
+        outerBorderColor={outerBorderColor}
+        outerBorderWidth={outerBorderWidth}
+        innerRadius={innerRadius}
+        innerBorderColor={innerBorderColor}
+        innerBorderWidth={innerBorderWidth}
+        radiusLineColor={radiusLineColor}
+        radiusLineWidth={radiusLineWidth}
+        perpendicularText={perpendicularText}
+        textDistance={textDistance}
+    
 
-          onStopSpinning={() => {
-            setMustSpin(false)
-          }}
-        />
+        onStopSpinning={() => {
+          setMustSpin(false)
+        }}
+      />
   
-        <button className={'spin-button btn btn-danger btn-block'} onClick={handleSpinClick}>
-          Spin
-        </button>
-        
+      <button className={'spin-button btn btn-danger btn-block'} onClick={handleSpinClick}>
+        Spin
+      </button>
     </div>
   );
 };
-
-export default Wheeel
