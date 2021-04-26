@@ -1,4 +1,5 @@
 # Ethereum Roullette
+
 ## Dependencies
  - Solidity
  - Remix IDE
@@ -7,6 +8,7 @@
  - Truffle
  - Metamask
 ## Instructions 
+
 ### Server (Back End)
 In the project directory, you can run the backend server:
 #### Project setup
@@ -18,3 +20,13 @@ Runs the app in the development mode.
 Open http://localhost:8081 to view it in the browser.
 The page will show you the message
 {"message":"Welcome to Rou application by Lette."}
+
+### Bot (Back End)
+Steps to run bot:
+
+Remove all files from bot directory and place in main directory
+npm install
+Create .env file and copy contents of .env.example file into it
+Configure .env variables
+Run command "npm run start"
+
