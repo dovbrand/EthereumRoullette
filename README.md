@@ -113,7 +113,6 @@ Steps for testing the contract;
 
 In the project directory, you can run the front-end server:
 
-*Note: The user should be in the directory dapp/client to run npm start*
 
 ### Project setup
 ```
@@ -125,6 +124,7 @@ Runs package.json to install all the dependecies.
 ```
 npm start
 ```
+*Note: The user should be in the directory dapp/client to run npm start*
 
 Runs the app in the development mode.\
 Open [http://localhost:8080](http://localhost:8080) to view it in the browser.
