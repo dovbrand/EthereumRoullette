@@ -74,7 +74,11 @@ function board() {
                             </tr>
                         </table>
                         <div class="controlls">
-                            <div class="btn btn-zero" data-num="0"></div>
+                            <div class="col0">
+                                <div class="row0">
+                                    <div class="btn btn-zero cm" data-num="0"></div>
+                                </div>
+                            </div>
                             {/* col6 */}
                             <div class="col1">
                                 <div class="row1">
@@ -368,14 +372,7 @@ function board() {
                             </div>
                         </div>
 		             </div>
-                      Your bets:
-                        <div>
-                            <button onClick='Place()'>Place bet</button>
-                            <button onClick='Reset()'>Reset</button>
-                            <div id='bets'></div>
-                            <div id='balance'>Balance: 1.00 ETH</div>
-                            <div id='result'></div>
-                        </div>
+                      
 		</div>
 	);
 

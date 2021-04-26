@@ -93,8 +93,8 @@ const data = [
             }}
           />
     
-          <button className={'spin-button'} onClick={handleSpinClick}>
-            S P I N
+          <button className={'spin-button btn btn-danger btn-block'} onClick={handleSpinClick}>
+            Spin
           </button>
          
       </div>
