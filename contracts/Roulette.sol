@@ -20,6 +20,9 @@ contract Roulette {
         int256 totalWinnings; // Keeps track of player balance
     }
     
+    event  bettingPhaseOpen();
+    event bettingPhaseClosed();
+    
     mapping(address => Player) playerMap; // Map containing all players playing the game (this is not iterable)
     address[] playerAddressArray; // Array of all players addresses of players playing the game (this is iterable)
     address payable casino;  // Address of the casino, will not change after contract is deployed
@@ -32,10 +35,9 @@ contract Roulette {
     bool wheelSpun = false;
     
     bool bettingPhase  = false;
-    bool payingPhase = false ;
-    bool resetPhase = true;
-    uint256 phaseEndTime;
-    
+    bool payingPhase = true ;
+    bool resetPhase = false;
+
     constructor () public payable{
         // Casino initiates the contract
         casino = msg.sender;
@@ -63,14 +65,18 @@ contract Roulette {
         return casinoDeposit;
     }
     
-    function getOutcomeHash(bytes32 _outcomeHash) public returns (bytes32) {
+    function getCommitmentHash() public view returns (uint256){
+        return casinoDeposit;
+    }
+    
+    function setCommitmentHash(bytes32 _outcomeHash) public returns (bytes32) {
         require (resetPhase);
         require(msg.sender == casino, "Only the casino can generate outcome");
         require (commitHash == 0, "Hash already created");
         commitHash = _outcomeHash;
         resetPhase = false;
         bettingPhase = true;
-        phaseEndTime = now + 2 minutes; 
+        emit bettingPhaseOpen();
         return commitHash;
     }
     
@@ -102,7 +108,8 @@ contract Roulette {
         require(keccak256(abi.encodePacked(_winningNumber, _nonce)) ==  commitHash, "Hash doesn't match"); // Ensures winning winningNumber was not changed
         bettingPhase = false;
         payingPhase = true;
-        phaseEndTime = now + 30 seconds; 
+        emit bettingPhaseClosed();
+        winningNumber = _winningNumber;
         payout();
         return winningNumber;
     }
@@ -244,10 +251,8 @@ contract Roulette {
     function gameReset() external{
         require(msg.sender == casino, "Only the casino can reset game");
         require(payingPhase);
-        require(commitHash != 0);
         payingPhase = false;
         resetPhase = true;
-        phaseEndTime = now + 15 seconds;
         commitHash = 0;
         lastWinningNumber = winningNumber;
         winningNumber = 38;
@@ -268,7 +273,7 @@ contract Roulette {
         playerMap[_playerAddress].bets.pop();
     }
     
-    function getGameState() public view returns (string memory, uint256) {
+    function getGameState() public view returns (string memory) {
         string  memory str;
         if (bettingPhase){
             str  = "bettingPhase";
@@ -276,10 +281,11 @@ contract Roulette {
         else if (payingPhase){
             str = "payingPhase";
         }
-        else {
+        else if (resetPhase) {
             str = "resetPhase";
         }
-        return (str, phaseEndTime - now );
+        return (str);
     }
+    
     
 }

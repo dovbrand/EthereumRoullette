@@ -1,7 +1,7 @@
 const path = require('path')
 
-const HDWalletProvider = require("@truffle/hdwallet-provider");
-const privateKey = "banner exhaust junk reveal armed grab gorilla deposit digital ready pitch catalog";
+const HDWalletProvider = require("truffle-hdwallet-provider-privkey");
+const privateKey = 'banner exhaust junk reveal armed grab gorilla deposit digital ready pitch catalog';
 const endpointUrl = "https://kovan.infura.io/v3/4f42d33ad63a41bf897a2c84029fec3e";
 /**
  * Use this file to configure your truffle project. It's seeded with some

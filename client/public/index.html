@@ -50,6 +50,7 @@
 	<script>
 		
 		window.BETS_ARRAY = [];
+
 		(function($) {
 	
 			// table
@@ -279,7 +280,7 @@
 			betdiv.innerHTML='';
 			for(var i=37;i<bets.length;i++)if(bets[i]>0)betdiv.innerHTML+=sectors[i-37]+": "+(bets[i]*CurrentTier).toFixed(2)+"<br>";
 			for(var i=0;i<37;i++)if(bets[i]>0)betdiv.innerHTML+="Number "+i+": "+(bets[i]*CurrentTier).toFixed(2)+"<br>";
-			BETS_ARRAY.push(bets)
+			
 		}
 
 		function Reset(){
@@ -291,12 +292,14 @@
 			
 			UpdateBets();
 			UpdateBalance();
+			BETS_ARRAY.push(bets)
 		}
 
 		function TotalBets(){
 			var r=0;
 			for(var i=0;i<bets.length;i++)r+=bets[i];
 			return r;
+			BETS_ARRAY.push(r)
 		}
 
 		function rInt(min,max){

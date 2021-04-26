@@ -15,15 +15,27 @@ const app = express();
 const server = http.createServer(app).listen(PORT, () => console.log(`Listening on ${PORT}`))
 
 // WEB3 CONFIG
-const web3 = new Web3(new HDWalletProvider({privateKeys: [process.env.PRIVATE_KEY], providerOrUrl: process.env.RPC_URL}))
+const web3 = new Web3(new HDWalletProvider({ privateKeys: [process.env.PRIVATE_KEY], providerOrUrl: process.env.RPC_URL }))
 
-const CONTRACT_ADDRESS = "0x26F6455B2B2E97769Fa0296C9629aabFbB8eC45E";
+const CONTRACT_ADDRESS = "0xF51eAD09a578bCB1Ff3eB4ba968a18b65C1239e3";// Contract Address here ;
 const CONTRACT_ABI = [
   {
     "inputs": [],
     "stateMutability": "payable",
     "type": "constructor",
     "payable": true
+  },
+  {
+    "anonymous": false,
+    "inputs": [],
+    "name": "bettingPhaseClosed",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [],
+    "name": "bettingPhaseOpen",
+    "type": "event"
   },
   {
     "stateMutability": "payable",
@@ -72,6 +84,20 @@ const CONTRACT_ABI = [
     "constant": true
   },
   {
+    "inputs": [],
+    "name": "getCommitmentHash",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
     "inputs": [
       {
         "internalType": "bytes32",
@@ -79,7 +105,7 @@ const CONTRACT_ABI = [
         "type": "bytes32"
       }
     ],
-    "name": "getOutcomeHash",
+    "name": "setCommitmentHash",
     "outputs": [
       {
         "internalType": "bytes32",
@@ -230,19 +256,13 @@ const CONTRACT_ABI = [
         "internalType": "string",
         "name": "",
         "type": "string"
-      },
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
       }
     ],
     "stateMutability": "view",
     "type": "function",
     "constant": true
   }
-];
-
+];// Contract ABI here
 const RouletteContract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
 const account = process.env.ACCOUNT;
 
@@ -253,10 +273,11 @@ var randomNumber;
 var outputHash;
 var scriptRunning;
 var casinoDeposit;
+var currentPhase = "";
 
 
 async function depositMoney(depositAmount) {
-  console.log("depositing " + depositAmount + "...") 
+  console.log("depositing " + depositAmount + "...")
   // Should depsoit money to make casino deposit 1 ether
   await RouletteContract.methods.depositMoney().send({ from: account, value: web3.utils.toWei(web3.utils.toBN(depositAmount), 'wei') }).then(
     () => console.log("Deposit Complete")
@@ -265,13 +286,13 @@ async function depositMoney(depositAmount) {
 
 async function generateHash() {
   // Generate Random Number
-  randomNumber = (web3.utils.toBN(web3.utils.randomHex(32)))% 38;
+  randomNumber = ((web3.utils.toBN(web3.utils.randomHex(32))) % 38);
   // Generate Random Hash
   randomBytes = web3.utils.randomHex(32);
   // Hash together
   outputHash = web3.utils.soliditySha3(randomNumber, randomBytes);
   console.log("Sending outcome hash...");
-  await RouletteContract.methods.getOutcomeHash(outputHash).send({ from: account }).then(
+  await RouletteContract.methods.setCommitmentHash(outputHash).send({ from: account }).then(
     data => console.log("output hash: " + outputHash)
   )
 }
@@ -279,7 +300,7 @@ async function generateHash() {
 async function revealWinningNumber() {
   console.log("Revealing winning number...");
   // Send winning number and hash
-  await RouletteContract.methods.revealWinningNumber(randomNumber, randomBytes).send({from : account}).then(
+  await RouletteContract.methods.revealWinningNumber(randomNumber, randomBytes).send({ from: account }).then(
     data => {
       RouletteContract.methods.WinningNumber().call().then(
         data => console.log(data)
@@ -301,51 +322,68 @@ async function resetContract() {
   )
 }
 
+async function getGameState() {
+  await RouletteContract.methods.getGameState().call().then(
+    data => {
+      console.log("current phase: " + data),
+      currentPhase = data
+    }
+  );
+}
+
 async function runScript() {
 
-  if (scriptRunning){
+  if (scriptRunning) {
     return;
   }
 
   console.log("Running Script")
   scriptRunning = true;
-  
-  try{
 
-  // Get Deposit Value
-  await RouletteContract.methods.getCasinoDeposit().call().then(
-    data => {
-      casinoDeposit = data;
-      console.log(data);
+  try {
+
+    await getGameState();
+
+
+
+    if (currentPhase == "payingPhase") {
+      // Get Deposit Value
+      await RouletteContract.methods.getCasinoDeposit().call().then(
+        data => {
+          casinoDeposit = data;
+          console.log(data);
+        }
+      )
+
+      // If too low deposit money
+      if (casinoDeposit < MIN_DEPOSIT) {
+        let depositAmount = MIN_DEPOSIT - casinoDeposit;
+        await depositMoney(depositAmount);
+      }
+      // After revealing the number reset the contract
+      await resetContract();
     }
-  )
-  // If too low deposit money
-  if(casinoDeposit < MIN_DEPOSIT){
-    let depositAmount = MIN_DEPOSIT - casinoDeposit;
-    await depositMoney(depositAmount);
+    else if (currentPhase == "resetPhase") {
+      // Create Casino Hash
+      await generateHash();
+      await sleep(12000);
+    }
+    else if (currentPhase == "bettingPhase") {
+      // Wait until betting is complete and reveal winning number
+      await revealWinningNumber();
+    }
+
+
+  } catch (error) {
+    console.error(error)
+    scriptRunning = false
+    clearInterval(script)
+    return
   }
-
-  // Create Casino Hash
-  await generateHash();
-
-  await sleep(10000); // Betting period is two minutes
-
-  // Wait until betting is complete and reveal winning number
-  await revealWinningNumber();
-
-  // After revealing the number reset the contract
-  await resetContract();
-
-} catch (error) {
-  console.error(error)
-  scriptRunning = false
-  clearInterval(script)
-  return
-}
 
   scriptRunning = false;
 }
 
 // runs script every n seconds
-const POLLING_INTERVAL = 10000 // 3 minutes
+const POLLING_INTERVAL = 10000 // 10 seconds
 script = setInterval(async () => { await runScript() }, POLLING_INTERVAL)
