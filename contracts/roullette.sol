@@ -63,7 +63,11 @@ contract Roullette {
         return casinoDeposit;
     }
     
-    function getOutcomeHash(bytes32 _outcomeHash) public returns (bytes32) {
+    function getCommitmentHash() public view returns (uint256){
+        return casinoDeposit;
+    }
+    
+    function setCommitmentHash(bytes32 _outcomeHash) public returns (bytes32) {
         require (resetPhase);
         require(msg.sender == casino, "Only the casino can generate outcome");
         require (commitHash == 0, "Hash already created");
