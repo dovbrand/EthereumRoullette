@@ -97,8 +97,20 @@ export default class BoardUser extends Component {
                 <Wheeel/>
             </div>
             <div className="flex-child bet-table">
+                <div>
                 <Board/>
-               
+                </div>
+                <br></br>
+                <div className="betting-action">
+                Your bets:
+                        <div className="display-bets">
+                            <button type="button" className="place-btn btn btn-danger btn-block" onClick='Place()'>Place bet</button>
+                            <button type="button" className="reset-btn btn btn-danger btn-block" onClick='Reset()'>Reset</button>
+                            <div id='bets'></div>
+                            <div id='balance'>Balance: 1.00 ETH</div>
+                            <div id='result'></div>
+                        </div>
+                </div>
             </div>
             </div>
 

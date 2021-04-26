@@ -2,22 +2,12 @@
 .spin-button {
     margin-top: 22px;
     margin-left: 35px;
-    background-color: #bd3526;
     border: 0;
     color: #F0F0EE;
     width: 200px;
     height: 35px;
-    font-size: 18px;
-    font-weight: 600;
-    font-family: 'Poppins', sans-serif;
-    border-radius: 5px;
-    outline: 0;
-    transition: 0.1s linear;
-    cursor: pointer;
-    letter-spacing: 0.7px;
     padding-top: 3px;
     margin-left: 115px;
-    transition-duration: 0.2s;
   }
   
   .spin-button:hover {

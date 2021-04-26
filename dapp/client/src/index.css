@@ -98,6 +98,28 @@ body, html, .App, #root, .auth-wrapper{
   margin-bottom: auto;
 }
 
+.place-btn {
+  margin-top: 22px;
+  margin-left: 35px;
+  border: 0;    
+  color: #F0F0EE;
+  width: 200px;
+  height: 35px;
+  padding-top: 3px;
+  margin-left: 115px;
+}
+
+.reset-btn {
+  margin-top: 22px;
+  margin-left: 35px;
+  border: 0;
+  color: #F0F0EE;
+  width: 200px;
+  height: 35px;
+  padding-top: 3px;
+  margin-left: 115px;
+}
+
 .bet-table{
   font-family: 'Poppins', sans-serif;
   color:#F0F0EE;
