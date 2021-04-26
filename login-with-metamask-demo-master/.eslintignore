@@ -1,7 +1,0 @@
-**/build/*
-**/coverage/*
-**/dist/*
-**/generated/*
-**/lib/*
-**/node_modules/*
-**/.eslintrc.js
