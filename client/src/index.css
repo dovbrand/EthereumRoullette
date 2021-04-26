@@ -75,8 +75,12 @@ body, html, .App, #root, .auth-wrapper{
   text-align: center;
 }
 
-.time {
+.bet-status {
   margin-top: 25px;
+}
+
+.bet-status-msg {
+  color: #A91607;
 }
 
 .display-bets {

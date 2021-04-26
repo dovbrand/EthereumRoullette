@@ -64,7 +64,7 @@ const rou = new web3.eth.Contract(ROU_ABI, ROU_ADDRESS)
 export default function Wheeel (){
   
   const [mustSpin, setMustSpin] = useState(false);
-  const [prizeNumber, setPrizeNumber] = useState(0);
+  const [prizeNumber, setPrizeNumber] = useState(10);
   const [perpendicularText, setperpendicularText] = useState(true);
 
   

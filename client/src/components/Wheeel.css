@@ -5,9 +5,11 @@
     border: 0;
     color: #F0F0EE;
     width: 200px;
-    height: 35px;
+    height: 40px;
     padding-top: 3px;
     margin-left: 115px;
+    font-size: 20px;
+    justify-content: center;
   }
   
   .spin-button:hover {
@@ -19,8 +21,8 @@
     background-color: rgb(41, 41, 41);
   }
   .wheel{
-     width: 320px;
-     height: 320px;
+     width: 310px;
+     height: 310px;
   }
   
   @keyframes App-logo-spin {
