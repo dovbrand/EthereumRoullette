@@ -36,7 +36,7 @@ export default class BoardUser extends Component {
         const web3 = window.web3
         // Load account
         const accounts = await web3.eth.getAccounts()
-        console.log("MEtamask Accoount loaded: " + accounts)
+        console.log("Metamask Accoount loaded: " + accounts)
         this.setState({ account: accounts[0]})
         // Network ID
         const networkId = await web3.eth.net.getId()
@@ -54,10 +54,11 @@ export default class BoardUser extends Component {
     }
 
     PlaceBet() {
-        this.state.rou.methods.placeBet(this.state.bets).send({from: this.state.account})
-        .on('receipt', function(){
-            console.log("bet placed")
-        });
+        console.log(window.BETS_ARRAY);
+        // this.state.rou.methods.placeBet(this.state.bets).send({from: this.state.account})
+        // .on('receipt', function(){
+        //     console.log("bet placed")
+        // });
     };
 
     constructor(props) {
@@ -102,7 +103,8 @@ export default class BoardUser extends Component {
             <div className="auth-inner-2" style={{position: 'absolute', left: '50%', top: '57%',transform: 'translate(-50%, -50%)'}}>
             <div className="flex-container">
             <div className="flex-child spin">
-                <Wheeel rouContract = { this.state.rou }/>
+                <Wheeel />
+                
             </div>
             <div className="flex-child bet-table">
                 <div>
@@ -117,7 +119,7 @@ export default class BoardUser extends Component {
                     </div>
                     <div>
                         <button type="button" className="reset-btn btn btn-danger btn-block" onClick='Reset()'>Reset</button>
-                        <button type="button" className="place-btn btn btn-danger btn-block" onClick='Place()'>Place bet</button>
+                        <button type="button" className="place-btn btn btn-danger btn-block" onClick={this.state.PlaceBet}>Place bet</button>
                     </div>
                 </div>
             </div>
