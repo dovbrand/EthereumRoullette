@@ -63,7 +63,11 @@ contract Roullette {
         return casinoDeposit;
     }
     
-    function getOutcomeHash(bytes32 _outcomeHash) public returns (bytes32) {
+    function getCommitmentHash() public view returns (uint256){
+        return casinoDeposit;
+    }
+    
+    function setCommitmentHash(bytes32 _outcomeHash) public returns (bytes32) {
         require (resetPhase);
         require(msg.sender == casino, "Only the casino can generate outcome");
         require (commitHash == 0, "Hash already created");
@@ -102,7 +106,7 @@ contract Roullette {
         require(keccak256(abi.encodePacked(_winningNumber, _nonce)) ==  commitHash, "Hash doesn't match"); // Ensures winning winningNumber was not changed
         bettingPhase = false;
         payingPhase = true;
-        phaseEndTime = now + 30 seconds; 
+        phaseEndTime = now + 2 minutes; 
         payout();
         return winningNumber;
     }
@@ -247,7 +251,7 @@ contract Roullette {
         require(commitHash != 0);
         payingPhase = false;
         resetPhase = true;
-        phaseEndTime = now + 15 seconds;
+        phaseEndTime = now + 30 seconds;
         commitHash = 0;
         lastWinningNumber = winningNumber;
         winningNumber = 38;
