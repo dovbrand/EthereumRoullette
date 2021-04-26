@@ -7,6 +7,19 @@
  - Node.js (Express, Mysql2, Sequelize)
  - Truffle
  - Metamask
+ 
+---
+### Metamask 
+#### Installation and Configuration
+
+ - Add Metamask as an extension to the browser 
+ - Create and account
+ - Connect account with Remix
+ - Link tokens using: `0xa36085F69e2889c224210F603D836748e7dC0088` 
+ 
+ Find a more detailed instructions [here](https://developers.rsk.co/tutorials/ethereum-devs/remix-and-metamask-with-rsk-testnet/)
+---
+
 ## Instructions and Configuration
 
 ### Server (Back End)
