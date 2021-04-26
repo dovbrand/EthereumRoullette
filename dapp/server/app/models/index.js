@@ -28,3 +28,13 @@ db.user = require("../models/user.model.js")(sequelize, Sequelize);
 db.games= require("../models/games.model.js")(sequelize, Sequelize);
 
 module.exports = db;
+
+User.hasMany (Games, {foreignKey: 'id'});
+Games.belongsTo(User, {foreignKey: 'id'});
+
+sequelize.sync();
+
+applicationCache.get ()
+
+//Games.findAll({where: {}, include: [User]});
+
