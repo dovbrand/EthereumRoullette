@@ -17,200 +17,8 @@ const server = http.createServer(app).listen(PORT, () => console.log(`Listening 
 // WEB3 CONFIG
 const web3 = new Web3(new HDWalletProvider({privateKeys: [process.env.PRIVATE_KEY], providerOrUrl: process.env.RPC_URL}))
 
-const CONTRACT_ADDRESS = "0xD267AD520870E1e5269D98d0AD3fc1335507dD4c";
-const CONTRACT_ABI = [
-  {
-    "inputs": [],
-    "stateMutability": "payable",
-    "type": "constructor"
-  },
-  {
-    "stateMutability": "payable",
-    "type": "fallback"
-  },
-  {
-    "inputs": [],
-    "name": "WinningNumber",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "commitHash",
-    "outputs": [
-      {
-        "internalType": "bytes32",
-        "name": "",
-        "type": "bytes32"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "depositMoney",
-    "outputs": [],
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "gameReset",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "getBalance",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "getCasinoDeposit",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "bytes32",
-        "name": "_outcomeHash",
-        "type": "bytes32"
-      }
-    ],
-    "name": "getOutcomeHash",
-    "outputs": [
-      {
-        "internalType": "bytes32",
-        "name": "",
-        "type": "bytes32"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256[][]",
-        "name": "_bets",
-        "type": "uint256[][]"
-      }
-    ],
-    "name": "placeBet",
-    "outputs": [],
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "index",
-        "type": "uint256"
-      }
-    ],
-    "name": "removeBet",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_winningNumber",
-        "type": "uint256"
-      },
-      {
-        "internalType": "bytes32",
-        "name": "_nonce",
-        "type": "bytes32"
-      }
-    ],
-    "name": "revealWinningNumber",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "seeBets",
-    "outputs": [
-      {
-        "components": [
-          {
-            "internalType": "uint256[]",
-            "name": "numbers",
-            "type": "uint256[]"
-          },
-          {
-            "internalType": "uint256",
-            "name": "multiplier",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "betAmount",
-            "type": "uint256"
-          }
-        ],
-        "internalType": "struct RoulletteBot.Bet[]",
-        "name": "",
-        "type": "tuple[]"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "seePlayerWinnings",
-    "outputs": [
-      {
-        "internalType": "int256",
-        "name": "",
-        "type": "int256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "stateMutability": "payable",
-    "type": "receive"
-  }
-];
+const CONTRACT_ADDRESS = ""; // Contract Address here ;
+const CONTRACT_ABI = "";// Contract ABI here
 const RouletteContract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
 const account = process.env.ACCOUNT;
 
@@ -239,7 +47,7 @@ async function generateHash() {
   // Hash together
   outputHash = web3.utils.soliditySha3(randomNumber, randomBytes);
   console.log("Sending outcome hash...");
-  await RouletteContract.methods.getOutcomeHash(outputHash).send({ from: account }).then(
+  await RouletteContract.methods.setCommitHash(outputHash).send({ from: account }).then(
     data => console.log("output hash: " + outputHash)
   )
 }
@@ -304,7 +112,7 @@ async function runScript() {
 
   // After revealing the number reset the contract
   resetContract();
-  await sleep(15000); // Wait 15 seconds
+  await sleep(30000); // Wait 30 seconds
 
 } catch (error) {
   console.error(error)
