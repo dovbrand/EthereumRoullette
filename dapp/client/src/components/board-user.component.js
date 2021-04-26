@@ -3,7 +3,8 @@ import UserService from "../services/user.service";
 import Web3 from "web3";
 import RouletteContract from '../contracts/Roulette.json';
 
-import './board.js'
+import Board from './board.js'
+import './board.css'
 import Navbar from './Navbar';
 import Wheeel from './Wheeel';
 
@@ -83,8 +84,40 @@ export default class BoardUser extends Component {
         );
     }
 
+    state = {
+        minutes: 2,
+        seconds: 0,
+    }
+
+    componentDidMount() {
+        this.myInterval = setInterval(() => {
+            const { seconds, minutes } = this.state
+
+            if (seconds > 0) {
+                this.setState(({ seconds }) => ({
+                    seconds: seconds - 1
+                }))
+            }
+            if (seconds === 0) {
+                if (minutes === 0) {
+                    clearInterval(this.myInterval)
+                } else {
+                    this.setState(({ minutes }) => ({
+                        minutes: minutes - 1,
+                        seconds: 59
+                    }))
+                }
+            } 
+        }, 1000);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.myInterval)
+    }
+
 
   render() {
+    const { minutes, seconds } = this.state
     return (
         <div className="main">
             <Navbar account = {this.state.account} />  
@@ -98,18 +131,25 @@ export default class BoardUser extends Component {
             </div>
             <div className="flex-child bet-table">
                 <div>
-                <Board/>
+                    { minutes === 0 && seconds === 0
+                        ? <h1 className="time">Time's up!</h1>
+                        : <h1 className="time">Time Remaining: {minutes}:{seconds < 10 ? `0${seconds}` : seconds}</h1>
+                    }
                 </div>
-                <br></br>
-                <div className="betting-action">
-                Your bets:
-                        <div className="display-bets">
-                            <button type="button" className="place-btn btn btn-danger btn-block" onClick='Place()'>Place bet</button>
-                            <button type="button" className="reset-btn btn btn-danger btn-block" onClick='Reset()'>Reset</button>
-                            <div id='bets'></div>
-                            <div id='balance'>Balance: 1.00 ETH</div>
-                            <div id='result'></div>
-                        </div>
+                <div>
+                    <Board/>
+                </div>
+                <div className="betting-action flex-container">
+                    <div className=" display-bets">
+                        <strong>Your bets:</strong>
+                        <div className="bets overflow-scroll" id='bets'></div>
+                        <div id='balance'><strong>Balance:</strong> 1.00 ETH</div>
+                        <div id='result'></div>
+                    </div>
+                    <div>
+                        <button type="button" className="reset-btn btn btn-danger btn-block" onClick='Reset()'>Reset</button>
+                        <button type="button" className="place-btn btn btn-danger btn-block" onClick='Place()'>Place bet</button>
+                    </div>
                 </div>
             </div>
             </div>

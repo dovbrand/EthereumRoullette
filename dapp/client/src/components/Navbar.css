@@ -1,3 +1,10 @@
+.nav-link {
+    color: #F0F0EE;
+}
+
+.nav-link:hover {
+    color: #A91607;
+}
 
 .logo {
     width: 95px;
