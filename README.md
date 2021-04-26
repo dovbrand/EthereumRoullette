@@ -9,10 +9,10 @@
 ## Instructions 
 ### Server (Back End)
 In the project directory, you can run the backend server:
-####Project setup
+#### Project setup
 npm install
 Runs package.json to install all the dependecies.
-####Run
+#### Run
 node server.js
 Runs the app in the development mode.
 Open http://localhost:8081 to view it in the browser.
