@@ -1,6 +1,7 @@
 import {React, useState}  from 'react'
 import { Wheel } from 'react-custom-roulette'
 import './Wheeel.css'
+import Web3 from "web3";
 
 
 const data = [
@@ -57,19 +58,24 @@ const fontSize = 16;
 const textDistance = 85;
 
   
-const Wheeel = () => {
+function Wheeel ({rou}){
 
   const [mustSpin, setMustSpin] = useState(false);
   const [prizeNumber, setPrizeNumber] = useState(0);
   const [perpendicularText, setperpendicularText] = useState(true);
 
-  const handleSpinClick = (props) => {
-    const newPrizeNumber = props.winningNumber
+  const handleSpinClick = () => {
+    const newPrizeNumber = 0
+    
+    rou.methods.WinningNumber().call().then(
+        data => this.setState({ newPrizeNumber: data})
+    )
+    
     console.log(newPrizeNumber)
     setPrizeNumber(newPrizeNumber)
     setMustSpin(true)
   }
-  
+
   return (
     <div className='wheel'>
       
