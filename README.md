@@ -92,9 +92,13 @@ Run command "npm run start"
 4.	Contract can deposit any amount of money to contract at any time
 
 #### After the contract is deployed:
-
-
-
+1. Commitment Hash is called
+2. Casino deposits 1 ether 
+3. Player will join contract by switching account addresses 
+4. Player will deposit their bet amount 
+5. Player can now place their bet 
+  - Player can remove or see their current bets on the table 
+6. 
 ---
 ### Testing (Back End)
 Steps for testing the contract;
@@ -109,9 +113,6 @@ Steps for testing the contract;
 ### Client (Front End)
 
 In the project directory, you can run the front-end server:
-1. Commitment Hash is called
-2. Casino deposits 1 ether 
-3. 
 
 ### Project setup
 ```
