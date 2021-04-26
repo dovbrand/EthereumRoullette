@@ -38,7 +38,7 @@ Steps for testing the contract;
 
 1. Begin by installing truffle and a text editor, we used Atom.
 2. After installing both systems, the user would have to import roullette.sol into the contracts folder and roulettetest.js into the test folder.
-3. To begin the testing process, one must run the testrpc client from the terminal, which starts the server to connect the contract to the testing file.
+3. To begin the testing process, one must run the `testrpc` client from the terminal, which starts the server to connect the contract to the testing file.
 4. Open a new terminal window and run `truffle develop` to deploy the contract and then use the command `test` to see all the available tests written in the javascript file.
 
 ### Front End
