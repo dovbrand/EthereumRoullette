@@ -46,7 +46,16 @@ Run command "npm run start"
 
 ---
 ### Contract (Back End)
-1. Download our roullette.sol file and deploy using RemixIDE.
+#### Steps to deploy the contract:
+
+1.	Casino will deploy the contract
+2.	A contract address will be deployed (we can copy that address directly into the front end). The contract address will always be the same. This is the address needed for players to join the game.
+3.	After deploying contract the Casino must deposit money using the deposit money function (recommended amount is 1 ether)
+4.	Contract can deposit any amount of money to contract at any time
+
+#### After the contract is deployed:
+
+
 
 ---
 ### Testing (Back End)
