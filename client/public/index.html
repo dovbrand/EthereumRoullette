@@ -50,7 +50,6 @@
 	<script>
 		
 		window.BETS_ARRAY = [];
-		window.TEMP = '';
 
 		(function($) {
 	
@@ -230,25 +229,90 @@
 						}
 					}
 				).mousedown(function(e) {
+					// Array to keep track of bets
 					var numbers=[];
+					
 					if(typeof $(this).data('sector') != 'undefined'){
 						console.log("SECTOR "+$(this).data('sector'));
 						
+						switch ($(this).data('sector')) {
+							case 1: // FIRST COLUMN
+								var temp = [CurrentTier, 46];
+								window.BETS_ARRAY.push(temp);
+								break;
+							case 2: // SECOND COLUMNS
+								var temp = [CurrentTier, 47];
+								window.BETS_ARRAY.push(temp);
+								break;
+							case 3: // THIRD COLUMN
+								var temp = [CurrentTier, 48];
+								window.BETS_ARRAY.push(temp);
+								break;
+							case 4: // FIRST DOZEN	
+								var temp = [CurrentTier, 43];
+								window.BETS_ARRAY.push(temp);
+								break;
+							case 5: // SECOND DOZEN
+								var temp = [CurrentTier, 44];
+								window.BETS_ARRAY.push(temp);
+								break;
+							case 6: // THIRD DOZEN	
+								var temp = [CurrentTier, 45];
+								window.BETS_ARRAY.push(temp);
+								break;
+							// case 7: // 1 to 18 
+							// 	var temp = [CurrentTier, 49];
+							// 	window.BETS_ARRAY.push(temp);
+							// 	break;
+							case 8: // EVENS
+								var temp = [CurrentTier, 39];
+								window.BETS_ARRAY.push(temp);
+								break;
+							case 9: // REDS
+								var temp = [CurrentTier, 42];
+								window.BETS_ARRAY.push(temp);
+								break;
+							case 10: // BLACKS
+								var temp = [CurrentTier, 41];
+								window.BETS_ARRAY.push(temp);
+								break;
+							case 11: // ODDS
+								var temp = [CurrentTier, 40];
+								window.BETS_ARRAY.push(temp);
+								break;
+							// case 12: // 19 to 36
+							// 	var temp = [CurrentTier, 50];
+							// 	window.BETS_ARRAY.push(temp);
+							// 	break;
+							}
+
 						if(e.button==2)ChangeBet(36+$(this).data('sector'),-1);
 						else ChangeBet(36+$(this).data('sector'),+1);
 					}
 					else{
 
 						numbers=$(this).data('num');
-						console.log(numbers);
-						window.BETS_ARRAY.push(numbers);
-						console.log(window.BETS_ARRAY);
+						
+						if (numbers.length > 1) {
+							var temp = numbers.split(',').map(Number);
+							temp.unshift(CurrentTier);
+							// console.log(temp);
+							window.BETS_ARRAY.push(temp);
+						} else {
+							var temp = [numbers]
+							temp.unshift(CurrentTier);
+							// console.log(temp);
+							window.BETS_ARRAY.push(temp);
+						}
+						// console.log(window.BETS_ARRAY);
 						
 						if(typeof numbers.length ==='undefined')numbers=[numbers];
 						else numbers=numbers.split(',');
-						
+
+
 						if(e.button==2)for(var i=0;i<numbers.length;i++)ChangeBet(numbers[i],-1);
 						else for(var i=0;i<numbers.length;i++)ChangeBet(numbers[i],+1);
+
 					}
 				});
 			})();
@@ -298,14 +362,13 @@
 			
 			UpdateBets();
 			UpdateBalance();
-			BETS_ARRAY.push(bets)
 		}
 
 		function TotalBets(){
 			var r=0;
 			for(var i=0;i<bets.length;i++)r+=bets[i];
+			// console.log(r)
 			return r;
-			BETS_ARRAY.push(r)
 		}
 
 		function rInt(min,max){
@@ -355,9 +418,9 @@
 			if(tb>0)e.innerHTML+=" ("+(tb*CurrentTier).toFixed(2)+")";
 		}
 
-		var balance=1;
+		var balance=100;
 
-		var CurrentTier=0.01;
+		var CurrentTier=1;
 
 		var tiers=[
 			0.0001,

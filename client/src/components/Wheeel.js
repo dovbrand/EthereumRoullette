@@ -69,16 +69,13 @@ export default function Wheeel (){
 
  
   const handleSpinClick = () => {
- 
-    
-
     rou.methods.WinningNumber().call()
     .then(function(result){
       var WinningNumber = result;
       var PrizeNumberIndex = 0;
 
       for(var i=0; i<data.length; i++){
-        if (WinningNumber == data[i].option)
+        if (WinningNumber === data[i].option)
           PrizeNumberIndex = i;
       }
       setPrizeNumber(PrizeNumberIndex);

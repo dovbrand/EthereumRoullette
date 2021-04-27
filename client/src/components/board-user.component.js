@@ -8,6 +8,7 @@ import Board from './board.js'
 import './board.css'
 import Navbar from './Navbar';
 import Wheeel from './Wheeel';
+import { MdLaptopWindows } from "react-icons/md";
 
 // import { ROU_ABI, ROU_ADDRESS } from '../config'
 
@@ -54,7 +55,7 @@ export default class BoardUser extends Component {
     }
 
     PlaceBet() {
-        console.log(window.BETS_ARRAY);
+        console.log(this.state.bets);
         // this.state.rou.methods.placeBet(this.state.bets).send({from: this.state.account})
         // .on('receipt', function(){
         //     console.log("bet placed")
@@ -67,9 +68,11 @@ export default class BoardUser extends Component {
         this.state = {
             account: '',
             rou: null,
-            bets: [[0.1,1],[100,20],[100,1,2,3,4,5,6,7,8,9,10,11,12]], // array to keep track of bets ie. [[100,1,2,3,4],[100,20],[100,1,2,3,4,5,6,7,8,9,10,11,12]]
+            // bets: BETS_ARRAY, // array to keep track of bets ie. [[100,1,2,3,4],[100,20],[100,1,2,3,4,5,6,7,8,9,10,11,12]]
             totalBetAmmount: 0 // stores the bet ammount
         };
+
+        this.PlaceBet = this.PlaceBet.bind(this);
     }
 
     componentDidMount = async () => {
@@ -134,7 +137,7 @@ export default class BoardUser extends Component {
                     </div>
                     <div>
                         <button type="button" className="reset-btn btn btn-danger btn-block" >Reset</button>
-                        <button type="button" className="place-btn btn btn-danger btn-block" onClick={this.state.PlaceBet}>Place bet</button>
+                        <button type="button" className="place-btn btn btn-danger btn-block" onClick={this.PlaceBet}>Place bet</button>
                     </div>
                 </div>
             </div>

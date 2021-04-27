@@ -7,7 +7,7 @@ import * as serviceWorker from "./serviceWorker";
 
 ReactDOM.render(
   <BrowserRouter>
-      <App />
+      <App  BETS={window.BETS_ARRAY}/>
   </BrowserRouter>,
   document.getElementById("root")
 );
