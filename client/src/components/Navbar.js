@@ -40,7 +40,7 @@ export default class  Navbar extends Component {
 
         return (
             <nav className="navbar navbar-custom navbar-expand-lg">
-                <Link className="navbar-brand" to={"/"}> 
+                <Link className="navbar-brand" to={"/main"}> 
                     <img className="logo" src={logo} alt="Logo" />
                 </Link>
 
