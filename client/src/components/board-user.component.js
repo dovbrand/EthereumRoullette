@@ -54,12 +54,17 @@ export default class BoardUser extends Component {
         }
     }
 
+
+
     PlaceBet() {
-        console.log(this.state.bets);
-        // this.state.rou.methods.placeBet(this.state.bets).send({from: this.state.account})
-        // .on('receipt', function(){
-        //     console.log("bet placed")
-        // });
+        this.state.bets = window.BETS_ARRAY;
+        this.state.totalBetAmmount = window.BETS_TOTAL;
+        console.log(this.state.bets)
+        console.log("TOTAL AMOUNT BET: " + this.state.totalBetAmmount)
+        this.state.rou.methods.placeBet(this.state.bets).send({from: this.state.account, value: this.state.totalBetAmmount})
+            .then(function(receipt){
+                console.log(receipt);
+            });
     };
 
     constructor(props) {
@@ -68,7 +73,7 @@ export default class BoardUser extends Component {
         this.state = {
             account: '',
             rou: null,
-            // bets: BETS_ARRAY, // array to keep track of bets ie. [[100,1,2,3,4],[100,20],[100,1,2,3,4,5,6,7,8,9,10,11,12]]
+            bets: [], // array to keep track of bets ie. [[100,1,2,3,4],[100,20],[100,1,2,3,4,5,6,7,8,9,10,11,12]]
             totalBetAmmount: 0 // stores the bet ammount
         };
 
@@ -108,6 +113,7 @@ export default class BoardUser extends Component {
         return <span>{minutes}:{seconds < 10 ? `0${ seconds }` : seconds}</span>;
       }
     };
+    
     // const { rou } = this.state;
     return (
         <div className="main">
