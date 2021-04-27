@@ -1,4 +1,5 @@
 import React, {} from 'react';
+import { Link } from "react-router-dom";
 import styled from 'styled-components';
 import { MdClose } from 'react-icons/md';
 import logov2 from '../images/logo-v2.png';
@@ -104,7 +105,7 @@ shape-outside: circle;
 const Background = styled.div`
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.45);
+  background: #29313D;
   position: fixed;
   display: flex;
   justify-content: center;
@@ -261,7 +262,9 @@ const HowtoModal = (props) =>{
                 </div>
               </SwiperSlide>
             </Swiper>
-            <CloseModalButton onClick={props.click}/>
+            <Link to={"/main"}> 
+            <CloseModalButton/>
+            </Link>
           </ModalWrapper>
 </Background>
     )

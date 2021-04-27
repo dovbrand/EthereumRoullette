@@ -132,7 +132,6 @@ export default class BoardUser extends Component {
             <div className="flex-container">
             <div className="flex-child spin">
                 <Wheeel />
-                
             </div>
             <div className="flex-child bet-table">
                 <div className="bet-status">
