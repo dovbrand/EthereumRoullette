@@ -1,9 +1,9 @@
 // configure MySQL database & Sequelize
 module.exports = {
-  HOST: "localhost",
-  USER: "root",
-  PASSWORD: "password",
-  DB: "rou",
+  HOST: "sql5.freemysqlhosting.net",
+  USER: "sql5408535",
+  PASSWORD: "CNFq9khMkW",
+  DB: "sql5408535",
   dialect: "mysql",
   pool: {
     max: 5,

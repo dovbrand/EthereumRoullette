@@ -110,7 +110,6 @@ export default function Wheeel (){
           setMustSpin(false)
         }}
       />
-  
       <button className={'spin-button btn btn-danger btn-block'} onClick={handleSpinClick}>
         Spin
       </button>

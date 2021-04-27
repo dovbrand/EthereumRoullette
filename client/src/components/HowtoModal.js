@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {} from 'react';
 import styled from 'styled-components';
 import { MdClose } from 'react-icons/md';
 import logov2 from '../images/logo-v2.png';

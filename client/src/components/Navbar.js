@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import logo from '../images/logo-rectangle.png';
 import logout from '../images/logout-icon.png';
-import { Switch, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import './Navbar.css';
 import account from '../images/account-icon.png';
 import rankings from '../images/rankings-icon.png';
