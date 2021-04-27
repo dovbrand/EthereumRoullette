@@ -69,9 +69,6 @@ export default function Wheeel (){
   var PrizeNumber = 0; //used for printing winning number inside wheel
  
   const handleSpinClick = () => {
- 
-    
-
     rou.methods.WinningNumber().call()
     .then(function(result){
       var WinningNumber = result;
@@ -79,7 +76,7 @@ export default function Wheeel (){
       var PrizeNumberIndex = 0;
 
       for(var i=0; i<data.length; i++){
-        if (WinningNumber == data[i].option)
+        if (WinningNumber === data[i].option)
           PrizeNumberIndex = i;
       }
       setPrizeNumber(PrizeNumberIndex);
