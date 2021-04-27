@@ -1,5 +1,5 @@
 
-.spin-button {
+  .spin-button {
     margin-top: 22px;
     margin-left: 35px;
     border: 0;
@@ -23,6 +23,30 @@
   .wheel{
      width: 310px;
      height: 310px;
+     z-index: 9;
+  }
+
+  .win-msg-container {
+    height: 270px;
+    width: 270px;
+    margin-left: 88px;
+    margin-top: 86px;
+    border-radius: 100%;
+    display: block;
+    justify-content: center;
+    background-color: #F0F0EE;
+    position: absolute;
+    text-align: center;
+  }
+
+  .win-msg {
+    width: 200px;
+    height: 200px;
+    text-align: center;
+    position: center;
+    margin-top: 86px;
+    margin-left: 88px;
+    margin: auto;
   }
   
   @keyframes App-logo-spin {

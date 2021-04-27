@@ -1,11 +1,12 @@
 import React, {} from 'react';
+import { Link } from "react-router-dom";
 import styled from 'styled-components';
 import { MdClose } from 'react-icons/md';
 
 const Background = styled.div`
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.45);
+  background: #29313D;
   position: fixed;
   display: flex;
   justify-content: center;
@@ -142,7 +143,9 @@ const RankingsModal = (props) =>{
                 </div>
               
             </ModalContent>
-            <CloseModalButton onClick={props.click}/>
+            <Link to={"/main"}> 
+            <CloseModalButton/>
+            </Link>
           </ModalWrapper>
         </Background>
   );  

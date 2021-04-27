@@ -34,7 +34,7 @@ class App extends Component {
         <div className="App" >
           <div className="auth-wrapper"> 
             <Switch>
-              <Route exact path={["/", "/main"]} component={BoardUser} />
+              <Route exact path={["/", "/home"]} component={Home} />
               <Route path="/home" component={Home} />
               <Route path="/login" component={Login} />
               <Route path="/register" component={Register} />
