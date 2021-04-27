@@ -66,7 +66,7 @@ export default function Wheeel (){
   const [mustSpin, setMustSpin] = useState(false);
   const [prizeNumber, setPrizeNumber] = useState(0);
   const [perpendicularText, setperpendicularText] = useState(true);
-
+  var PrizeNumber = 0; //used for printing winning number inside wheel
  
   const handleSpinClick = () => {
  
@@ -75,6 +75,7 @@ export default function Wheeel (){
     rou.methods.WinningNumber().call()
     .then(function(result){
       var WinningNumber = result;
+      PrizeNumber = result;
       var PrizeNumberIndex = 0;
 
       for(var i=0; i<data.length; i++){
@@ -90,6 +91,9 @@ export default function Wheeel (){
 
   return (
     <div className='wheel'>
+    <div className='wheel win-msg-container'>
+     {/*<h3 className="win-msg">Winning Number: {PrizeNumber}</h3>*/}
+    </div>
       <Wheel
         mustStartSpinning={mustSpin}
         prizeNumber={prizeNumber}
@@ -110,6 +114,7 @@ export default function Wheeel (){
 
         onStopSpinning={() => {
           setMustSpin(false)
+
         }}
       />
       <button className={'spin-button btn btn-danger btn-block'} onClick={handleSpinClick}>
