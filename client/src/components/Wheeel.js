@@ -67,23 +67,25 @@ export default function Wheeel (){
   const [prizeNumber, setPrizeNumber] = useState(0);
   const [perpendicularText, setperpendicularText] = useState(true);
 
-  
+ 
   const handleSpinClick = () => {
-    // rou.methods.WinningNumber().call().then(
-    //     data => setPrizeNumber(data)
-    // )
+ 
     
-    const PrizeNumber = 29;
-    var PrizeNumberIndex = 0;
 
-    for(var i=0; i<data.length; i++){
-      if (PrizeNumber == data[i].option)
-         PrizeNumberIndex = i;
-    }
-    setPrizeNumber(PrizeNumberIndex);
-    
-    console.log("Winning Number is: " + PrizeNumber)
-    setMustSpin(true)
+    rou.methods.WinningNumber().call()
+    .then(function(result){
+      var WinningNumber = result;
+      var PrizeNumberIndex = 0;
+
+      for(var i=0; i<data.length; i++){
+        if (WinningNumber == data[i].option)
+          PrizeNumberIndex = i;
+      }
+      setPrizeNumber(PrizeNumberIndex);
+      
+      console.log("Winning Number is: " + WinningNumber)
+      setMustSpin(true)
+    });
   }
 
   return (

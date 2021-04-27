@@ -50,7 +50,7 @@
 	<script>
 		
 		window.BETS_ARRAY = [];
-		window.TEMP = [];
+		window.TEMP = '';
 
 		(function($) {
 	
@@ -82,7 +82,6 @@
 								break;
 							}
 						}
-						window.TEMP.push(cells);
 						return cells;
 					};
 
@@ -239,7 +238,11 @@
 						else ChangeBet(36+$(this).data('sector'),+1);
 					}
 					else{
+
 						numbers=$(this).data('num');
+						console.log(numbers);
+						window.BETS_ARRAY.push(numbers);
+						console.log(window.BETS_ARRAY);
 						
 						if(typeof numbers.length ==='undefined')numbers=[numbers];
 						else numbers=numbers.split(',');
@@ -312,6 +315,7 @@
 		var chips=new Array(48);
 
 		function ChangeBet(id,amount){
+			// limits the bets to 50 bets
 			if(amount>0&&TotalBets()==50){
 				//maybe some beep
 				return;
