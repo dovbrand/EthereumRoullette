@@ -50,6 +50,7 @@
 	<script>
 		
 		window.BETS_ARRAY = [];
+		window.TEMP = [];
 
 		(function($) {
 	
@@ -57,6 +58,7 @@
 			(function() {
 				"use strict"
 		
+				// Set the layout of the table
 				function getButtonCells(btn) {
 					var cells = btn.data('cells');
 					if (!cells || !cells.length) {
@@ -70,7 +72,7 @@
 								return cells;
 								break;
 							case 'num':
-							default:
+								default:
 								var nums = String(btn.data('num')).split(',');
 								for (var i = 0, len = nums.length; i < len; i++) {
 									cells.push(table_nums[nums[i]]);
@@ -80,6 +82,7 @@
 								break;
 							}
 						}
+						window.TEMP.push(cells);
 						return cells;
 					};
 

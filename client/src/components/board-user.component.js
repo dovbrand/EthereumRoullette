@@ -9,7 +9,7 @@ import './board.css'
 import Navbar from './Navbar';
 import Wheeel from './Wheeel';
 
-import { ROU_ABI, ROU_ADDRESS } from '../config'
+// import { ROU_ABI, ROU_ADDRESS } from '../config'
 
 export default class BoardUser extends Component {
 
@@ -67,7 +67,7 @@ export default class BoardUser extends Component {
         this.state = {
             account: '',
             rou: null,
-            bets: [[100,1,2,3,4],[100,20],[100,1,2,3,4,5,6,7,8,9,10,11,12]], // array to keep track of bets ie. [[100,1,2,3,4],[100,20],[100,1,2,3,4,5,6,7,8,9,10,11,12]]
+            bets: [[0.1,1],[100,20],[100,1,2,3,4,5,6,7,8,9,10,11,12]], // array to keep track of bets ie. [[100,1,2,3,4],[100,20],[100,1,2,3,4,5,6,7,8,9,10,11,12]]
             totalBetAmmount: 0 // stores the bet ammount
         };
     }
@@ -133,7 +133,7 @@ export default class BoardUser extends Component {
                         <div id='result'></div>
                     </div>
                     <div>
-                        <button type="button" className="reset-btn btn btn-danger btn-block" onClick='Reset()'>Reset</button>
+                        <button type="button" className="reset-btn btn btn-danger btn-block" >Reset</button>
                         <button type="button" className="place-btn btn btn-danger btn-block" onClick={this.state.PlaceBet}>Place bet</button>
                     </div>
                 </div>

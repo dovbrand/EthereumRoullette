@@ -69,6 +69,9 @@ export default function Wheeel (){
 
   
   const handleSpinClick = () => {
+
+    setPrizeNumber( 10 )
+
     rou.methods.WinningNumber().call().then(
         data => setPrizeNumber( data )
     )
