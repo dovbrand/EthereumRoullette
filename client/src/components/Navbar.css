@@ -1,8 +1,11 @@
-.nav-link {
+.navbar-custom {
+    background-color: #29313D;;
+}
+.nav-link-items {
     color: #F0F0EE;
 }
 
-.nav-link:hover {
+.nav-link-items:hover {
     color: #A91607;
 }
 

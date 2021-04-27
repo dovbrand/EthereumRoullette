@@ -59,6 +59,10 @@ body, html, .App, #root, .auth-wrapper{
   color: #9C9C9C;
 }
 
+.nav-link:hover {
+  color: #29313D
+}
+
 .current {
   font-weight: 100;
   font-size: x-large;
@@ -71,12 +75,12 @@ body, html, .App, #root, .auth-wrapper{
   background-color: #E5E5E5;
   border-radius: 15px;
   width: 200px;
-  height: 150px;
+  height: 140px;
   text-align: center;
 }
 
 .bet-status {
-  margin-top: 25px;
+  margin-top: 20px;
 }
 
 .bet-status-msg {
@@ -99,7 +103,7 @@ body, html, .App, #root, .auth-wrapper{
   align-items: center; 
   justify-content: center; 
   text-align: center;
-  margin-top: 30px;
+  margin-top: 15px;
   margin-bottom: auto;
 }
 
@@ -121,7 +125,7 @@ body, html, .App, #root, .auth-wrapper{
 }
 
 .spin {
-  width: 400px;
+  width: fit-content;
   font-family: 'Poppins', sans-serif;
   color:#F0F0EE;
   display: flex; 
@@ -129,7 +133,8 @@ body, html, .App, #root, .auth-wrapper{
   align-items: center; 
   justify-content: center; 
   text-align: center;
-  margin-top: 45px;
+  margin-top: 40px;
+  margin-right: 30px;
   margin-bottom: auto;
 }
 
@@ -212,8 +217,8 @@ body, html, .App, #root, .auth-wrapper{
 }
 
 .auth-inner-2 {
-  width: 1324px;
-  height: 659px;
+  width: fit-content;
+  height: min-content;
   background: #F0F0EE;
   box-shadow: none;
   padding: 10px 30px 5px 30px;

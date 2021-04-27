@@ -69,14 +69,20 @@ export default function Wheeel (){
 
   
   const handleSpinClick = () => {
+    // rou.methods.WinningNumber().call().then(
+    //     data => setPrizeNumber(data)
+    // )
+    
+    const PrizeNumber = 29;
+    var PrizeNumberIndex = 0;
 
-    setPrizeNumber( 10 )
-
-    rou.methods.WinningNumber().call().then(
-        data => setPrizeNumber( data )
-    )
-
-    console.log("Winning Number is: " + prizeNumber)
+    for(var i=0; i<data.length; i++){
+      if (PrizeNumber == data[i].option)
+         PrizeNumberIndex = i;
+    }
+    setPrizeNumber(PrizeNumberIndex);
+    
+    console.log("Winning Number is: " + PrizeNumber)
     setMustSpin(true)
   }
 
