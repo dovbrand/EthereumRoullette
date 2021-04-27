@@ -15,10 +15,240 @@ const app = express();
 const server = http.createServer(app).listen(PORT, () => console.log(`Listening on ${PORT}`))
 
 // WEB3 CONFIG
-const web3 = new Web3(new HDWalletProvider({privateKeys: [process.env.PRIVATE_KEY], providerOrUrl: process.env.RPC_URL}))
+const web3 = new Web3(new HDWalletProvider({ privateKeys: [process.env.PRIVATE_KEY], providerOrUrl: process.env.RPC_URL }))
 
-const CONTRACT_ADDRESS = ""; // Contract Address here ;
-const CONTRACT_ABI = "";// Contract ABI here
+const CONTRACT_ADDRESS = "0x5228eb6fa090ca49E61E8c967efe00db7f9A3CCb";// Contract Address here ;
+const CONTRACT_ABI = [
+  {
+    "inputs": [],
+    "stateMutability": "payable",
+    "type": "constructor"
+  },
+  {
+    "anonymous": false,
+    "inputs": [],
+    "name": "bettingPhaseClosed",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [],
+    "name": "bettingPhaseOpen",
+    "type": "event"
+  },
+  {
+    "stateMutability": "payable",
+    "type": "fallback"
+  },
+  {
+    "inputs": [],
+    "name": "WinningNumber",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "commitHash",
+    "outputs": [
+      {
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "depositMoney",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "gameReset",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getBalance",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getCasinoDeposit",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getCommitmentHash",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getGameState",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256[][]",
+        "name": "_bets",
+        "type": "uint256[][]"
+      }
+    ],
+    "name": "placeBet",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "index",
+        "type": "uint256"
+      }
+    ],
+    "name": "removeBet",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_winningNumber",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bytes32",
+        "name": "_nonce",
+        "type": "bytes32"
+      }
+    ],
+    "name": "revealWinningNumber",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "seeBets",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256[]",
+            "name": "numbers",
+            "type": "uint256[]"
+          },
+          {
+            "internalType": "uint256",
+            "name": "multiplier",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "betAmount",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct Roullette.Bet[]",
+        "name": "",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "seePlayerWinnings",
+    "outputs": [
+      {
+        "internalType": "int256",
+        "name": "",
+        "type": "int256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "_outcomeHash",
+        "type": "bytes32"
+      }
+    ],
+    "name": "setCommitmentHash",
+    "outputs": [
+      {
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "stateMutability": "payable",
+    "type": "receive"
+  }
+];// Contract ABI here
 const RouletteContract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
 const account = process.env.ACCOUNT;
 
@@ -29,10 +259,11 @@ var randomNumber;
 var outputHash;
 var scriptRunning;
 var casinoDeposit;
+var currentPhase = "";
 
 
 async function depositMoney(depositAmount) {
-  console.log("depositing " + depositAmount + "...") 
+  console.log("depositing " + depositAmount + "...")
   // Should depsoit money to make casino deposit 1 ether
   await RouletteContract.methods.depositMoney().send({ from: account, value: web3.utils.toWei(web3.utils.toBN(depositAmount), 'wei') }).then(
     () => console.log("Deposit Complete")
@@ -41,13 +272,13 @@ async function depositMoney(depositAmount) {
 
 async function generateHash() {
   // Generate Random Number
-  randomNumber = (web3.utils.toBN(web3.utils.randomHex(32)))% 38;
+  randomNumber = ((web3.utils.toBN(web3.utils.randomHex(32))) % 38);
   // Generate Random Hash
   randomBytes = web3.utils.randomHex(32);
   // Hash together
   outputHash = web3.utils.soliditySha3(randomNumber, randomBytes);
   console.log("Sending outcome hash...");
-  await RouletteContract.methods.setCommitHash(outputHash).send({ from: account }).then(
+  await RouletteContract.methods.setCommitmentHash(outputHash).send({ from: account }).then(
     data => console.log("output hash: " + outputHash)
   )
 }
@@ -55,7 +286,7 @@ async function generateHash() {
 async function revealWinningNumber() {
   console.log("Revealing winning number...");
   // Send winning number and hash
-  await RouletteContract.methods.revealWinningNumber(randomNumber, randomBytes).send({from : account}).then(
+  await RouletteContract.methods.revealWinningNumber(randomNumber, randomBytes).send({ from: account }).then(
     data => {
       RouletteContract.methods.WinningNumber().call().then(
         data => console.log(data)
@@ -77,49 +308,64 @@ async function resetContract() {
   )
 }
 
+async function getGameState() {
+  await RouletteContract.methods.getGameState().call().then(
+    data => {
+      console.log("current phase: " + data),
+      currentPhase = data
+    }
+  );
+}
+
 async function runScript() {
 
-  if (scriptRunning){
+  if (scriptRunning) {
     return;
   }
 
   console.log("Running Script")
   scriptRunning = true;
-  
-  try{
 
-  // Get Deposit Value
-  await RouletteContract.methods.getCasinoDeposit().call().then(
-    data => {
-      casinoDeposit = data;
-      console.log(data);
+  try {
+
+    await getGameState();
+
+
+
+    if (currentPhase == "payingPhase") {
+      // Get Deposit Value
+      await RouletteContract.methods.getCasinoDeposit().call().then(
+        data => {
+          casinoDeposit = data;
+          console.log(data);
+        }
+      )
+
+      // If too low deposit money
+      if (casinoDeposit < MIN_DEPOSIT) {
+        let depositAmount = MIN_DEPOSIT - casinoDeposit;
+        await depositMoney(depositAmount);
+      }
+      // After revealing the number reset the contract
+      await resetContract();
     }
-  )
-  // If too low deposit money
-  if(casinoDeposit < MIN_DEPOSIT){
-    let depositAmount = MIN_DEPOSIT - casinoDeposit;
-    await depositMoney(depositAmount);
+    else if (currentPhase == "resetPhase") {
+      // Create Casino Hash
+      await generateHash();
+      await sleep(12000);
+    }
+    else if (currentPhase == "bettingPhase") {
+      // Wait until betting is complete and reveal winning number
+      await revealWinningNumber();
+    }
+
+
+  } catch (error) {
+    console.error(error)
+    scriptRunning = false
+    clearInterval(script)
+    return
   }
-
-  // Create Casino Hash
-  generateHash();
-
-  await sleep(120000); // Betting period is two minutes
-
-  // Wait until betting is complete and reveal winning number
-  revealWinningNumber();
-  await sleep(30000); // Wait 30 seconds
-
-  // After revealing the number reset the contract
-  resetContract();
-  await sleep(30000); // Wait 30 seconds
-
-} catch (error) {
-  console.error(error)
-  scriptRunning = false
-  clearInterval(script)
-  return
-}
 
   scriptRunning = false;
 }
