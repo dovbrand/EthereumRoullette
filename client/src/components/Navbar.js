@@ -39,7 +39,7 @@ export default class  Navbar extends Component {
         const { currentUser } = this.state;
 
         return (
-            <nav className="navbar navbar-expand ">
+            <nav className="navbar navbar-custom navbar-expand-lg">
                 <Link className="navbar-brand" to={"/"}> 
                     <img className="logo" src={logo} alt="Logo" />
                 </Link>
@@ -47,25 +47,25 @@ export default class  Navbar extends Component {
                 {currentUser ? (
                 <div className="navbar-nav ml-auto">
                     <li className="nav-item">
-                        <Link to={"/how-to"} className="nav-link">
+                        <Link to={"/how-to"} className="nav-link nav-link-items">
                         <img className="how-to-img" src={howto} alt="How to Play"></img>
                         How to Play
                         </Link>
                     </li>
                     <li className="nav-item">
-                        <Link to={"/rankings"} className="nav-link">
+                        <Link to={"/rankings"} className="nav-link nav-link-items">
                         <img className="rankings-img" src={rankings} alt="Rankings"></img>
                         Rankings
                         </Link>
                     </li>
                     <li className="nav-item">
-                        <Link to={"/profile"} className="nav-link">
+                        <Link to={"/profile"} className="nav-link nav-link-items">
                         <img className="account-img" src={account} alt="Account"/>
                             {currentUser.username}
                         </Link>
                     </li>
                     <li className="nav-item">
-                        <a href="/login" className="nav-link" onClick={this.logOut}>
+                        <a href="/login" className="nav-link nav-link-items" onClick={this.logOut}>
                         <img className="logout-img" src={logout} alt="Logout"/>
                         Logout
                         </a>

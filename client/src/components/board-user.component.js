@@ -110,8 +110,8 @@ export default class BoardUser extends Component {
             <Navbar account = {this.state.account} />  
             
             <div className="auth-wrapper">
-       
-            <div className="auth-inner-2" style={{position: 'absolute', left: '50%', top: '57%',transform: 'translate(-50%, -50%)'}}>
+                <div className="content">
+            <div className="auth-inner-2" style={{position: 'absolute', left: '50%', top: '55%',transform: 'translate(-50%, -50%)'}}>
             <div className="flex-container">
             <div className="flex-child spin">
                 <Wheeel rouContract = { this.state.rou }/>
@@ -139,6 +139,7 @@ export default class BoardUser extends Component {
             </div>
 
             </div>
+        </div>
         </div>
         </div> 
     );

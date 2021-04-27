@@ -91,7 +91,7 @@ export default class Login extends Component {
                               backgroundSize: 'cover', 
                               minWidth: '100%', 
                               minHeight: '100%' }}>
-         <nav className="navbar navbar-expand-lg navbar-dark fixed-top">
+         <nav className="navbar navbar-expand-lg fixed-top">
             <div className="container">
               <Link className="navbar-brand" to={"/home"}> <img className="logo" src={logo} alt="Logo" /></Link>
             </div>
