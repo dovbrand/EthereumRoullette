@@ -50,6 +50,7 @@
 	<script>
 		
 		window.BETS_ARRAY = [];
+		window.BETS_TOTAL = 0;
 
 		(function($) {
 	
@@ -233,55 +234,67 @@
 					var numbers=[];
 					
 					if(typeof $(this).data('sector') != 'undefined'){
-						console.log("SECTOR "+$(this).data('sector'));
-						
+						// console.log("SECTOR "+$(this).data('sector'));
+
 						switch ($(this).data('sector')) {
 							case 1: // FIRST COLUMN
 								var temp = [CurrentTier, 46];
+								window.BETS_TOTAL += CurrentTier;
 								window.BETS_ARRAY.push(temp);
 								break;
 							case 2: // SECOND COLUMNS
 								var temp = [CurrentTier, 47];
+								window.BETS_TOTAL += CurrentTier;
 								window.BETS_ARRAY.push(temp);
 								break;
 							case 3: // THIRD COLUMN
 								var temp = [CurrentTier, 48];
+								window.BETS_TOTAL += CurrentTier;
 								window.BETS_ARRAY.push(temp);
 								break;
 							case 4: // FIRST DOZEN	
 								var temp = [CurrentTier, 43];
+								window.BETS_TOTAL += CurrentTier;
 								window.BETS_ARRAY.push(temp);
 								break;
 							case 5: // SECOND DOZEN
 								var temp = [CurrentTier, 44];
+								window.BETS_TOTAL += CurrentTier;
 								window.BETS_ARRAY.push(temp);
 								break;
 							case 6: // THIRD DOZEN	
 								var temp = [CurrentTier, 45];
+								window.BETS_TOTAL += CurrentTier;
 								window.BETS_ARRAY.push(temp);
 								break;
 							// case 7: // 1 to 18 
 							// 	var temp = [CurrentTier, 49];
+							// 	window.BETS_TOTAL += CurrentTier;
 							// 	window.BETS_ARRAY.push(temp);
 							// 	break;
 							case 8: // EVENS
 								var temp = [CurrentTier, 39];
+								window.BETS_TOTAL += CurrentTier;
 								window.BETS_ARRAY.push(temp);
 								break;
 							case 9: // REDS
 								var temp = [CurrentTier, 42];
+								window.BETS_TOTAL += CurrentTier;
 								window.BETS_ARRAY.push(temp);
 								break;
 							case 10: // BLACKS
 								var temp = [CurrentTier, 41];
+								window.BETS_TOTAL += CurrentTier;
 								window.BETS_ARRAY.push(temp);
 								break;
 							case 11: // ODDS
 								var temp = [CurrentTier, 40];
+								window.BETS_TOTAL += CurrentTier;
 								window.BETS_ARRAY.push(temp);
 								break;
 							// case 12: // 19 to 36
 							// 	var temp = [CurrentTier, 50];
+							// 	window.BETS_TOTAL += CurrentTier;
 							// 	window.BETS_ARRAY.push(temp);
 							// 	break;
 							}
@@ -296,11 +309,13 @@
 						if (numbers.length > 1) {
 							var temp = numbers.split(',').map(Number);
 							temp.unshift(CurrentTier);
+							window.BETS_TOTAL += CurrentTier;
 							// console.log(temp);
 							window.BETS_ARRAY.push(temp);
 						} else {
 							var temp = [numbers]
 							temp.unshift(CurrentTier);
+							window.BETS_TOTAL += CurrentTier;
 							// console.log(temp);
 							window.BETS_ARRAY.push(temp);
 						}
@@ -418,9 +433,9 @@
 			if(tb>0)e.innerHTML+=" ("+(tb*CurrentTier).toFixed(2)+")";
 		}
 
-		var balance=100;
+		var balance=100000000000;
 
-		var CurrentTier=1;
+		var CurrentTier=100;
 
 		var tiers=[
 			0.0001,

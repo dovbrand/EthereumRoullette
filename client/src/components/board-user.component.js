@@ -54,24 +54,17 @@ export default class BoardUser extends Component {
         }
     }
 
-    getTotalBets() {
-        //  = window.BETS_ARRAY;
-        var total = 0
-        // for(var i=0; i<this.state.bets.length; i++){
-        //     total += 
-        // }
 
-        return total;
-    }
 
     PlaceBet() {
         this.state.bets = window.BETS_ARRAY;
-        this.state.totalBetAmmount = getTotalBets()
+        this.state.totalBetAmmount = window.BETS_TOTAL;
         console.log(this.state.bets)
-        // this.state.rou.methods.placeBet(this.state.bets).send({from: this.state.account})
-        // .on('receipt', function(){
-        //     console.log("bet placed")
-        // });
+        console.log("TOTAL AMOUNT BET: " + this.state.totalBetAmmount)
+        this.state.rou.methods.placeBet(this.state.bets).send({from: this.state.account, value: this.state.totalBetAmmount})
+            .then(function(receipt){
+                console.log(receipt);
+            });
     };
 
     constructor(props) {
