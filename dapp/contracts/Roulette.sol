@@ -34,6 +34,10 @@ contract Roulette {
     bool bettingPhase  = false;
     bool payingPhase = false ;
     bool resetPhase = true;
+<<<<<<< HEAD:dapp/contracts/Roulette.sol
+=======
+    uint256 phaseEndTime;
+>>>>>>> 61a25b94f64be86fe8bc67babba3ff07ddb0de39:contracts/roullette.sol
     
     constructor () public payable{
         // Casino initiates the contract
@@ -61,14 +65,27 @@ contract Roulette {
     function getCasinoDeposit() public view returns (uint256){
         return casinoDeposit;
     }
+<<<<<<< HEAD:dapp/contracts/Roulette.sol
     
     function getOutcomeHash(bytes32 _outcomeHash) public returns (bytes32) {
+=======
+    
+    function getCommitmentHash() public view returns (uint256){
+        return casinoDeposit;
+    }
+    
+    function setCommitmentHash(bytes32 _outcomeHash) public returns (bytes32) {
+>>>>>>> 61a25b94f64be86fe8bc67babba3ff07ddb0de39:contracts/roullette.sol
         require (resetPhase);
         require(msg.sender == casino, "Only the casino can generate outcome");
         require (commitHash == 0, "Hash already created");
         commitHash = _outcomeHash;
         resetPhase = false;
         bettingPhase = true;
+<<<<<<< HEAD:dapp/contracts/Roulette.sol
+=======
+        phaseEndTime = now + 2 minutes; 
+>>>>>>> 61a25b94f64be86fe8bc67babba3ff07ddb0de39:contracts/roullette.sol
         return commitHash;
     }
     
@@ -100,7 +117,12 @@ contract Roulette {
         require(keccak256(abi.encodePacked(_winningNumber, _nonce)) ==  commitHash, "Hash doesn't match"); // Ensures winning winningNumber was not changed
         bettingPhase = false;
         payingPhase = true;
+<<<<<<< HEAD:dapp/contracts/Roulette.sol
         payout(msg.sender);
+=======
+        phaseEndTime = now + 2 minutes; 
+        payout();
+>>>>>>> 61a25b94f64be86fe8bc67babba3ff07ddb0de39:contracts/roullette.sol
         return winningNumber;
     }
     
@@ -109,6 +131,7 @@ contract Roulette {
         return winningNumber;
     }
     
+<<<<<<< HEAD:dapp/contracts/Roulette.sol
     function payout(address _playerAddress) internal{
         require(payingPhase);
         uint256 winAmount = 0;
@@ -176,6 +199,79 @@ contract Roulette {
         payCasino(loseAmount);
         payPlayer(winAmount, _playerAddress);
         updateWinnings(winAmount, loseAmount, _playerAddress);
+=======
+    function payout() internal{
+        require(payingPhase);
+        for (uint n = 0; n < playerAddressArray.length; n++){
+            address _playerAddress = playerAddressArray[n];
+            uint256 winAmount = 0;
+            uint256 loseAmount;
+            for(uint256 i = 0; i < playerMap[_playerAddress].bets.length; i++){ // Loop through players bets
+                playerMap[_playerAddress].win = false;
+                if (winningNumber == 0  || winningNumber == 38){ // Winning number is 0 or 00
+                    playerMap[_playerAddress].win = (playerMap[_playerAddress].bets[i].numbers[0] == winningNumber);
+                }
+                else if(playerMap[_playerAddress].bets[i].numbers[0] == 39){ // Evens
+                    playerMap[_playerAddress].win = (winningNumber % 2 == 0);
+                }
+                else if (playerMap[_playerAddress].bets[i].numbers[0] == 40){ // Odds
+                    playerMap[_playerAddress].win = (winningNumber % 2 == 1);
+                }
+                else if (playerMap[_playerAddress].bets[i].numbers[0] == 41){  // Blacks
+                    if (winningNumber <= 10 || (winningNumber >= 20 && winningNumber <= 28)) {
+                        playerMap[_playerAddress].win = (winningNumber % 2 == 0);
+                    } 
+                    else {
+                        playerMap[_playerAddress].win = (winningNumber % 2 == 1);
+                    }
+                }
+                else if (playerMap[_playerAddress].bets[i].numbers[0] == 42 && winningNumber % 2 == 0){ // Reds
+                    if (winningNumber <= 10 || (winningNumber >= 20 && winningNumber <= 28)) {
+                        playerMap[_playerAddress].win = (winningNumber % 2 == 1);
+                    } 
+                    else {
+                         playerMap[_playerAddress].win = (winningNumber % 2 == 0);
+                    }
+                }
+                else if (playerMap[_playerAddress].bets[i].numbers[0] == 43){ // First dozen
+                    playerMap[_playerAddress].win = (winningNumber <= 12);
+                }
+                else if (playerMap[_playerAddress].bets[i].numbers[0] == 44){ // Second dozen
+                    playerMap[_playerAddress].win = (winningNumber > 12 && winningNumber <= 24);
+                }
+                else if (playerMap[_playerAddress].bets[i].numbers[0] == 45){ // Third dozen
+                    playerMap[_playerAddress].win = (winningNumber > 24);
+                }
+                else if (playerMap[_playerAddress].bets[i].numbers[0] == 46){ // First Column
+                    playerMap[_playerAddress].win = (winningNumber % 3 == 1);
+                }
+                else if (playerMap[_playerAddress].bets[i].numbers[0] == 47){ // Second Column
+                    playerMap[_playerAddress].win = (winningNumber % 3 == 2);
+                }
+                else if (playerMap[_playerAddress].bets[i].numbers[0] == 48){ // Third Column
+                    playerMap[_playerAddress].win = (winningNumber % 3 == 0);
+                }
+                else {
+                    for(uint256 j = 0; j < playerMap[_playerAddress].bets[i].numbers.length; j++){ // Loop through every winningNumber in the bet
+                        if(playerMap[_playerAddress].bets[i].numbers[j] == winningNumber){ // Check if any are individual winning number
+                            playerMap[_playerAddress].win = true;
+                            break;
+                        }
+                    }
+                }
+                if (playerMap[_playerAddress].win == false){
+                    loseAmount = loseAmount + playerMap[_playerAddress].bets[i].betAmount;
+                }
+                else{
+                    winAmount = winAmount + playerMap[_playerAddress].bets[i].multiplier * playerMap[_playerAddress].bets[i].betAmount;
+                }
+            }
+            payCasino(loseAmount);
+            payPlayer(winAmount, _playerAddress);
+            updateWinnings(winAmount, loseAmount, _playerAddress);
+        }
+        
+>>>>>>> 61a25b94f64be86fe8bc67babba3ff07ddb0de39:contracts/roullette.sol
     }
     
     function setBet(address _playerAddress, uint256[][] memory _bets, uint256 _betTotal) internal{
@@ -240,6 +336,10 @@ contract Roulette {
         require(commitHash != 0);
         payingPhase = false;
         resetPhase = true;
+<<<<<<< HEAD:dapp/contracts/Roulette.sol
+=======
+        phaseEndTime = now + 30 seconds;
+>>>>>>> 61a25b94f64be86fe8bc67babba3ff07ddb0de39:contracts/roullette.sol
         commitHash = 0;
         lastWinningNumber = winningNumber;
         winningNumber = 38;
@@ -258,6 +358,20 @@ contract Roulette {
             playerMap[_playerAddress].bets[i] = playerMap[_playerAddress].bets[i+1];
         }
         playerMap[_playerAddress].bets.pop();
+    }
+    
+    function getGameState() public view returns (string memory, uint256) {
+        string  memory str;
+        if (bettingPhase){
+            str  = "bettingPhase";
+        }  
+        else if (payingPhase){
+            str = "payingPhase";
+        }
+        else {
+            str = "resetPhase";
+        }
+        return (str, phaseEndTime - now );
     }
     
     
