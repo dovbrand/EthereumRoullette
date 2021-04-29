@@ -17,6 +17,10 @@ p {
   color: #ffffff;
 }
 
+.content {
+  padding-bottom: 100px;
+}
+
 .user-info {
   font-weight: 100;
   font-style: normal;
@@ -218,7 +222,17 @@ body, html, .App, #root, .auth-wrapper{
 
 .auth-inner-2 {
   width: fit-content;
-  height: min-content;
+  height: fit-content;
+  background: #F0F0EE;
+  box-shadow: none;
+  padding: 10px 30px 5px 30px;
+  border-radius: 15px;
+  transition: all .3s;
+}
+
+.auth-inner-3 {
+  width: 1024px;
+  height: 600px;
   background: #F0F0EE;
   box-shadow: none;
   padding: 10px 30px 5px 30px;

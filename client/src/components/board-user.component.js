@@ -8,6 +8,7 @@ import Board from './board.js'
 import './board.css'
 import Navbar from './Navbar';
 import Wheeel from './Wheeel';
+import { MdLaptopWindows } from "react-icons/md";
 
 import { ROU_ABI, ROU_ADDRESS } from '../config'
 
@@ -39,28 +40,30 @@ export default class BoardUser extends Component {
         // Load account
         const accounts = await web3.eth.getAccounts()
         console.log("Metamask Accoount loaded: " + accounts)
-        this.setState({ account: accounts[0] })
-        // Network ID
-        const networkId = await web3.eth.net.getId()
-        const networkData = RouletteContract.networks[networkId]
-
-        if(networkData) {
-        const rou = new web3.eth.Contract(RouletteContract.abi, networkData.address)
-        // const rou = new web3.eth.Contract(ROU_ABI, ROU_ADDRESS)
+        this.setState({ account: accounts[0]})
+        // Getting the account balance
+        let balance = await web3.eth.getBalance(accounts[0]);
+        let balanceth = await web3.utils.fromWei(balance,'ether');
+        console.log("Your Balance is: " + balanceth)
+        this.setState({ balance: balanceth})
+        // connects with connected contract
+        const rou = new web3.eth.Contract(ROU_ABI, ROU_ADDRESS)
         this.setState({ rou })
-        this.setState({ loading: false })
+        this.setState({ loading: false})
         console.log(rou)
-        } else {
-            window.alert('Roulette contract not deployed to detected network.')
-        }
+        
     }
 
     PlaceBet() {
-        // console.log(window.BETS_ARRAY);
-        // this.state.rou.methods.placeBet(this.state.bets).send({from: this.state.account})
-        // .on('receipt', function(){
-        //     console.log("bet placed")
-        // });
+        const web3 = window.web3
+        this.state.bets = window.BETS_ARRAY;
+        this.state.totalBetAmmount = window.BETS_TOTAL;
+        console.log(this.state.bets)
+        console.log("TOTAL AMOUNT BET: " + this.state.totalBetAmmount)
+        this.state.rou.methods.placeBet(this.state.bets).send({from: this.state.account, value: this.state.totalBetAmmount})
+            .then(function(receipt){
+                console.log(receipt);
+            });
     };
 
 
@@ -119,10 +122,12 @@ export default class BoardUser extends Component {
             getBetCloseRunning: false,
             getBetOpenRunning: true,
             bettingPhase: false,
-            lastblock: 0,
-            bets: [[0.1, 1], [100, 20], [100, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]], // array to keep track of bets ie. [[100,1,2,3,4],[100,20],[100,1,2,3,4,5,6,7,8,9,10,11,12]]
-            totalBetAmmount: 0 // stores the bet ammount
+            bets: [], // array to keep track of bets ie. [[100,1,2,3,4],[100,20],[100,1,2,3,4,5,6,7,8,9,10,11,12]]
+            totalBetAmmount: 0, // stores the bet ammount
+            playerBalance: 0
         };
+
+        this.PlaceBet = this.PlaceBet.bind(this);
     }
 
     componentDidMount = async () => {
@@ -145,65 +150,49 @@ export default class BoardUser extends Component {
     }
 
 
-    render() {
-        const Completionist = () => <span className="bet-status-msg">Betting closed</span>;
-        const Timer = () => {
-            if (this.state.bettingPhase) {
-                return (<div className="bet-status">
-                    <h3><strong>Time remaining:</strong> <Countdown date={Date.now() + 120000} renderer={renderer} /></h3>
-                </div>);
-            }
-            else {
-                return (<div className="bet-status">
-                    <h3><strong>Betting is closed</strong></h3>
-                </div>);
-            }
-        };
-
-        // Renderer callback with condition
-        const renderer = ({ minutes, seconds, completed }) => {
-            if (completed) {
-                // Render a completed state
-                return <Completionist />;
-            } else {
-                // Render a countdown
-                return <span>{minutes}:{seconds < 10 ? `0${seconds}` : seconds}</span>;
-            }
-        };
-        // const { rou } = this.state;
-        return (            
-            <div className="main">
-                <Navbar account={this.state.account} />
-
-                <div className="auth-wrapper">
-                    <div className="content">
-                        <div className="auth-inner-2" style={{ position: 'absolute', left: '50%', top: '55%', transform: 'translate(-50%, -50%)' }}>
-                            <div className="flex-container">
-                                <div className="flex-child spin">
-                                    <Wheeel />
-
-                                </div>
-                                <div className="flex-child bet-table">
-                                    <Timer></Timer>
-                                    <div>
-                                        <Board />
-                                    </div>
-                                    <div className="betting-action flex-container">
-                                        <div className=" display-bets">
-                                            <strong>Your bets:</strong>
-                                            <div className="bets overflow-scroll" id='bets'></div>
-                                            <div id='balance'><strong>Balance:</strong> 1.00 ETH</div>
-                                            <div id='result'></div>
-                                        </div>
-                                        <div>
-                                            <button type="button" className="reset-btn btn btn-danger btn-block" >Reset</button>
-                                            <button type="button" className="place-btn btn btn-danger btn-block" disabled={!this.state.bettingPhase} onClick={this.state.PlaceBet}>Place bet</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
+  render() {
+    const Completionist = () => <span className="bet-status-msg">Betting closed</span>;
+ 
+    // Renderer callback with condition
+    const renderer = ({ minutes, seconds, completed }) => {
+      if (completed) {
+        // Render a completed state
+        return <Completionist />;
+      } else {
+        // Render a countdown
+        return <span>{minutes}:{seconds < 10 ? `0${ seconds }` : seconds}</span>;
+      }
+    };
+    
+    // const { rou } = this.state;
+    return (
+        <div className="main">
+            <Navbar account = {this.state.account} />  
+            
+            <div className="auth-wrapper">
+                <div className="content">
+            <div className="auth-inner-2" style={{position: 'fixed', left: '50%', top: '57%',transform: 'translate(-50%, -50%)'}}>
+            <div className="flex-container">
+            <div className="flex-child spin">
+                <Wheeel />
+            </div>
+            <div className="flex-child bet-table">
+                <div className="bet-status">
+                    <h3><strong>Time remaining:</strong> <Countdown date={Date.now() + 120000} renderer={renderer}/></h3>
+                </div>
+                <div>
+                    <Board/>
+                </div>
+                <div className="betting-action flex-container">
+                    <div className=" display-bets">
+                        <strong>Your bets:</strong>
+                        <div className="bets overflow-scroll" id='bets'></div>
+                        <div id='balance'><strong>Balance:</strong> {this.state.balance} ETH</div>
+                        <div id='result'></div>
+                    </div>
+                    <div>
+                        <button type="button" className="reset-btn btn btn-danger btn-block" >Reset</button>
+                        <button type="button" className="place-btn btn btn-danger btn-block" onClick={this.PlaceBet}>Place bet</button>
                     </div>
                 </div>
             </div>

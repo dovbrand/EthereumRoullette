@@ -39,8 +39,8 @@ export default class  Navbar extends Component {
         const { currentUser } = this.state;
 
         return (
-            <nav className="navbar navbar-custom navbar-expand-lg">
-                <Link className="navbar-brand" to={"/"}> 
+            <nav className="navbar navbar-custom navbar-expand-md">
+                <Link className="navbar-brand" to={"/main"}> 
                     <img className="logo" src={logo} alt="Logo" />
                 </Link>
 

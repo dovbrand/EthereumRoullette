@@ -58,6 +58,7 @@ const radiusLineWidth = 3;
 const fontSize = 16;
 const textDistance = 85;
 
+// Connectes with contract
 const web3 = new Web3(Web3.givenProvider);
 const rou = new web3.eth.Contract(ROU_ABI, ROU_ADDRESS);
 
@@ -67,34 +68,34 @@ const rou = new web3.eth.Contract(ROU_ABI, ROU_ADDRESS);
   var getBetOpenRunning = true;
   var lastBlock = 0;
 
-  function getBettingClosed() {
-    if (getBetCloseRunning === false) {
-      getBetCloseRunning = true;
-      console.log("Get Betting Close Event")
-      rou.once('bettingPhaseClosed', { fromBlock: lastBlock },
-        function (error, event) {
-          console.log(event);
-          lastBlock = event.blockNmuber;
-          // Wheeel().handleSpinClick();
-          getBetOpenRunning = false;
-          getBettingOpen();
-        })
-    }
-  }
+  // function getBettingClosed() {
+  //   if (getBetCloseRunning === false) {
+  //     getBetCloseRunning = true;
+  //     console.log("Get Betting Close Event")
+  //     rou.once('bettingPhaseClosed', { fromBlock: lastBlock },
+  //       function (error, event) {
+  //         console.log(event);
+  //         lastBlock = event.blockNmuber;
+  //         // Wheeel().handleSpinClick();
+  //         getBetOpenRunning = false;
+  //         getBettingOpen();
+  //       })
+  //   }
+  // }
   
-  function getBettingOpen() {
-    if (getBetOpenRunning === false) {
-      getBetOpenRunning = true;
-      console.log("Get Betting Open Event")
-      rou.once('bettingPhaseOpen', { fromBlock: lastBlock },
-        function (error, event) {
-          console.log(event);
-          lastBlock = event.blockNmuber;
-          getBetCloseRunning = false;
-          getBettingClosed();
-        })
-    }
-  }
+  // function getBettingOpen() {
+  //   if (getBetOpenRunning === false) {
+  //     getBetOpenRunning = true;
+  //     console.log("Get Betting Open Event")
+  //     rou.once('bettingPhaseOpen', { fromBlock: lastBlock },
+  //       function (error, event) {
+  //         console.log(event);
+  //         lastBlock = event.blockNmuber;
+  //         getBetCloseRunning = false;
+  //         getBettingClosed();
+  //       })
+  //   }
+  // }
 
 export default function Wheeel() {
 
@@ -120,10 +121,13 @@ export default function Wheeel() {
     )
   }
 
-  getBettingClosed();
+  // getBettingClosed();
 
   return (
     <div className='wheel'>
+    <div className='wheel win-msg-container'>
+     {/*<h3 className="win-msg">Winning Number: {PrizeNumber}</h3>*/}
+    </div>
       <Wheel
         mustStartSpinning={mustSpin}
         prizeNumber={prizeNumber}
@@ -144,6 +148,7 @@ export default function Wheeel() {
 
         onStopSpinning={() => {
           setMustSpin(false)
+
         }}
       />
       <button className={'spin-button btn btn-danger btn-block'} onClick={() => handleSpinClick()}>

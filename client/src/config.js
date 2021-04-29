@@ -1,3 +1,6 @@
+import RouletteContract from './contracts/Roulette.json';
+import Web3 from "web3";
+
 export const ROU_ADDRESS = '0xF51eAD09a578bCB1Ff3eB4ba968a18b65C1239e3'
 
 export const ROU_ABI = [
