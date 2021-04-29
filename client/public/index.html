@@ -374,6 +374,9 @@
 				if(chips[i]!=null)for(var j=0;chips[i].length>0;j++)document.body.removeChild(chips[i].pop());
 			}
 			balance=1;
+
+			window.BETS_ARRAY = [];
+			window.BETS_TOTAL = 0;
 			
 			UpdateBets();
 			UpdateBalance();
