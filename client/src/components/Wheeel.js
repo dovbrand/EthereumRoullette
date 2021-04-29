@@ -1,4 +1,4 @@
-import {React, useState}  from 'react'
+import { React, useState } from 'react'
 import { Wheel } from 'react-custom-roulette'
 import './Wheeel.css'
 
@@ -6,46 +6,46 @@ import Web3 from 'web3';
 import { ROU_ABI, ROU_ADDRESS } from '../config'
 
 const data = [
-    { option: '32' },
-    { option: '15' },
-    { option: '19'},
-    { option: '4' },
-    { option: '21' },
-    { option: '2' },
-    { option: '25' },
-    { option: '17' },
-    { option: '34' },
-    { option: '6' },
-    { option: '27' },
-    { option: '13' },
-    { option: '36' },
-    { option: '11' },
-    { option: '30' },
-    { option: '8' },
-    { option: '23' },
-    { option: '10' },
-    { option: '5' },
-    { option: '24' },
-    { option: '16' },
-    { option: '33' },
-    { option: '1' },
-    { option: '20' },
-    { option: '14' },
-    { option: '31' },
-    { option: '9' },
-    { option: '22' },
-    { option: '18' },
-    { option: '29' },
-    { option: '7' },
-    { option: '28' },
-    { option: '12' },
-    { option: '35' },
-    { option: '3' },
-    { option: '26' },
-    { option: '0', style: { backgroundColor: '#F0F0EE', textColor: '#29313D'}  },
-    
-  ];
-  
+  { option: '32' },
+  { option: '15' },
+  { option: '19' },
+  { option: '4' },
+  { option: '21' },
+  { option: '2' },
+  { option: '25' },
+  { option: '17' },
+  { option: '34' },
+  { option: '6' },
+  { option: '27' },
+  { option: '13' },
+  { option: '36' },
+  { option: '11' },
+  { option: '30' },
+  { option: '8' },
+  { option: '23' },
+  { option: '10' },
+  { option: '5' },
+  { option: '24' },
+  { option: '16' },
+  { option: '33' },
+  { option: '1' },
+  { option: '20' },
+  { option: '14' },
+  { option: '31' },
+  { option: '9' },
+  { option: '22' },
+  { option: '18' },
+  { option: '29' },
+  { option: '7' },
+  { option: '28' },
+  { option: '12' },
+  { option: '35' },
+  { option: '3' },
+  { option: '26' },
+  { option: '0', style: { backgroundColor: '#F0F0EE', textColor: '#29313D' } },
+
+];
+
 const backgroundColors = ['#A91607', '#3a4353'];
 const textColors = ['#F0F0EE'];
 const outerBorderColor = '#29313D';
@@ -59,32 +59,68 @@ const fontSize = 16;
 const textDistance = 85;
 
 const web3 = new Web3(Web3.givenProvider);
-const rou = new web3.eth.Contract(ROU_ABI, ROU_ADDRESS)
+const rou = new web3.eth.Contract(ROU_ABI, ROU_ADDRESS);
 
-export default function Wheeel (){
+
+
+  var getBetCloseRunning = false;
+  var getBetOpenRunning = true;
+  var lastBlock = 0;
+
+  function getBettingClosed() {
+    if (getBetCloseRunning === false) {
+      getBetCloseRunning = true;
+      console.log("Get Betting Close Event")
+      rou.once('bettingPhaseClosed', { fromBlock: lastBlock },
+        function (error, event) {
+          console.log(event);
+          lastBlock = event.blockNmuber;
+          // Wheeel().handleSpinClick();
+          getBetOpenRunning = false;
+          getBettingOpen();
+        })
+    }
+  }
   
+  function getBettingOpen() {
+    if (getBetOpenRunning === false) {
+      getBetOpenRunning = true;
+      console.log("Get Betting Open Event")
+      rou.once('bettingPhaseOpen', { fromBlock: lastBlock },
+        function (error, event) {
+          console.log(event);
+          lastBlock = event.blockNmuber;
+          getBetCloseRunning = false;
+          getBettingClosed();
+        })
+    }
+  }
+
+export default function Wheeel() {
+
   const [mustSpin, setMustSpin] = useState(false);
   const [prizeNumber, setPrizeNumber] = useState(0);
   const [perpendicularText, setperpendicularText] = useState(true);
-
   
-  const handleSpinClick = () => {
-    // rou.methods.WinningNumber().call().then(
-    //     data => setPrizeNumber(data)
-    // )
-    
-    const PrizeNumber = 29;
+  function handleSpinClick() {
+    var PrizeNumber = 0;
     var PrizeNumberIndex = 0;
-
-    for(var i=0; i<data.length; i++){
-      if (PrizeNumber == data[i].option)
-         PrizeNumberIndex = i;
-    }
-    setPrizeNumber(PrizeNumberIndex);
-    
-    console.log("Winning Number is: " + PrizeNumber)
-    setMustSpin(true)
+  
+    rou.methods.WinningNumber().call().then(
+      resp => {
+        PrizeNumber = resp;
+        console.log("Winning Number is: " + resp)
+        for (var i = 0; i < data.length; i++) {
+          if (PrizeNumber === data[i].option)
+            PrizeNumberIndex = i;
+        }
+        setPrizeNumber(PrizeNumberIndex);
+        setMustSpin(true)
+      }
+    )
   }
+
+  getBettingClosed();
 
   return (
     <div className='wheel'>
@@ -104,13 +140,13 @@ export default function Wheeel (){
         radiusLineWidth={radiusLineWidth}
         perpendicularText={perpendicularText}
         textDistance={textDistance}
-    
+
 
         onStopSpinning={() => {
           setMustSpin(false)
         }}
       />
-      <button className={'spin-button btn btn-danger btn-block'} onClick={handleSpinClick}>
+      <button className={'spin-button btn btn-danger btn-block'} onClick={() => handleSpinClick()}>
         Spin
       </button>
     </div>
