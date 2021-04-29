@@ -58,6 +58,7 @@ const radiusLineWidth = 3;
 const fontSize = 16;
 const textDistance = 85;
 
+// Connectes with contract
 const web3 = new Web3(Web3.givenProvider);
 const rou = new web3.eth.Contract(ROU_ABI, ROU_ADDRESS)
 

@@ -10,7 +10,7 @@ import Navbar from './Navbar';
 import Wheeel from './Wheeel';
 import { MdLaptopWindows } from "react-icons/md";
 
-// import { ROU_ABI, ROU_ADDRESS } from '../config'
+import { ROU_ABI, ROU_ADDRESS } from '../config'
 
 export default class BoardUser extends Component {
 
@@ -39,24 +39,21 @@ export default class BoardUser extends Component {
         const accounts = await web3.eth.getAccounts()
         console.log("Metamask Accoount loaded: " + accounts)
         this.setState({ account: accounts[0]})
-        // Network ID
-        const networkId = await web3.eth.net.getId()
-        const networkData = RouletteContract.networks[networkId]
-
-        if(networkData) {
-            const rou = new web3.eth.Contract(RouletteContract.abi, networkData.address)
-            // const rou = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS)
-            this.setState({ rou })
-            this.setState({ loading: false})
-            console.log(rou)
-        } else {
-            window.alert('Roulette contract not deployed to detected network.')
-        }
+        // Getting the account balance
+        let balance = await web3.eth.getBalance(accounts[0]);
+        let balanceth = await web3.utils.fromWei(balance,'ether');
+        console.log("Your Balance is: " + balanceth)
+        this.setState({ balance: balanceth})
+        // connects with connected contract
+        const rou = new web3.eth.Contract(ROU_ABI, ROU_ADDRESS)
+        this.setState({ rou })
+        this.setState({ loading: false})
+        console.log(rou)
+        
     }
 
-
-
     PlaceBet() {
+        const web3 = window.web3
         this.state.bets = window.BETS_ARRAY;
         this.state.totalBetAmmount = window.BETS_TOTAL;
         console.log(this.state.bets)
@@ -74,7 +71,8 @@ export default class BoardUser extends Component {
             account: '',
             rou: null,
             bets: [], // array to keep track of bets ie. [[100,1,2,3,4],[100,20],[100,1,2,3,4,5,6,7,8,9,10,11,12]]
-            totalBetAmmount: 0 // stores the bet ammount
+            totalBetAmmount: 0, // stores the bet ammount
+            playerBalance: 0
         };
 
         this.PlaceBet = this.PlaceBet.bind(this);
@@ -137,7 +135,7 @@ export default class BoardUser extends Component {
                     <div className=" display-bets">
                         <strong>Your bets:</strong>
                         <div className="bets overflow-scroll" id='bets'></div>
-                        <div id='balance'><strong>Balance:</strong> 1.00 ETH</div>
+                        <div id='balance'><strong>Balance:</strong> {this.state.balance} ETH</div>
                         <div id='result'></div>
                     </div>
                     <div>

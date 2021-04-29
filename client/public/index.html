@@ -363,8 +363,8 @@
 		function UpdateBets(){
 			var betdiv=document.getElementById("bets");
 			betdiv.innerHTML='';
-			for(var i=37;i<bets.length;i++)if(bets[i]>0)betdiv.innerHTML+=sectors[i-37]+": "+(bets[i]*CurrentTier).toFixed(2)+"<br>";
-			for(var i=0;i<37;i++)if(bets[i]>0)betdiv.innerHTML+="Number "+i+": "+(bets[i]*CurrentTier).toFixed(2)+"<br>";
+			for(var i=37;i<bets.length;i++)if(bets[i]>0)betdiv.innerHTML+=sectors[i-37]+": "+(bets[i]*CurrentTier)+" Wei<br>";
+			for(var i=0;i<37;i++)if(bets[i]>0)betdiv.innerHTML+="Number "+i+": "+(bets[i]*CurrentTier)+" Wei<br>";
 			
 		}
 
