@@ -16,8 +16,8 @@ const Background = styled.div`
 `;
 
 const ModalWrapper = styled.div`
-  width: 1000px;
-  height: 700px;
+  width: 900px;
+  height: 540px;
 
   position: relative;
   z-index: 10;

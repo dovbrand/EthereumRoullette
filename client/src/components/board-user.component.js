@@ -121,7 +121,7 @@ export default class BoardUser extends Component {
             
             <div className="auth-wrapper">
                 <div className="content">
-            <div className="auth-inner-2" style={{position: 'absolute', left: '50%', top: '55%',transform: 'translate(-50%, -50%)'}}>
+            <div className="auth-inner-2" style={{position: 'fixed', left: '50%', top: '57%',transform: 'translate(-50%, -50%)'}}>
             <div className="flex-container">
             <div className="flex-child spin">
                 <Wheeel />
