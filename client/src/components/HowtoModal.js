@@ -115,8 +115,8 @@ const Background = styled.div`
   
 `;
 const ModalImg = styled.img`
-  width: 170px;
-  height: 170px;
+  width: 150px;
+  height: 150px;
   float: left;
  
 
@@ -124,8 +124,8 @@ const ModalImg = styled.img`
 `; 
 
 const ModalWrapper = styled.div`
-  width: 1000px;
-  height: 700px;
+  width: 900px;
+  height: 540px;
  
   position: relative;
   z-index: 10;
@@ -141,7 +141,7 @@ display: flex;
 flex-direction: column;
 justify-content: center;
 align-items: center;
-line-height: 1.8;
+line-height: 1.5;
 margin-top: 45px;
 
 background-color:#F0F0EE;
@@ -159,7 +159,7 @@ background-color:#F0F0EE;
     font-style: normal;  
     font-family: 'Poppins', sans-serif;
     color: #29313D;
-    font-size: 20px;
+    font-size: 17px;
     
   }
   li{
