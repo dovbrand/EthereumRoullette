@@ -50,7 +50,7 @@ export default class Profile extends Component {
 
         {(this.state.userReady) ?
         <div className="auth-wrapper">
-        <div className="auth-inner-2" style={{position: 'absolute', left: '50%', top: '57%',transform: 'translate(-50%, -50%)'}}>
+        <div className="auth-inner-3" style={{position: 'absolute', left: '50%', top: '57%',transform: 'translate(-50%, -50%)'}}>
           <br></br>
             <h3>
               <strong>{currentUser.username}</strong>
