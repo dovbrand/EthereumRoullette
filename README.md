@@ -135,6 +135,3 @@ You will also see any lint errors in the console.
 * Create a new terminal window or tab
 * From the source folder, navigate to 'server' directory
 ``` cd server ```
-
-
-

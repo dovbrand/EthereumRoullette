@@ -1,0 +1,59 @@
+
+  .spin-button {
+    margin-top: 22px;
+    margin-left: 35px;
+    border: 0;
+    color: #F0F0EE;
+    width: 200px;
+    height: 40px;
+    padding-top: 3px;
+    margin-left: 115px;
+    font-size: 20px;
+    justify-content: center;
+  }
+  
+  .spin-button:hover {
+    background-color: #bd4a3d;
+  }
+
+  .spin-button:active {
+    padding-top: 5px;
+    background-color: rgb(41, 41, 41);
+  }
+  .wheel{
+     width: 310px;
+     height: 310px;
+     z-index: 9;
+  }
+
+  .win-msg-container {
+    height: 270px;
+    width: 270px;
+    margin-left: 88px;
+    margin-top: 86px;
+    border-radius: 100%;
+    display: block;
+    justify-content: center;
+    background-color: #F0F0EE;
+    position: absolute;
+    text-align: center;
+  }
+
+  .win-msg {
+    width: 200px;
+    height: 200px;
+    text-align: center;
+    position: center;
+    margin-top: 86px;
+    margin-left: 88px;
+    margin: auto;
+  }
+  
+  @keyframes App-logo-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+    }

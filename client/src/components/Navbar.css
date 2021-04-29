@@ -1,0 +1,43 @@
+.navbar-custom {
+    background-color: #29313D;;
+}
+.nav-link-items {
+    color: #F0F0EE;
+}
+
+.nav-link-items:hover {
+    color: #A91607;
+}
+
+.logo {
+    width: 95px;
+    height: 60px;
+}
+
+.logout-img {
+    width: 60px;
+    height: 50px;
+    left: 699px;
+    margin-top: -6px;
+}
+
+.account-img {
+    width: 47px;
+    height: 47px;
+    left: 699px;
+    margin-top: -6px;
+}
+
+.rankings-img {
+    width: 60px;
+    height: 60px;
+    left: 699px;
+    margin-top: -13px;
+}
+
+.how-to-img {
+    width: 60px;
+    height: 60px;
+    left: 699px;
+    margin-top: -12px;
+}

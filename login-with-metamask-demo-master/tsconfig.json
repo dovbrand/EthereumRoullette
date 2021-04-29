@@ -1,9 +1,0 @@
-{
-	"extends": "./node_modules/@amaurym/tsconfig/tsconfig",
-	"compilerOptions": {
-		"jsx": "react",
-		"moduleResolution": "node",
-		"skipLibCheck": true,
-		"target": "es6"
-	}
-}
