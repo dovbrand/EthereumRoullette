@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import UserService from "../services/user.service";
 import Web3 from "web3";
-import RouletteContract from '../contracts/Roulette.json';
 import Countdown from 'react-countdown';
 
 import Board from './board.js'
@@ -52,13 +51,14 @@ export default class BoardUser extends Component {
         
     }
 
-    PlaceBet() {
+    async PlaceBet() {
         const web3 = window.web3
-        this.state.bets = window.BETS_ARRAY;
-        this.state.totalBetAmmount = window.BETS_TOTAL;
-        console.log(this.state.bets)
-        console.log("TOTAL AMOUNT BET: " + this.state.totalBetAmmount)
-        this.state.rou.methods.placeBet(this.state.bets).send({from: this.state.account, value: this.state.totalBetAmmount})
+        var betArray = window.BETS_ARRAY;
+        var betAmount = window.BETS_TOTAL;
+        console.log(betArray)
+        console.log("TOTAL AMOUNT BET: " + betAmount)
+        let beteth = await web3.utils.fromWei(0.1,'ether');
+        this.state.rou.methods.placeBet(betArray).send({from: this.state.account, value: beteth})
             .then(function(receipt){
                 console.log(receipt);
             });
@@ -70,8 +70,6 @@ export default class BoardUser extends Component {
         this.state = {
             account: '',
             rou: null,
-            bets: [], // array to keep track of bets ie. [[100,1,2,3,4],[100,20],[100,1,2,3,4,5,6,7,8,9,10,11,12]]
-            totalBetAmmount: 0, // stores the bet ammount
             playerBalance: 0
         };
 
