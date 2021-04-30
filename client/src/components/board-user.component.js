@@ -18,8 +18,6 @@ export default class BoardUser extends Component {
     async componentWillMount() {
         await this.loadWeb3()
         await this.loadBlockchainData()
-        await this.getBettingClosed();
-
     }
 
     async loadWeb3() {
@@ -64,64 +62,15 @@ export default class BoardUser extends Component {
             .then(function(receipt){
                 console.log(receipt);
             });
+        window.Reset();
     };
-
-
-
-    async getBettingClosed() {
-        if (this.state.getBetCloseRunning === false) {
-            console.log("running getBettingClosed")
-            this.state.getBetCloseRunning = true;
-            this.state.rou.once('bettingPhaseClosed', { fromBlock: this.state.lastBlock },
-                function (error, event) {
-
-                    if (event != null) {
-                        console.log(event);
-                        this.setState({lastBlock: event.blockNmuber});
-                        Wheeel.handleSpinClick();
-                    }
-
-                    this.setState({getBetOpenRunning: false});
-                    this.setState({ bettingPhase: false });
-                    this.getBettingOpen();
-                })
-        }
-    }
-
-
-
-
-    async getBettingOpen() {
-        if (this.state.getBetOpenRunning === false) {
-            console.log("running getBettingOpen")
-            this.setState({getBetOpenRunning: true});
-            this.state.rou.once('bettingPhaseOpen', { fromBlock: this.lastBlock },
-                function (error, event) {
-                    if (event != null) {
-                        console.log(event);
-                        // this.lastBlock = event.blockNmuber;
-                        // this.setState({lastBlock: event.blockNmuber});
-                    }
-                    this.setState({getBetCloseRunning: false});
-                    this.setState({ bettingPhase: true });
-                    this.getBettingClosed();
-                })
-        }
-    }
-
-
 
     constructor(props) {
         super(props);
 
-        this.getBettingClosed = this.getBettingClosed.bind(this);
-        this.getBettingOpen = this.getBettingOpen.bind(this);
         this.state = {
             account: '',
             rou: null,
-            getBetCloseRunning: false,
-            getBetOpenRunning: true,
-            bettingPhase: false,
             bets: [], // array to keep track of bets ie. [[100,1,2,3,4],[100,20],[100,1,2,3,4,5,6,7,8,9,10,11,12]]
             totalBetAmmount: 0, // stores the bet ammount
             playerBalance: 0
@@ -132,21 +81,21 @@ export default class BoardUser extends Component {
 
     componentDidMount = async () => {
         UserService.getUserBoard().then(
-            response => {
-                this.setState({
-                    content: response.data
-                });
-            },
-            error => {
-                this.setState({
-                    content:
-                        (error.response &&
-                            error.response.data &&
-                            error.response.data.message) ||
-                        error.message ||
-                        error.toString()
-                });
+        response => {
+            this.setState({
+            content: response.data
             });
+        },
+        error => {
+            this.setState({
+            content:
+                (error.response &&
+                error.response.data &&
+                error.response.data.message) ||
+                error.message ||
+                error.toString()
+            });
+        });
     }
 
 
@@ -191,11 +140,17 @@ export default class BoardUser extends Component {
                         <div id='result'></div>
                     </div>
                     <div>
-                        <button type="button" className="reset-btn btn btn-danger btn-block" >Reset</button>
-                        <button type="button" className="place-btn btn btn-danger btn-block" onClick={this.PlaceBet}>Place bet</button>
+                        <button className="reset-btn btn btn-danger btn-block" onClick={window.Reset}>Reset</button>
+                        <button className="place-btn btn btn-danger btn-block" onClick={this.PlaceBet}>Place bet</button>
                     </div>
                 </div>
             </div>
-        );
-    }
+            </div>
+
+            </div>
+        </div>
+        </div>
+        </div> 
+    );
+  }
 }

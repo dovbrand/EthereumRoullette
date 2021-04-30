@@ -132,9 +132,9 @@ export default class Register extends Component {
                               backgroundSize: 'cover', 
                               minWidth: '100%', 
                               minHeight: '100%' }}>
-          <nav className="navbar navbar-expand-lg navbar-dark fixed-top">
+          <nav className="navbar navbar-expand-md navbar-dark fixed-top">
             <div className="container">
-              <Link className="navbar-brand" to={"/home"}> <img className="logo" src={logo} alt="Logo" /></Link>
+              <Link className="navbar-brand" to={"/home"}> <img className="logo-login" src={logo} alt="Logo" /></Link>
             </div>
           </nav> 
           <div className="auth-wrapper">
