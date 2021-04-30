@@ -62,6 +62,7 @@ export default class BoardUser extends Component {
             .then(function(receipt){
                 console.log(receipt);
             });
+        window.Reset();
     };
 
     constructor(props) {
@@ -137,8 +138,8 @@ export default class BoardUser extends Component {
                         <div id='result'></div>
                     </div>
                     <div>
-                        <button type="button" className="reset-btn btn btn-danger btn-block" >Reset</button>
-                        <button type="button" className="place-btn btn btn-danger btn-block" onClick={this.PlaceBet}>Place bet</button>
+                        <button className="reset-btn btn btn-danger btn-block" onClick={window.Reset}>Reset</button>
+                        <button className="place-btn btn btn-danger btn-block" onClick={this.PlaceBet}>Place bet</button>
                     </div>
                 </div>
             </div>

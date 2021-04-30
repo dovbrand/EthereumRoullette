@@ -11,10 +11,6 @@
     font-size: 20px;
     justify-content: center;
   }
-  
-  .spin-button:hover {
-    background-color: #bd4a3d;
-  }
 
   .spin-button:active {
     padding-top: 5px;
