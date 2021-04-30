@@ -171,31 +171,36 @@ export default class BoardUser extends Component {
             
             <div className="auth-wrapper">
                 <div className="content">
-            <div className="auth-inner-2" style={{position: 'fixed', left: '50%', top: '57%',transform: 'translate(-50%, -50%)'}}>
-            <div className="flex-container">
-            <div className="flex-child spin">
-                <Wheeel />
-            </div>
-            <div className="flex-child bet-table">
-                <div className="bet-status">
-                    <h3><strong>Time remaining:</strong> <Countdown date={Date.now() + 120000} renderer={renderer}/></h3>
-                </div>
-                <div>
-                    <Board/>
-                </div>
-                <div className="betting-action flex-container">
-                    <div className=" display-bets">
-                        <strong>Your bets:</strong>
-                        <div className="bets overflow-scroll" id='bets'></div>
-                        <div id='balance'><strong>Balance:</strong> {this.state.balance} ETH</div>
-                        <div id='result'></div>
+                    <div className="auth-inner-2" style={{position: 'fixed', left: '50%', top: '57%',transform: 'translate(-50%, -50%)'}}>
+                        <div className="flex-container">
+                            <div className="flex-child spin">
+                                <Wheeel />
+                            </div>
+                            <div className="flex-child bet-table">
+                                <div className="bet-status">
+                                    <h3><strong>Time remaining:</strong> <Countdown date={Date.now() + 120000} renderer={renderer}/></h3>
+                                </div>
+                                <div>
+                                    <Board/>
+                                </div>
+                                <div className="betting-action flex-container">
+                                    <div className=" display-bets">
+                                        <strong>Your bets:</strong>
+                                        <div className="bets overflow-scroll" id='bets'></div>
+                                        <div id='balance'><strong>Balance:</strong> {this.state.balance} ETH</div>
+                                        <div id='result'></div>
+                                    </div>
+                                    <div>
+                                        <button type="button" className="reset-btn btn btn-danger btn-block" >Reset</button>
+                                        <button type="button" className="place-btn btn btn-danger btn-block" onClick={this.PlaceBet}>Place bet</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                        <button type="button" className="reset-btn btn btn-danger btn-block" >Reset</button>
-                        <button type="button" className="place-btn btn btn-danger btn-block" onClick={this.PlaceBet}>Place bet</button>
-                    </div>
                 </div>
             </div>
-        );
-    }
+        </div>
+
+    );}
 }
