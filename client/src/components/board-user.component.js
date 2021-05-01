@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import UserService from "../services/user.service";
 import Web3 from "web3";
-import RouletteContract from '../contracts/Roulette.json';
 import Countdown from 'react-countdown';
 
 import Board from './board.js'
@@ -18,8 +17,6 @@ export default class BoardUser extends Component {
     async componentWillMount() {
         await this.loadWeb3()
         await this.loadBlockchainData()
-        await this.getBettingClosed();
-
     }
 
     async loadWeb3() {
@@ -54,18 +51,21 @@ export default class BoardUser extends Component {
         
     }
 
-    PlaceBet() {
+    async PlaceBet() {
         const web3 = window.web3
-        this.state.bets = window.BETS_ARRAY;
-        this.state.totalBetAmmount = window.BETS_TOTAL;
-        console.log(this.state.bets)
-        console.log("TOTAL AMOUNT BET: " + this.state.totalBetAmmount)
-        this.state.rou.methods.placeBet(this.state.bets).send({from: this.state.account, value: this.state.totalBetAmmount})
+        var betArray = window.BETS_ARRAY;
+        var betAmount = window.BETS_TOTAL;
+        console.log(betArray)
+        console.log("TOTAL AMOUNT BET: " + betAmount)
+        // let beteth = await web3.utils.fromWei(betAmount,'ether');
+        this.state.rou.methods.placeBet(betArray).send({from: this.state.account, value: betAmount})
             .then(function(receipt){
                 console.log(receipt);
             });
+        window.Reset();
     };
 
+<<<<<<< HEAD
 
 
     async getBettingClosed() {
@@ -109,19 +109,14 @@ export default class BoardUser extends Component {
         }
     }
 
+=======
+>>>>>>> main
     constructor(props) {
         super(props);
 
-        this.getBettingClosed = this.getBettingClosed.bind(this);
-        this.getBettingOpen = this.getBettingOpen.bind(this);
         this.state = {
             account: '',
             rou: null,
-            getBetCloseRunning: false,
-            getBetOpenRunning: true,
-            bettingPhase: false,
-            bets: [], // array to keep track of bets ie. [[100,1,2,3,4],[100,20],[100,1,2,3,4,5,6,7,8,9,10,11,12]]
-            totalBetAmmount: 0, // stores the bet ammount
             playerBalance: 0
         };
 
@@ -130,21 +125,21 @@ export default class BoardUser extends Component {
 
     componentDidMount = async () => {
         UserService.getUserBoard().then(
-            response => {
-                this.setState({
-                    content: response.data
-                });
-            },
-            error => {
-                this.setState({
-                    content:
-                        (error.response &&
-                            error.response.data &&
-                            error.response.data.message) ||
-                        error.message ||
-                        error.toString()
-                });
+        response => {
+            this.setState({
+            content: response.data
             });
+        },
+        error => {
+            this.setState({
+            content:
+                (error.response &&
+                error.response.data &&
+                error.response.data.message) ||
+                error.message ||
+                error.toString()
+            });
+        });
     }
 
 
@@ -169,6 +164,7 @@ export default class BoardUser extends Component {
             
             <div className="auth-wrapper">
                 <div className="content">
+<<<<<<< HEAD
                     <div className="auth-inner-2" style={{position: 'fixed', left: '50%', top: '57%',transform: 'translate(-50%, -50%)'}}>
                         <div className="flex-container">
                             <div className="flex-child spin">
@@ -201,4 +197,39 @@ export default class BoardUser extends Component {
         </div>
 
     );}
+=======
+            <div className="auth-inner-2" style={{position: 'fixed', left: '50%', top: '57%',transform: 'translate(-50%, -50%)'}}>
+            <div className="flex-container">
+            <div className="flex-child spin">
+                <Wheeel />
+            </div>
+            <div className="flex-child bet-table">
+                <div className="bet-status">
+                    <h3><strong>Time remaining:</strong> <Countdown date={Date.now() + 120000} renderer={renderer}/></h3>
+                </div>
+                <div>
+                    <Board/>
+                </div>
+                <div className="betting-action flex-container">
+                    <div className=" display-bets">
+                        <strong>Your bets:</strong>
+                        <div className="bets overflow-scroll" id='bets'></div>
+                        <div id='balance'><strong>Balance:</strong> {this.state.balance} ETH</div>
+                        <div id='result'></div>
+                    </div>
+                    <div>
+                        <button className="reset-btn btn btn-danger btn-block" onClick={window.Reset}>Reset</button>
+                        <button className="place-btn btn btn-danger btn-block" onClick={this.PlaceBet}>Place bet</button>
+                    </div>
+                </div>
+            </div>
+            </div>
+
+            </div>
+        </div>
+        </div>
+        </div> 
+    );
+  }
+>>>>>>> main
 }

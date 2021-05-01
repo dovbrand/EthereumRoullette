@@ -379,7 +379,7 @@
 			window.BETS_TOTAL = 0;
 			
 			UpdateBets();
-			UpdateBalance();
+			//UpdateBalance(); not necessary since we get the balance directly from metamask
 		}
 
 		function TotalBets(){
@@ -426,7 +426,7 @@
 			bets[id]+=amount;
 			if(bets[id]<0)bets[id]=0;
 			UpdateBets();
-			UpdateBalance();
+			//UpdateBalance(); not necessary since we get the balance directly from metamask
 		}
 
 		function UpdateBalance(){

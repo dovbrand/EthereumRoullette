@@ -2,7 +2,7 @@ pragma solidity ^0.6.6;
 pragma experimental ABIEncoderV2;
 
 
-contract Roulette { 
+contract Roullette { 
     
     struct Bet {
         uint256[] numbers;
