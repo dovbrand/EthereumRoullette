@@ -57,8 +57,8 @@ export default class BoardUser extends Component {
         var betAmount = window.BETS_TOTAL;
         console.log(betArray)
         console.log("TOTAL AMOUNT BET: " + betAmount)
-        let beteth = await web3.utils.fromWei(0.1,'ether');
-        this.state.rou.methods.placeBet(betArray).send({from: this.state.account, value: beteth})
+        // let beteth = await web3.utils.fromWei(betAmount,'ether');
+        this.state.rou.methods.placeBet(betArray).send({from: this.state.account, value: betAmount})
             .then(function(receipt){
                 console.log(receipt);
             });

@@ -20,7 +20,7 @@
  
 ## Instructions and Configuration
 
-### Setting up Server
+### Server (Back End)
 
 - Once cloned the repository, 'server/app/config/db.config.js' should look like this:
 ``` bash
@@ -40,48 +40,28 @@
 
 ```
 
-this will run the server on a hosted server so you can **skip next section** 
+this will run the server on a hosted server.
 
-### Setting up Server locally 
-
-#### installing MySql
-
-To get started, you need to create a 'localhost' server with a database named 'rou'
-
-- Install MySQL in your computer
-- Make sure you have MySQL or MySQL Workbench installed. 
-- if you have a macbook BigSur, download [this 8.0.21 version of MySQL Workbench](https://downloads.mysql.com/archives/workbench/)
-
-- Follow these steps: [Configure MySQL Workbench](https://docs.bitnami.com/installer/infrastructure/lamp/configuration/configure-workbench/)
-
-- Create a database called 'Rou'
+* navigate to 'client' directory
+``` cd client ```
+In the project directory, you can run the backend server:
+#### Project setup
+```npm install```
+Runs package.json to install all the dependecies.
+#### Run
 ```
-CREATE DATABASE Rou;
+node server.js
 ```
 
-- navigate to 
-``` 
-./server/app/config/db.config.js 
-```
-and modify to your host. For example mine is:
-```
-module.exports = {
-    HOST: "localhost",
-    USER: "root",
-    PASSWORD: "password",
-    DB: "rou",
-    dialect: "mysql",
-    pool: {
-        max: 5,
-        min: 0,
-        acquire: 30000,
-        idle: 10000
-    }
-};
-```
+Runs the app in the development mode.
+Open http://localhost:8080 to view it in the browser.
+The page will show you the message
+{"message":"Welcome to Rou application by Lette."}
 
-### Configure contract deployed locally
 
+### Deploy contract
+#### Locally
+**if you have truffle install, follow these steps.**
 - Make sure you have truffle installed, follow these [steos](https://www.trufflesuite.com/docs/truffle/getting-started/installation)
 * on the src folder, 
 - install dependecies:
@@ -104,8 +84,8 @@ npm install
 - Navigate to 'client/src/config.js' 
 - Paste respectivelly 
 
-#### Alternatevelly
-
+#### REMIX
+***DEPLOY CONTRACT ON REMIX***
 - Copy contract 'contracts/Roulette.sol'
 - Open [Remix](https://remix.ethereum.org/)
 - Paste and Deploy contract on Remix, follow these [steps](https://remix-ide.readthedocs.io/en/latest/create_deploy.html)
@@ -113,44 +93,26 @@ npm install
 - Navigate to 'client/src/config.js' on project 
 - Paste respectivelly 
 
-### Server (Back End)
-* navigate to 'client' directory
-``` cd client ```
-In the project directory, you can run the backend server:
-#### Project setup
-```npm install```
-Runs package.json to install all the dependecies.
-#### Run
-```
-node server.js
-```
-
-Runs the app in the development mode.
-Open http://localhost:8080 to view it in the browser.
-The page will show you the message
-{"message":"Welcome to Rou application by Lette."}
-
 ---
+
 ### Bot (Back End)
-Steps to run bot:
 
-Remove all files from bot directory and place in main directory
-```npm install```
-Create .env file and copy contents of .env.example file into it
-Configure .env variables
-Run command 
-```npm run start```
-
----
-### Contract (Back End)
-#### Steps to deploy the contract:
+#### Steps to deploy the bot
 
 * Make sure you are in a new **terminal window**
 * Navigate to 'bot' directory
 From source folder run:
 
 ```cd bot```
+* Remove all files from bot directory and place in main directory
+```npm install```
+* Create .env file and copy contents of .env.example file into it
+* Configure .env variables
+* Run command 
+```npm run start```
+* On 'bot/index.js' update **abi** and **contract address** (copy these from 'client/src/config.js')
 
+#### How does the bot work?
 1.	Casino will deploy the contract
 2.	A contract address will be deployed (we can copy that address directly into the front end). The contract address will always be the same. This is the address needed for players to join the game.
 3.	After deploying contract the Casino must deposit money using the deposit money function (recommended amount is 1 ether)
@@ -164,6 +126,7 @@ From source folder run:
 5. Player can now place their bet 
   - Player can remove or see their current bets on the table 
 ---
+
 ### Testing (Back End)
 Steps for testing the contract;
 
