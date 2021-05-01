@@ -104,13 +104,18 @@ npm install
 From source folder run:
 
 ```cd bot```
-* Remove all files from bot directory and place in main directory
+
+* On the directory, run:
 ```npm install```
 * Create .env file and copy contents of .env.example file into it
 * Configure .env variables
+-  **RPC_URL** is the network where the contract was deployed
+-  **PRIVATE_KEY** is the private key from your Metamask Account for the casino (should be different from the player's account)
+-  **ACCOUNT** is the account from metamask the cassino will use
+
+* On 'bot/index.js' update **abi** and **contract address** (copy these from 'client/src/config.js')
 * Run command 
 ```npm run start```
-* On 'bot/index.js' update **abi** and **contract address** (copy these from 'client/src/config.js')
 
 #### How does the bot work?
 1.	Casino will deploy the contract
