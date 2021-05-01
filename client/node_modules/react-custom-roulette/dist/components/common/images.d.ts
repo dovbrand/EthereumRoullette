@@ -1,1 +1,0 @@
-export const rouletteSelector: HTMLImageElement;
