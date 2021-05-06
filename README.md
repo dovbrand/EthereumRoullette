@@ -1,5 +1,4 @@
-# EthereumRoullette
-
+# Read Me
 
 ### Testing (Back End)
 Steps for testing the contract;
