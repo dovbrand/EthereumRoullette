@@ -150,7 +150,7 @@ Steps for testing the contract;
 #### Backend:
 * **Avraham Brand**  - [dovbrand](https://github.com/dovbrand)
 * **Hope Dunner**  - [hpdnnr7](https://github.com/hpdnnr7)
-#### General (Both Front & Backend):
+#### General (Front & Backend):
 * **Michael Mayaguari**  - [mgmayagu](https://github.com/mgmayagu)
 * **Inna Baryanova**  - [innabaryanova](https://github.com/innabaryanova)
 
