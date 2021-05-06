@@ -1,214 +1,107 @@
-pragma solidity ^0.6.6;
-pragma experimental ABIEncoderV2;
+var Roullette = artifacts.require("./Roullette");
+var Roullette = artifacts.require("Roullette");
+const { reverts } = require('truffle-assertions');
+const truffleAssert = require('truffle-assertions');
+const Web3 = require('web3');
+
+contract('Roullette', function(accounts){
+
+  let roullette;
+
+  it("Should run before each function", function(){
+  beforeEach(async () => {
+    roullette = await Roullette.deployed();
+    Player = await accounts[0];
+
+  });
+});
 
 
-contract Roullette {
-
-    struct Bet {
-        uint256[] numbers;
-        uint256 multiplier;
-        uint256 betAmount;
-    }
-
-    struct Player {
-        address payable playerAddress;
-        bool playerExists; // Whether the player has already been added to map and array;
-        bool win; // Whether the player won or lost
-        // bool gameInProgress; // Whether the player is currently playing a game
-        // uint256 result;
-        Bet[] bets;
-        int256 totalWinnings; // Keeps track of player balance
-    }
-
-    mapping(address => Player) playerMap; // Map containing all players playing the game (this is not iterable)
-    address[] playerAddressArray; // Array of all players addresses of players playing the game (this is iterable)
-    address payable casino;  // Address of the casino, will not change after contract is deployed
-    uint256 casinoDeposit = 0; // Value of the casino deposit
-    uint256 maxBet = .001 ether;
-    address payable contractAddress = address(this);  // Address of this contract
-    bytes32 public commitHash = 0;
-    uint256 winningNumber = 38;
-    uint256 lastWinningNumber;
-    bool wheelSpun = false;
-
-    bool bettingPhase  = false;
-    bool payingPhase = false ;
-    bool resetPhase = true;
-
-    constructor () public payable{
-        // Casino initiates the contract
-        casino = msg.sender;
-    }
-
-    // Function to receive Ether. msg.data must be empty
-    receive() external payable {}
-
-    // Fallback function is called when msg.data is not empty
-    fallback() external payable {}
-
-    // Function to send a value of money to an address
-    function sendViaCall(address payable _to, uint256 _amount) internal {
-        (bool sent, bytes memory data) = _to.call{value: _amount}("");
-        require(sent, "Failed to send Ether");
-    }
-
-    // Function for the casino to deposit money, must be called for the rest of the contract to work
-    function depositMoney() public payable {
-        require(msg.sender == casino, "Only the casino can deposit money");
-        casinoDeposit = casinoDeposit + msg.value;
-    }
-
-    function getCasinoDeposit() public view returns (uint256){
-        return casinoDeposit;
-    }
-
-    // How can we automate this?
-    function getOutcomeHash(bytes32 _outcomeHash) public returns (bytes32) {
-        require (resetPhase);
-        require(msg.sender == casino, "Only the casino can generate outcome");
-        require (commitHash == 0, "Hash already created");
-        commitHash = _outcomeHash;
-        resetPhase = false;
-        bettingPhase = true;
-        return commitHash;
-    }
-
-    // Function for the casino to match the bet amount
-    function matchBet(uint256 _betAmount) internal {
-        casinoDeposit = casinoDeposit - _betAmount; // bet amount is deducted from casinoDeposit and but remains in the contract balance
-    }
-
-    function placeBet(uint256[][] memory _bets) public payable {
-        require(bettingPhase);
-        address _playerAddress = msg.sender;
-        require(_playerAddress != casino, "Casino cannot be a player");
-        require(msg.value * 36 < casinoDeposit, "Casino cannot cover bet"); // Bet must be less than the money in the casino deposit to ensure casino can cover the bet
-        require(msg.value >= 1 wei, "Bets must be  at least 1 wei"); // Must be greater or equal to minimum bet of 1 wei
-        require(msg.value <= maxBet, "Max bet exceeded"); // Must be less than or equal to max bet of .001 ether
-
-        if( !playerMap[_playerAddress].playerExists) { // If player is new
-            playerAddressArray.push(msg.sender); // Add player address to array of player addresses
-            playerMap[_playerAddress].playerAddress = msg.sender;
-            playerMap[_playerAddress].playerExists = true;
-        }
-
-        setBet(_playerAddress, _bets, msg.value);
-    }
-
-    // This is the spin wheel function
-    function revealWinningNumber(uint256 _winningNumber, bytes32 _nonce) public payable returns (uint256){
-        require(msg.sender == casino, "Only the casino can revealWinningNumber");
-        require(keccak256(abi.encodePacked(_winningNumber, _nonce)) ==  commitHash, "Hash doesn't match"); // Ensures winning number was not changed
-        bettingPhase = false;
-        payingPhase = true;
-        payout(msg.sender);
-        return winningNumber;
-    }
-
-    function WinningNumber() public view returns (uint256)  {
-        require(payingPhase);
-        return winningNumber;
-    }
-
-    function payout(address _playerAddress) internal{
-        require(payingPhase);
-        uint256 winAmount = 0;
-        uint256 loseAmount;
-        for(uint256 i = 0; i < playerMap[_playerAddress].bets.length; i++){ // Loop through players bets
-            bool win = false;
-            for(uint256 j = 0; j < playerMap[_playerAddress].bets[i].numbers.length; j++){ // Loop through every number in the bet
-
-                if(playerMap[_playerAddress].bets[i].numbers[j] == winningNumber){ // Check if any are winning number
-                    winAmount = winAmount + playerMap[_playerAddress].bets[i].multiplier * playerMap[_playerAddress].bets[i].betAmount;
-                    win = true;
-                    break;
-                }
-            }
-            if (win == false){
-                loseAmount = loseAmount + playerMap[_playerAddress].bets[i].betAmount;
-            }
-        }
-        payCasino(loseAmount);
-        payPlayer(winAmount, _playerAddress);
-        updateWinnings(winAmount, loseAmount, _playerAddress);
-        // gameReset();
-    }
-
-    function setBet(address _playerAddress, uint256[][] memory _bets, uint256 _betTotal) internal{
-        // Sample Bets [[100,1,2,3,4],[100,20],[100,1,2,3,4,5,6,7,8,9,10,11,12]]
-        uint256 betTotal = 0;
-        uint256 n = _bets.length;
-        for(uint i = 0; i < n; i++){
-            betTotal += _bets[i][0];
-        }
-        require(betTotal == _betTotal, "Bet amount not equivalent to total bets");
-        for(uint i = 0; i < n; i++){
-            uint256  betAmount = _bets[i][0];
-            uint256 multiplier = 36/(_bets[i].length - 1);
-            uint256[] memory numbers = new uint256[](_bets[i].length - 1);
-            for(uint j = 1; j < _bets[i].length; j++){
-                numbers[j-1]= _bets[i][j];
-            }
-
-            playerMap[_playerAddress].bets.push(Bet(numbers,multiplier,betAmount));
-        }
-    }
-
-    function payCasino(uint256 amount) internal{
-        casinoDeposit = casinoDeposit + amount;
-    }
-
-    function payPlayer(uint256 amount, address _playerAddress) internal{
-        casinoDeposit = casinoDeposit - amount;
-        sendViaCall(playerMap[_playerAddress].playerAddress, amount);
-        uint256 numberOfBets = playerMap[_playerAddress].bets.length;
-        for(uint256 i = 0; i < numberOfBets; i++){
-            playerMap[_playerAddress].bets.pop;
-        }
-    }
-
-    // Funtion to return total balance of the contract which is casinoDeposit + all bets currently on the table
-    function getBalance() public view returns (uint) {
-        return address(this).balance;
-    }
-
-    // See current players bets
-    function seeBets() public view returns (Bet[] memory){
-        return playerMap[msg.sender].bets;
-    }
-
-    function seePlayerWinnings() public view returns (int256){
-        return playerMap[msg.sender].totalWinnings;
-    }
-
-    function updateWinnings(uint256 winAmount, uint256 loseAmount, address _playerAddress) internal{
-        playerMap[_playerAddress].totalWinnings = playerMap[_playerAddress].totalWinnings + int256(winAmount - loseAmount);
-    }
-
-    function gameReset() external{
-        require(msg.sender == casino, "Only the casino can reset game");
-        require(payingPhase);
-        require(commitHash != 0);
-        payingPhase = false;
-        resetPhase = true;
-        commitHash = 0;
-        lastWinningNumber = winningNumber;
-        winningNumber = 38;
-        for (uint i = 0; i < playerAddressArray.length; i++){
-            while(playerMap[playerAddressArray[i]].bets.length > 0){
-                playerMap[playerAddressArray[i]].bets.pop();
-            }
-        }
-    }
-
-    function removeBet(uint index) public {
-        address _playerAddress = msg.sender;
-        if (index >= playerMap[_playerAddress].bets.length) return ;
-        for (uint i = index; i< playerMap[_playerAddress].bets.length - 1; i++){
-            playerMap[_playerAddress].bets[i] = playerMap[_playerAddress].bets[i+1];
-        }
-        playerMap[_playerAddress].bets.pop();
-    }
+  it("Should run after each function", function(){
+  afterEach(async () => {
+    roullette = await Roullette.deployed();
+  });
+});
 
 
-}
+  it("Should return casino's deposit", function(){
+  return Roullette.deployed().then(function(instance){
+    return instance.getCasinoDeposit.call();
+  }).then(function(casinoDeposit){
+    assert.equal(casinoDeposit, 0, "The casinos deposit was not returned");
+    });
+  });
+
+
+  it("Should return the winning number for the WinningNumber function ", async () => {
+    const instance = await Roullette.deployed();
+    //await instance.WinningNumber(); //throws an error due to require function written in contract
+    await truffleAssert.reverts(instance.WinningNumber());
+  });
+
+
+  it("Should initialize max bet to 1 eth.", async () => {
+    const casino = 0;
+    const instance = await Roullette.deployed();
+    instance.setMaxBet(Web3.utils.toWei('1','ether')).then(
+      async()=>{
+        const _maxBet = await instance.maxBet();
+        assert.equal(Web3.utils.fromWei(_maxBet,'ether'),1,'not equal');
+      }
+    );
+  })
+
+
+  it('should set new hash with new winning number/start betting phase',async()=>{
+      await roullette.setWinningNumber(12).then(
+          async()=>{
+              await roullette.setCommitmentHash();
+              const newHash =await roullette.getCommitmentHash();
+              console.log(newHash+'');
+              truffleAssert.passes(newHash);
+          }
+      )
+  });
+
+
+  it('should place Bet under right conditions',async()=>{
+      await roullette.depositMoney({from:accounts[0],value:360000});
+      await truffleAssert.passes(roullette.placeBet([[1000,1,2,3],[100,4,5]],{from:accounts[1],value:1100}));
+      await truffleAssert.reverts(roullette.placeBet([[1000,1,2,3],[100,4,5]],{from:accounts[1],value:1000}));// not enough bet total
+      await truffleAssert.reverts(roullette.placeBet([[1000,1,2,3],[100,4,5]],{from:accounts[0],value:1100})); // casino player account[0] cannot play
+
+  });
+
+  it('should get casino deposit',async()=>{
+      const deposit = await roullette.getCasinoDeposit();
+      assert.equal(deposit,360000);
+  })
+
+  it('should change max Bet value',async()=>{
+      const newMaxBet= 10000000;
+      await roullette.setMaxBet(newMaxBet);
+      const newBet = await roullette.maxBet();
+      assert.equal(newBet,newMaxBet);
+  })
+
+  it('should show player bets',async()=>{
+      const bets = await roullette.seeBets({from:accounts[1]});
+      console.log(bets);
+      truffleAssert.passes(bets);
+  });
+
+  it('should reveal winning number',async()=>{
+      await roullette.revealWinningNumber(12,{from:accounts[0]}).then(
+          async()=>{
+              const Wn = await roullette.WinningNumber();
+              assert.equal(Wn,12);
+          }
+      )
+  });
+
+  it('should Remove Bet',async()=>{
+      truffleAssert.passes(roullette.removeBet(1,{from:accounts[1]}));
+      truffleAssert.reverts(roullette.removeBet(3,{from:accounts[1]}));//Only 2 bets, index out of range,Error
+  })
+
+})
