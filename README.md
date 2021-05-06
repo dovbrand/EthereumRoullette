@@ -14,7 +14,7 @@
 1. Clone this repository
 2. Download [Truffle](https://www.trufflesuite.com/truffle) 
 3. Download [Ganache](https://www.trufflesuite.com/ganache)
-4. [Configure](https://www.trufflesuite.com/docs/ganache/reference/ganache-settings) Ganache using ```truffle-config.js``` from src directory
+4. [Configure](https://www.trufflesuite.com/docs/ganache/reference/ganache-settings) Ganache using ```truffle-config.js``` from source directory
 
 ### Metamask 
 
