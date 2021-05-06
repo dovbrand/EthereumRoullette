@@ -142,6 +142,16 @@ Steps for testing the contract;
 
 ---
 
-### Team
+### Contributors
+
+#### Frontend:
+* **Mayra Vazquez-Sanchez** - [mayravs](https://github.com/mayravs)
+* **Pierce Ruddock Taylor**  - [pkrtaylor](https://github.com/pkrtaylor)
+#### Backend:
+* **Avraham Brand**  - [dovbrand](https://github.com/dovbrand)
+* **Hope Dunner**  - [hpdnnr7](https://github.com/hpdnnr7)
+#### General (Both Front & Backend):
+* **Michael Mayaguari**  - [mgmayagu](https://github.com/mgmayagu)
+* **Inna Baryanova**  - [innabaryanova](https://github.com/innabaryanova)
 
 
