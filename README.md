@@ -25,10 +25,10 @@
 - Once cloned the repository, 'server/app/config/db.config.js' should look like this:
 ``` bash
   module.exports = {
-    HOST: "sql5.freemysqlhosting.net",
-    USER: "sql5408535",
-    PASSWORD: "CNFq9khMkW",
-    DB: "sql5408535",
+    HOST: "freedb.tech",
+    USER: "freedbtech_rou",
+    PASSWORD: "1807Mich@3l",
+    DB: "freedbtech_rousp",
     dialect: "mysql",
     pool: {
       max: 5,
