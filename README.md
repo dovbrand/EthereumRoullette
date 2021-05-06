@@ -1,7 +1,7 @@
 # Ethereum Roullette
 
 ## Testing 
-*Note if you do not have truffle installed, you should follow the steps down below to install truffle on your machine. After installing truffle, you can follow the steps of viewing the available test files for the contract
+*Note if you do not have truffle installed, you should follow the steps down below to install truffle on your machine. After installing truffle, you can follow the steps of viewing the available test files for the contract*
 
 Steps for testing the contract;
 
