@@ -1,8 +1,10 @@
-const path = require('path')
+const path = require('path');
+require('dotenv').config();
 
-const HDWalletProvider = require("truffle-hdwallet-provider-privkey");
-const privateKey = 'banner exhaust junk reveal armed grab gorilla deposit digital ready pitch catalog';
-const endpointUrl = "https://kovan.infura.io/v3/4f42d33ad63a41bf897a2c84029fec3e";
+// const HDWalletProvider = require("truffle-hdwallet-provider-privkey");
+const HDWalletProvider = require("@truffle/hdwallet-provider")
+// const privateKey = 'banner exhaust junk reveal armed grab gorilla deposit digital ready pitch catalog';
+// const endpointUrl = "https://kovan.infura.io/v3/4f42d33ad63a41bf897a2c84029fec3e";
 /**
  * Use this file to configure your truffle project. It's seeded with some
  * common settings for different networks and features like migrations,
@@ -40,30 +42,28 @@ module.exports = {
    * $ truffle test --network <network-name>
    */
 
-   networks: {
+  networks: {
     development: {
       host: "127.0.0.1",
       port: 7545,
       network_id: "5777",
     },
     // kovan: {
-    //   provider: function() {
-    //     return new HDWalletProvider(
+    //   networkCheckTimeout: 10000, 
+    //   provider: () =>
+    //     new HDWalletProvider({
     //       //private keys array
-    //       [privateKey],
+    //       mnemonic: {
+    //         phrase: "banner exhaust junk reveal armed grab gorilla deposit digital ready pitch catalog"
+    //       },
     //       //url to ethereum node
-    //       endpointUrl
-    //     )
-    //   },
-    //   gas: 5000000,
-    //   gasPrice: 25000000000,
-    //   network_id: 42
-    // }
-  },
-
-  // Set default mocha options here, use special reporters etc.
-  mocha: {
-    // timeout: 100000
+    //       providerOrUrl: `https://kovan.infura.io/v3/${process.env.INFURA_API_KEY}`,
+    //       shareNonce: true,
+    //     }), 
+    //   network_id: 42, 
+    //   gas: 7500000,
+    //   gasPrice: 2500000000 //2.5 gwei
+    // },
   },
 
   contracts_build_directory: path.join(__dirname, "client/src/contracts"),

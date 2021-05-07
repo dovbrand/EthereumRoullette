@@ -104,15 +104,6 @@ npm install
 From source folder run:
 
 ```cd bot```
-<<<<<<< HEAD
-* Remove all files from bot directory and place in main directory
-```npm install```
-* Create .env file and copy contents of .env.example file into it
-* Configure .env variables
-* Run command 
-```npm run start```
-* On 'bot/index.js' update **abi** and **contract address** (copy these from 'client/src/config.js')
-=======
 
 * On the directory, run:
 ```npm install```
@@ -125,7 +116,6 @@ From source folder run:
 * On 'bot/index.js' update **abi** and **contract address** (copy these from 'client/src/config.js')
 * Run command 
 ```npm run start```
->>>>>>> main
 
 #### How does the bot work?
 1.	Casino will deploy the contract
