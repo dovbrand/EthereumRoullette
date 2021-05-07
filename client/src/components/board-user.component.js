@@ -7,16 +7,53 @@ import Board from './board.js'
 import './board.css'
 import Navbar from './Navbar';
 import Wheeel from './Wheeel';
-import { MdLaptopWindows } from "react-icons/md";
 
 import { ROU_ABI, ROU_ADDRESS } from '../config'
 
 export default class BoardUser extends Component {
 
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            account: '',
+            rou: null,
+            playerBalance: 0,
+            getBetCloseRunning: false,
+            getBetOpenRunning: true,
+            lastBlock: 0
+        };
+
+        this.PlaceBet = this.PlaceBet.bind(this);
+        this.getBettingClosed = this.getBettingClosed.bind(this);
+        this.getBettingOpen = this.getBettingOpen.bind(this);
+    }
+
     // loads web3 and interacts with contract
-    async componentWillMount() {
+    async UNSAFE_componentWillMount() {
         await this.loadWeb3()
         await this.loadBlockchainData()
+        await this.getBettingClosed()
+    }
+
+    componentDidMount = async () => {
+       
+        UserService.getUserBoard().then(
+        response => {
+            this.setState({
+            content: response.data
+            });
+        },
+        error => {
+            this.setState({
+            content:
+                (error.response &&
+                error.response.data &&
+                error.response.data.message) ||
+                error.message ||
+                error.toString()
+            });
+        });
     }
 
     async loadWeb3() {
@@ -48,16 +85,13 @@ export default class BoardUser extends Component {
         this.setState({ rou })
         this.setState({ loading: false})
         console.log(rou)
-        
     }
 
     async PlaceBet() {
-        const web3 = window.web3
         var betArray = window.BETS_ARRAY;
         var betAmount = window.BETS_TOTAL;
         console.log(betArray)
         console.log("TOTAL AMOUNT BET: " + betAmount)
-        // let beteth = await web3.utils.fromWei(betAmount,'ether');
         this.state.rou.methods.placeBet(betArray).send({from: this.state.account, value: betAmount})
             .then(function(receipt){
                 console.log(receipt);
@@ -65,51 +99,56 @@ export default class BoardUser extends Component {
         window.Reset();
     };
 
-    constructor(props) {
-        super(props);
+    async getBettingClosed() {
+        if (this.state.getBetCloseRunning === false) {
+            this.setState({ getBetCloseRunning: true})
+            console.log("Get Betting Close Event")
+            this.state.rou.once('bettingPhaseClosed', { fromBlock: this.state.lastBlock },
+                (error, event) =>{
+                    console.log(event);
+                    this.setState({lastBlock: event.blockNumber})
+                    // handleSpinClick();
+                    // disable placebet button 
+                    this.setState({getBetOpenRunning: false})
+                    this.getBettingOpen();
+            });
+        }
+    }
+  
+    async getBettingOpen() {
+        if (this.state.getBetOpenRunning === false) {
+            this.setState({ getBetOpenRunning: true})
+            console.log("Get Betting Open Event")
+            this.state.rou.once('bettingPhaseOpen', { fromBlock: this.state.lastBlock },
+                (error, event) => {
+                    console.log(event);
+                    this.setState({lastBlock: event.blockNumber})
+                    // timer should restart
+                    this.setState({getBetCloseRunning: false})
+                    this.getBettingClosed();
+            });
+        }
+    }
 
-        this.state = {
-            account: '',
-            rou: null,
-            playerBalance: 0
+
+    render() {
+        
+
+        const Completionist = () => <span className="bet-status-msg">Betting closed</span>;
+
+        // Renderer callback with condition
+        const renderer = ({ minutes, seconds, completed }) => {
+            
+            if (completed) {
+                // Render a completed state
+                // check if bet was placed, if not reset else run the wheel
+                return <Completionist />;
+            } else {
+                // Render a countdown
+                return <span>{minutes}:{seconds < 10 ? `0${ seconds }` : seconds}</span>;
+            }
         };
-
-        this.PlaceBet = this.PlaceBet.bind(this);
-    }
-
-    componentDidMount = async () => {
-        UserService.getUserBoard().then(
-        response => {
-            this.setState({
-            content: response.data
-            });
-        },
-        error => {
-            this.setState({
-            content:
-                (error.response &&
-                error.response.data &&
-                error.response.data.message) ||
-                error.message ||
-                error.toString()
-            });
-        });
-    }
-
-
-  render() {
-    const Completionist = () => <span className="bet-status-msg">Betting closed</span>;
- 
-    // Renderer callback with condition
-    const renderer = ({ minutes, seconds, completed }) => {
-      if (completed) {
-        // Render a completed state
-        return <Completionist />;
-      } else {
-        // Render a countdown
-        return <span>{minutes}:{seconds < 10 ? `0${ seconds }` : seconds}</span>;
-      }
-    };
+       
     
     // const { rou } = this.state;
     return (
@@ -121,7 +160,7 @@ export default class BoardUser extends Component {
             <div className="auth-inner-2" style={{position: 'fixed', left: '50%', top: '57%',transform: 'translate(-50%, -50%)'}}>
             <div className="flex-container">
             <div className="flex-child spin">
-                <Wheeel />
+                <Wheeel currentPhase={this.state.currentPhase}/>
             </div>
             <div className="flex-child bet-table">
                 <div className="bet-status">

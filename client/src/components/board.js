@@ -10,71 +10,73 @@ function board() {
 		<div>
 			<div className="roulette">
                 <table>
-                    <tr className="nums">
-                        <td className="num green zero" rowSpan="3"><span>0</span></td>
-                        <td className="num red"><span>3</span></td>
-                        <td className="num black"><span>6</span></td>
-                        <td className="num red"><span>9</span></td>
-                        <td className="num red"><span>12</span></td>
-                        <td className="num black"><span>15</span></td>
-                        <td className="num red"><span>18</span></td>
-                        <td className="num red"><span>21</span></td>
-                        <td className="num black"><span>24</span></td>
-                        <td className="num red"><span>27</span></td>
-                        <td className="num red"><span>30</span></td>
-                        <td className="num black"><span>33</span></td>
-                        <td className="num red"><span>36</span></td>
-                        <td className="sector" data-sector="1"><span className="vt">2 to 1</span></td>
-                    </tr>
-                    <tr className="nums">
-                        <td className="hidden"></td>
-                        <td className="num black"><span>2</span></td>
-                        <td className="num red"><span>5</span></td>
-                        <td className="num black"><span>8</span></td>
-                        <td className="num black"><span>11</span></td>
-                        <td className="num red"><span>14</span></td>
-                        <td className="num black"><span>17</span></td>
-                        <td className="num black"><span>20</span></td>
-                        <td className="num red"><span>23</span></td>
-                        <td className="num black"><span>26</span></td>
-                        <td className="num black"><span>29</span></td>
-                        <td className="num red"><span>32</span></td>
-                        <td className="num black"><span>35</span></td>
-                        <td className="sector" data-sector="2"><span className="vt">2 to 1</span></td>
-                    </tr>
-                    <tr className="nums">
-                        <td className="hidden"></td>
-                        <td className="num red"><span>1</span></td>
-                        <td className="num black"><span>4</span></td>
-                        <td className="num red"><span>7</span></td>
-                        <td className="num black"><span>10</span></td>
-                        <td className="num black"><span>13</span></td>
-                        <td className="num red"><span>16</span></td>
-                        <td className="num red"><span>19</span></td>
-                        <td className="num black"><span>22</span></td>
-                        <td className="num red"><span>25</span></td>
-                        <td className="num black"><span>28</span></td>
-                        <td className="num black"><span>31</span></td>
-                        <td className="num red"><span>34</span></td>
-                        <td className="sector" data-sector="3"><span className="vt">2 to 1</span></td>
-                    </tr>
-                    <tr>
-                        <td className="empty"></td>
-                        <td colSpan="4" className="sector" data-sector="4">1st 12</td>
-                        <td colSpan="4" className="sector" data-sector="5">2nd 12</td>
-                        <td colSpan="4" className="sector" data-sector="6">3rd 12</td>
-                        <td className="empty"></td>
-                    </tr>
-                    <tr>
-                        <td className="empty"></td>
-                        <td colSpan="2" className="sector" data-sector="7">1 to 18</td>
-                        <td colSpan="2" className="sector" data-sector="8">EVEN</td>
-                        <td colSpan="2" className="sector red" data-sector="9">RED</td>
-                        <td colSpan="2" className="sector black" data-sector="10">BLACK</td>
-                        <td colSpan="2" className="sector" data-sector="11">ODD</td>
-                        <td colSpan="2" className="sector" data-sector="12">19 to 36</td>
-                        <td className="empty"></td>
-                    </tr>
+                    <tbody>
+                        <tr className="nums">
+                            <td className="num green zero" rowSpan="3"><span>0</span></td>
+                            <td className="num red"><span>3</span></td>
+                            <td className="num black"><span>6</span></td>
+                            <td className="num red"><span>9</span></td>
+                            <td className="num red"><span>12</span></td>
+                            <td className="num black"><span>15</span></td>
+                            <td className="num red"><span>18</span></td>
+                            <td className="num red"><span>21</span></td>
+                            <td className="num black"><span>24</span></td>
+                            <td className="num red"><span>27</span></td>
+                            <td className="num red"><span>30</span></td>
+                            <td className="num black"><span>33</span></td>
+                            <td className="num red"><span>36</span></td>
+                            <td className="sector" data-sector="1"><span className="vt">2 to 1</span></td>
+                        </tr>
+                        <tr className="nums">
+                            <td className="hidden"></td>
+                            <td className="num black"><span>2</span></td>
+                            <td className="num red"><span>5</span></td>
+                            <td className="num black"><span>8</span></td>
+                            <td className="num black"><span>11</span></td>
+                            <td className="num red"><span>14</span></td>
+                            <td className="num black"><span>17</span></td>
+                            <td className="num black"><span>20</span></td>
+                            <td className="num red"><span>23</span></td>
+                            <td className="num black"><span>26</span></td>
+                            <td className="num black"><span>29</span></td>
+                            <td className="num red"><span>32</span></td>
+                            <td className="num black"><span>35</span></td>
+                            <td className="sector" data-sector="2"><span className="vt">2 to 1</span></td>
+                        </tr>
+                        <tr className="nums">
+                            <td className="hidden"></td>
+                            <td className="num red"><span>1</span></td>
+                            <td className="num black"><span>4</span></td>
+                            <td className="num red"><span>7</span></td>
+                            <td className="num black"><span>10</span></td>
+                            <td className="num black"><span>13</span></td>
+                            <td className="num red"><span>16</span></td>
+                            <td className="num red"><span>19</span></td>
+                            <td className="num black"><span>22</span></td>
+                            <td className="num red"><span>25</span></td>
+                            <td className="num black"><span>28</span></td>
+                            <td className="num black"><span>31</span></td>
+                            <td className="num red"><span>34</span></td>
+                            <td className="sector" data-sector="3"><span className="vt">2 to 1</span></td>
+                        </tr>
+                        <tr>
+                            <td className="empty"></td>
+                            <td colSpan="4" className="sector" data-sector="4">1st 12</td>
+                            <td colSpan="4" className="sector" data-sector="5">2nd 12</td>
+                            <td colSpan="4" className="sector" data-sector="6">3rd 12</td>
+                            <td className="empty"></td>
+                        </tr>
+                        <tr>
+                            <td className="empty"></td>
+                            <td colSpan="2" className="sector" data-sector="7">1 to 18</td>
+                            <td colSpan="2" className="sector" data-sector="8">EVEN</td>
+                            <td colSpan="2" className="sector red" data-sector="9">RED</td>
+                            <td colSpan="2" className="sector black" data-sector="10">BLACK</td>
+                            <td colSpan="2" className="sector" data-sector="11">ODD</td>
+                            <td colSpan="2" className="sector" data-sector="12">19 to 36</td>
+                            <td className="empty"></td>
+                        </tr>
+                    </tbody>
                 </table>
                 <div className="controlls">
                     <div className="col0">

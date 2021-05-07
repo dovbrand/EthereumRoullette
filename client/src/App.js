@@ -13,9 +13,6 @@ import BoardUser from "./components/board-user.component";
 import Rankings from "./components/RankingsModal";
 import HowTo from "./components/HowtoModal";
 
-import Web3 from "web3";
-import RouletteContract from './contracts/Roulette.json';
-
 class App extends Component {
 
   constructor(props) {
