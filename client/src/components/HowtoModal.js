@@ -232,7 +232,8 @@ const HowtoModal = (props) =>{
             <ul>
                 <li><strong>Straight:</strong> This is a bet that covers only one number. In order to make this bet, place the chip inside the square containing the number.</li>
                 <li><strong>Split:</strong> A bet on two numbers adjacent on the table made by placing the chip on the shared line of the two squares containing the numbers.</li>
-                <li><strong>Street:</strong> A bet on two adjacent lines. In order to make this bet, you have to place the chip on the common outer corner of the two lines. </li>
+                <li><strong>Street:</strong> A bet on three numbers located on the same line. In order to make this bet, you have to place the chip on the outer corner of the row. </li>
+                <li><strong>Six Line:</strong> A bet on two adjacent lines. In order to make this bet, you have to place the chip on the common outer corner of the two lines. </li>
                 <li><strong>Corner:</strong> This is a four-number bet made by placing the chip on the common corner of the four numbers (also called a square bet). </li>
                 <li><strong>Trio:</strong> A three number bet that includes the zero. Place the chip on the line shared by the zero box and the two other numbers.</li>
                 <li><strong>Basket:</strong> Bet on 0, 1, 2, 3 with a chip on the corner shared by the zero box and the first line.</li>
