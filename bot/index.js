@@ -17,7 +17,7 @@ const server = http.createServer(app).listen(PORT, () => console.log(`Listening 
 // WEB3 CONFIG
 const web3 = new Web3(new HDWalletProvider({ privateKeys: [process.env.PRIVATE_KEY], providerOrUrl: process.env.RPC_URL }))
 
-const CONTRACT_ADDRESS = "0x8f09DB1bBa83d799c154da3944D985Da52429c1F";// Contract Address here ;
+const CONTRACT_ADDRESS = "0xcC211358434034A580601BD611f4eA4d3136d70f";// Contract Address here ;
 const CONTRACT_ABI =  [
   {
     "inputs": [],
@@ -367,7 +367,6 @@ async function runScript() {
     else if (currentPhase == "resetPhase") {
       // Create Casino Hash
       await generateHash();
-      await sleep(12000);
     }
     else if (currentPhase == "bettingPhase") {
       // Wait until betting is complete and reveal winning number
@@ -386,5 +385,5 @@ async function runScript() {
 }
 
 // runs script every n seconds
-const POLLING_INTERVAL = 30000 // 30 secs
+const POLLING_INTERVAL = 60000 // 30 secs
 script = setInterval(async () => { await runScript() }, POLLING_INTERVAL)
