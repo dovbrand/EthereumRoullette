@@ -108,7 +108,7 @@ export default class BoardUser extends Component {
                     console.log(event);
                     this.setState({lastBlock: event.blockNumber})
                     // handleSpinClick();
-                    // disable placebet button 
+                    this.btn.setAttribute("disabled", "disabled"); // placebet button disables
                     this.setState({getBetOpenRunning: false})
                     this.getBettingOpen();
             });
@@ -124,12 +124,12 @@ export default class BoardUser extends Component {
                     console.log(event);
                     this.setState({lastBlock: event.blockNumber})
                     // timer should restart
+                    this.btn.removeAttribute("disabled"); // placebet button renables
                     this.setState({getBetCloseRunning: false})
                     this.getBettingClosed();
             });
         }
     }
-
 
     render() {
         
@@ -178,7 +178,8 @@ export default class BoardUser extends Component {
                     </div>
                     <div>
                         <button className="reset-btn btn btn-danger btn-block" onClick={window.Reset}>Reset</button>
-                        <button className="place-btn btn btn-danger btn-block" onClick={this.PlaceBet}>Place bet</button>
+                        <button className="place-btn btn btn-danger btn-block" ref={btn => { this.btn = btn; }} onClick={this.PlaceBet}>Place bet</button>
+                        
                     </div>
                 </div>
             </div>
