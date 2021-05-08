@@ -52,12 +52,12 @@ export default class  Navbar extends Component {
                         How to Play
                         </Link>
                     </li>
-                    <li className="nav-item">
+                    {/* <li className="nav-item">
                         <Link to={"/rankings"} className="nav-link nav-link-items">
                         <img className="rankings-img" src={rankings} alt="Rankings"></img>
                         Rankings
                         </Link>
-                    </li>
+                    </li> */}
                     <li className="nav-item">
                         <Link to={"/profile"} className="nav-link nav-link-items">
                         <img className="account-img" src={account} alt="Account"/>
