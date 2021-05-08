@@ -155,13 +155,19 @@ export default class BoardUser extends Component {
     render() {
         var gamePhaseMsg = this.state.gameState
         if (gamePhaseMsg === 'resetPhase'){
-            gamePhaseMsg = 'Place your bets'
-        } else if (gamePhaseMsg === 'bettingPhase') {
-            gamePhaseMsg = 'Place your bets'
-        } else if (gamePhaseMsg === 'payingPhase') {
-            gamePhaseMsg = 'Reaveling Winner Number'
-        } else {
-            gamePhaseMsg = 'Please wait'
+            this.btn.setAttribute("disabled", "disabled");
+            gamePhaseMsg = 'Game resetting, please wait...'
+        } 
+        else if (gamePhaseMsg === 'bettingPhase') {
+            this.btn.removeAttribute("disabled");
+            gamePhaseMsg = 'You have 1 minute to place your bets'
+        }
+        else if (gamePhaseMsg === 'payingPhase') {
+            this.btn.setAttribute("disabled", "disabled");
+            gamePhaseMsg = 'Revealing the winning number, a new game will start soon...'
+        } 
+        else {
+            gamePhaseMsg = 'Please wait...'
         
         };
 
@@ -191,7 +197,7 @@ export default class BoardUser extends Component {
                                             <div id='result'></div>
                                         </div>
                                         <div>
-                                            <button className="reset-btn btn btn-danger btn-block" onClick={window.Reset}>Reset</button>
+                                            <button className="reset-btn btn btn-danger btn-block" onClick={window.Reset}>Clear Bets</button>
                                             <button className="place-btn btn btn-danger btn-block" ref={btn => { this.btn = btn; }} onClick={this.PlaceBet}>Place bet</button>
                                         </div>
                                     </div>
