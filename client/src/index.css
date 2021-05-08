@@ -79,7 +79,7 @@ body, html, .App, #root, .auth-wrapper{
 .bets {
   background-color: #E5E5E5;
   border-radius: 15px;
-  width: 200px;
+  width: 300px;
   height: 140px;
   text-align: center;
 }

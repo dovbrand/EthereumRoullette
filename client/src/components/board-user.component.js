@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import UserService from "../services/user.service";
 import Web3 from "web3";
-import Countdown from 'react-countdown';
 
 import Board from './board.js'
 import './board.css'
@@ -21,12 +20,16 @@ export default class BoardUser extends Component {
             getBetCloseRunning: false,
             getBetOpenRunning: true,
             lastBlock: 0,
-            spinWheel: false
+            spinWheel: false,
+            gameState: ''
         };
 
         this.PlaceBet = this.PlaceBet.bind(this);
         this.getBettingClosed = this.getBettingClosed.bind(this);
-        this.getBettingOpen = this.getBettingOpen.bind(this);
+        this.getBettingOpen = this.getBettingOpen.bind(this);      
+        this.getGameState = this.getGameState.bind(this);      
+
+          
     }
 
     // loads web3 and interacts with contract
@@ -34,9 +37,12 @@ export default class BoardUser extends Component {
         await this.loadWeb3()
         await this.loadBlockchainData()
         await this.getBettingClosed()
+        await this.getGameState()
+
     }
 
     componentDidMount = async () => {
+        this.updateTimer = setInterval(() => this.getGameState(), 30000);
        
         UserService.getUserBoard().then(
         response => {
@@ -88,6 +94,7 @@ export default class BoardUser extends Component {
     }
 
     async PlaceBet() {
+        this.btn.setAttribute("disabled", "disabled");
         var betArray = window.BETS_ARRAY;
         var betAmount = window.BETS_TOTAL;
         console.log(betArray)
@@ -100,8 +107,10 @@ export default class BoardUser extends Component {
     };
 
     async getBettingClosed() {
+        this.getGameState();
 
         if (this.state.getBetCloseRunning === false) {
+            // this.timerUpdate();
             this.setState({ getBetCloseRunning: true})
             this.setState({spinWheel: true})
             console.log("Get Betting Close Event")
@@ -109,43 +118,51 @@ export default class BoardUser extends Component {
                 (error, event) =>{
                     console.log(event);
                     this.setState({lastBlock: event.blockNumber})
-                    // disable placebet button 
+                    this.btn.setAttribute("disabled", "disabled"); // placebet button disables
                     this.setState({getBetOpenRunning: false})
                     this.setState({spinWheel: false})
                     this.getBettingOpen();
             });
         }
     }
-  
+
     async getBettingOpen() {
+        this.getGameState();
+
         if (this.state.getBetOpenRunning === false) {
+            // this.timerUpdate()
             this.setState({ getBetOpenRunning: true})
             console.log("Get Betting Open Event")
             this.state.rou.once('bettingPhaseOpen', { fromBlock: this.state.lastBlock },
                 (error, event) => {
                     console.log(event);
                     this.setState({lastBlock: event.blockNumber})
-                    // timer should restart
+                    this.btn.removeAttribute("disabled"); // placebet button renables
                     this.setState({getBetCloseRunning: false})
                     this.getBettingClosed();
             });
         }
     }
 
+    async  getGameState() {
+        await this.state.rou.methods.getGameState().call().then(
+          data => {
+            this.setState({gameState: data});
+          }
+        );
+      }
 
     render() {
-        const Completionist = () => <span className="bet-status-msg">Betting closed</span>;
-        // Renderer callback with condition
-        const renderer = ({ minutes, seconds, completed }) => {
-            
-            if (completed) {
-                // Render a completed state
-                // check if bet was placed, if not reset else run the wheel
-                return <Completionist />;
-            } else {
-                // Render a countdown
-                return <span>{minutes}:{seconds < 10 ? `0${ seconds }` : seconds}</span>;
-            }
+        var gamePhaseMsg = this.state.gameState
+        if (gamePhaseMsg === 'resetPhase'){
+            gamePhaseMsg = 'Place your bets'
+        } else if (gamePhaseMsg === 'bettingPhase') {
+            gamePhaseMsg = 'Place your bets'
+        } else if (gamePhaseMsg === 'payingPhase') {
+            gamePhaseMsg = 'Reaveling Winner Number'
+        } else {
+            gamePhaseMsg = 'Please wait'
+        
         };
 
         return (
@@ -159,8 +176,8 @@ export default class BoardUser extends Component {
                                     <Wheeel spinWheel={this.state.spinWheel}/>
                                 </div>
                                 <div className="flex-child bet-table">
-                                    <div className="bet-status">
-                                        <h3><strong>Time remaining:</strong> <Countdown date={Date.now() + 60000} renderer={renderer}/></h3>
+                                    <div className="bet-status" id='timer'>
+                                        <h3>{gamePhaseMsg}</h3>
                                     </div>
                                     <div>
                                         <Board/>
@@ -170,12 +187,12 @@ export default class BoardUser extends Component {
                                             <strong>Your bets:</strong>
                                             <div className="bets overflow-scroll" id='bets'></div>
                                             <div id='balance'><strong>Balance:</strong> {this.state.balance} ETH</div>
-                                            <div id='balance'><strong>Bet:</strong> {window.BETS_TOTAL} ETH</div>
+                                            <div id='totalBet'><strong>Total Bet:</strong> 0.00 ETH</div>
                                             <div id='result'></div>
                                         </div>
                                         <div>
                                             <button className="reset-btn btn btn-danger btn-block" onClick={window.Reset}>Reset</button>
-                                            <button className="place-btn btn btn-danger btn-block" onClick={this.PlaceBet}>Place bet</button>
+                                            <button className="place-btn btn btn-danger btn-block" ref={btn => { this.btn = btn; }} onClick={this.PlaceBet}>Place bet</button>
                                         </div>
                                     </div>
                                 </div>

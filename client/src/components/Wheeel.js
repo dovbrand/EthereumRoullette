@@ -86,10 +86,11 @@ export default function Wheeel(props) {
         setMustSpin(true)
       }
     )
+    window.Reset();
   }
 
   if (props.spinWheel === true) {
-    console.log(props.spinWheel)
+    // console.log(props.spinWheel)
     handleSpinClick();
   }
 
@@ -97,7 +98,7 @@ export default function Wheeel(props) {
     
     <div className='wheel'>
       <div className='wheel win-msg-container'>
-        <h3 className="win-msg">{winnerNum}</h3>
+        <h3 className="win-msg">{winnerNum }</h3>
       </div>
       <Wheel
         mustStartSpinning={mustSpin}

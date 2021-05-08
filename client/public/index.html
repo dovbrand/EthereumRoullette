@@ -298,6 +298,7 @@
 							// 	window.BETS_ARRAY.push(temp);
 							// 	break;
 							}
+							UpdateBalance();
 
 						if(e.button==2)ChangeBet(36+$(this).data('sector'),-1);
 						else ChangeBet(36+$(this).data('sector'),+1);
@@ -320,6 +321,7 @@
 							window.BETS_ARRAY.push(temp);
 						}
 						// console.log(window.BETS_ARRAY);
+						UpdateBalance();
 						
 						if(typeof numbers.length ==='undefined')numbers=[numbers];
 						else numbers=numbers.split(',');
@@ -379,7 +381,7 @@
 			window.BETS_TOTAL = 0;
 			
 			UpdateBets();
-			//UpdateBalance(); not necessary since we get the balance directly from metamask
+			UpdateBalance(); 
 		}
 
 		function TotalBets(){
@@ -426,14 +428,12 @@
 			bets[id]+=amount;
 			if(bets[id]<0)bets[id]=0;
 			UpdateBets();
-			//UpdateBalance(); not necessary since we get the balance directly from metamask
+			UpdateBalance(); 
 		}
 
 		function UpdateBalance(){
-			var e=document.getElementById("balance");
-			e.innerHTML="Balance: "+balance.toFixed(2)+" ETH";
-			var tb=TotalBets();
-			if(tb>0)e.innerHTML+=" ("+(tb*CurrentTier).toFixed(2)+")";
+			var e=document.getElementById("totalBet");
+			if(window.BETS_TOTAL>0)e.innerHTML="Total Bet: "+(window.BETS_TOTAL/(10**18))+" ETH";
 		}
 
 		var balance=10000000000000000;
