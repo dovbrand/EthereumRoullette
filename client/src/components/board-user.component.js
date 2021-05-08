@@ -14,14 +14,14 @@ export default class BoardUser extends Component {
 
     constructor(props) {
         super(props);
-
         this.state = {
             account: '',
             rou: null,
             playerBalance: 0,
             getBetCloseRunning: false,
             getBetOpenRunning: true,
-            lastBlock: 0
+            lastBlock: 0,
+            spinWheel: false
         };
 
         this.PlaceBet = this.PlaceBet.bind(this);
@@ -100,16 +100,18 @@ export default class BoardUser extends Component {
     };
 
     async getBettingClosed() {
+
         if (this.state.getBetCloseRunning === false) {
             this.setState({ getBetCloseRunning: true})
+            this.setState({spinWheel: true})
             console.log("Get Betting Close Event")
             this.state.rou.once('bettingPhaseClosed', { fromBlock: this.state.lastBlock },
                 (error, event) =>{
                     console.log(event);
                     this.setState({lastBlock: event.blockNumber})
-                    // handleSpinClick();
                     // disable placebet button 
                     this.setState({getBetOpenRunning: false})
+                    this.setState({spinWheel: false})
                     this.getBettingOpen();
             });
         }
@@ -132,10 +134,7 @@ export default class BoardUser extends Component {
 
 
     render() {
-        
-
         const Completionist = () => <span className="bet-status-msg">Betting closed</span>;
-
         // Renderer callback with condition
         const renderer = ({ minutes, seconds, completed }) => {
             
@@ -148,46 +147,43 @@ export default class BoardUser extends Component {
                 return <span>{minutes}:{seconds < 10 ? `0${ seconds }` : seconds}</span>;
             }
         };
-       
-    
-    // const { rou } = this.state;
-    return (
-        <div className="main">
-            <Navbar account = {this.state.account} />  
-            
-            <div className="auth-wrapper">
-                <div className="content">
-            <div className="auth-inner-2" style={{position: 'fixed', left: '50%', top: '57%',transform: 'translate(-50%, -50%)'}}>
-            <div className="flex-container">
-            <div className="flex-child spin">
-                <Wheeel currentPhase={this.state.currentPhase}/>
-            </div>
-            <div className="flex-child bet-table">
-                <div className="bet-status">
-                    <h3><strong>Time remaining:</strong> <Countdown date={Date.now() + 120000} renderer={renderer}/></h3>
-                </div>
-                <div>
-                    <Board/>
-                </div>
-                <div className="betting-action flex-container">
-                    <div className=" display-bets">
-                        <strong>Your bets:</strong>
-                        <div className="bets overflow-scroll" id='bets'></div>
-                        <div id='balance'><strong>Balance:</strong> {this.state.balance} ETH</div>
-                        <div id='result'></div>
-                    </div>
-                    <div>
-                        <button className="reset-btn btn btn-danger btn-block" onClick={window.Reset}>Reset</button>
-                        <button className="place-btn btn btn-danger btn-block" onClick={this.PlaceBet}>Place bet</button>
-                    </div>
-                </div>
-            </div>
-            </div>
 
-            </div>
-        </div>
-        </div>
-        </div> 
-    );
-  }
+        return (
+            <div className="main">
+                <Navbar account = {this.state.account} />  
+                <div className="auth-wrapper">
+                    <div className="content">
+                        <div className="auth-inner-2" style={{position: 'fixed', left: '50%', top: '57%',transform: 'translate(-50%, -50%)'}}>
+                            <div className="flex-container">
+                                <div className="flex-child spin">
+                                    <Wheeel spinWheel={this.state.spinWheel}/>
+                                </div>
+                                <div className="flex-child bet-table">
+                                    <div className="bet-status">
+                                        <h3><strong>Time remaining:</strong> <Countdown date={Date.now() + 60000} renderer={renderer}/></h3>
+                                    </div>
+                                    <div>
+                                        <Board/>
+                                    </div>
+                                    <div className="betting-action flex-container">
+                                        <div className=" display-bets">
+                                            <strong>Your bets:</strong>
+                                            <div className="bets overflow-scroll" id='bets'></div>
+                                            <div id='balance'><strong>Balance:</strong> {this.state.balance} ETH</div>
+                                            <div id='balance'><strong>Bet:</strong> {window.BETS_TOTAL} ETH</div>
+                                            <div id='result'></div>
+                                        </div>
+                                        <div>
+                                            <button className="reset-btn btn btn-danger btn-block" onClick={window.Reset}>Reset</button>
+                                            <button className="place-btn btn btn-danger btn-block" onClick={this.PlaceBet}>Place bet</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+        );
+    }
 }

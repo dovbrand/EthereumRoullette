@@ -17,7 +17,7 @@ const server = http.createServer(app).listen(PORT, () => console.log(`Listening 
 // WEB3 CONFIG
 const web3 = new Web3(new HDWalletProvider({ privateKeys: [process.env.PRIVATE_KEY], providerOrUrl: process.env.RPC_URL }))
 
-const CONTRACT_ADDRESS = "0xaE05a6b8E9aF2CCf4A5082D5D566cbc30913dC0c";// Contract Address here ;
+const CONTRACT_ADDRESS = "0x8f09DB1bBa83d799c154da3944D985Da52429c1F";// Contract Address here ;
 const CONTRACT_ABI =  [
   {
     "inputs": [],
@@ -267,7 +267,7 @@ const CONTRACT_ABI =  [
 const RouletteContract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
 const account = process.env.ACCOUNT;
 
-const MIN_DEPOSIT = 1000000000;
+const MIN_DEPOSIT = 1000000000000000;
 
 var randomBytes;
 var randomNumber;
@@ -386,5 +386,5 @@ async function runScript() {
 }
 
 // runs script every n seconds
-const POLLING_INTERVAL = 10000 // 30 secs
+const POLLING_INTERVAL = 30000 // 30 secs
 script = setInterval(async () => { await runScript() }, POLLING_INTERVAL)

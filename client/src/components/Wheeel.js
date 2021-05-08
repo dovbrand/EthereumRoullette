@@ -67,6 +67,7 @@ export default function Wheeel(props) {
   const [mustSpin, setMustSpin] = useState(false);
   const [prizeNumber, setPrizeNumber] = useState(0);
   const [perpendicularText] = useState(true);
+  const [winnerNum, setWinNum] = useState(0);
   
   function handleSpinClick() {
     var PrizeNumber = 0;
@@ -75,6 +76,7 @@ export default function Wheeel(props) {
     rou.methods.WinningNumber().call().then(
       resp => {
         PrizeNumber = resp;
+        setWinNum(PrizeNumber)
         console.log("Winning Number is: " + resp)
         for (var i = 0; i < data.length; i++) {
           if (PrizeNumber === data[i].option)
@@ -85,12 +87,18 @@ export default function Wheeel(props) {
       }
     )
   }
-  
+
+  if (props.spinWheel === true) {
+    console.log(props.spinWheel)
+    handleSpinClick();
+  }
+
   return (
+    
     <div className='wheel'>
-    <div className='wheel win-msg-container'>
-     {/*<h3 className="win-msg">Winning Number: {PrizeNumber}</h3>*/}
-    </div>
+      <div className='wheel win-msg-container'>
+        <h3 className="win-msg">{winnerNum}</h3>
+      </div>
       <Wheel
         mustStartSpinning={mustSpin}
         prizeNumber={prizeNumber}
@@ -111,13 +119,8 @@ export default function Wheeel(props) {
 
         onStopSpinning={() => {
           setMustSpin(false)
-
         }}
       />
-      {props.currentPhase}
-      {/* <button className={'spin-button btn btn-danger btn-block'} onClick={() => handleSpinClick()}>
-        Spin
-      </button> */}
     </div>
   );
 };
