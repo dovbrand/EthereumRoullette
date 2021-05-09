@@ -98,7 +98,7 @@ export default function Wheeel(props) {
     
     <div className='wheel'>
       <div className='wheel win-msg-container'>
-        <h3 className="win-msg">{winnerNum }</h3>
+        {/* <h3 className="win-msg">{winnerNum }</h3> */}
       </div>
       <Wheel
         mustStartSpinning={mustSpin}
