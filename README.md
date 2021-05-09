@@ -2,33 +2,106 @@
 
 ## Dependencies
  - Solidity
- - Remix IDE
  - Javascript
  - Node.js (Express, Mysql2, Sequelize)
  - Truffle
+ - Ganache
  - Metamask
  
 ---
+
+## Clone and Configuring Dapp
+1. Clone this repository
+2. Download [Truffle](https://www.trufflesuite.com/truffle) 
+3. Download [Ganache](https://www.trufflesuite.com/ganache)
+4. [Configure](https://www.trufflesuite.com/docs/ganache/reference/ganache-settings) Ganache using ```truffle-config.js``` from source directory
+
 ### Metamask 
 
- - Add Metamask as an extension to the browser 
- - Create and account
- - Connect account with Remix
- - Link tokens using: 
- Find a more detailed instructions [here](https://developers.rsk.co/tutorials/ethereum-devs/remix-and-metamask-with-rsk-testnet/)
- 
- 
-## Instructions and Configuration
+ - [Add](https://metamask.io/download.html) Metamask as an extension to your browser 
+ - Create an account
+ - [Configure](https://youtu.be/nUEBAS5r4Og?t=139) Metamask with Ganache
+---
 
-### Server (Back End)
+## Deploy the contract
 
-- Once cloned the repository, 'server/app/config/db.config.js' should look like this:
+**In the src directory** 
+
+1. install dependecies:
+```
+npm install
+```
+
+2. Compile the contract:
+```
+  truffle compile --all
+```
+
+3. Deploy the contract:
+```
+  truffle migrate
+```
+
+### Update ABI and Contract address
+
+1. Navigate to: ```client/src/contracts```
+2. Open Roulette.json
+3. Copy the **ABI** and **Contract Address**
+4. Navigate to ```client/src/config.js```
+5. Update ```ROU_ABI``` and ```ROU_ADDRESS```
+6. Navigate to ```bot/index.js```
+7. Update ```CONTRACT_ABI``` and ```CONTRACT_ADDRESSS```
+
+#### Video Walkthrough:
+<img src='http://g.recordit.co/QgmKNQQZwC.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+
+---
+
+## Running the Bot 
+
+### Steps to deploy the bot
+
+#### The bot serves as the casino. The Metamask account used to deploy the contract will serve as the casino.
+#### **Important** The bot **must** be configured to the same Metamask account used to deploy the contract
+
+* Make sure you are in a new **terminal window**
+1. Navigate to 'bot' directory, from source folder run: ```cd bot```
+2. On this directory, run to install dependecies: ```npm install```
+3. Create a new```.env``` file and copy contents of ```.env.example``` file into it
+4. Configure ```.env``` variables
+    -  **RPC_URL** is the network url that your Metamask Account is connected to. You can get ganache's RPC in the top menus where it says ```RPC SERVER```
+    -  **PRIVATE_KEY** is the private key of your Metamask Account for the casino (should be different from the player's account)
+    -  **ACCOUNT** is the account address of the Metamask account
+
+* On 'bot/index.js' update **abi** and **contract address** (copy these from 'client/src/config.js')
+* Run command 
+```npm run start```
+
+#### How does the bot work?
+1.	Casino will deploy the contract
+2.	The bot will check the casino deposit amount and deposit money automatically to ensure that the deposit is not below the minimum
+3.	The bot will first reset the game
+4.	The bot will then generate a random number and random hash, hash them together, and send the commitment has to the contract
+5.	The bot will wait two minutes, then reveal the winning number, the casino will automatically payout
+6.	The bot will reset the game and repeat the process
+
+#### After the contract is deployed:
+1. Deploy bot
+2. Bot will deposit 1 ether 
+3. Player will join contract by switching account addresses 
+4. During the betting phase player can  place their bets
+  - Player can remove or see their current bets on the table 
+---
+
+## Server (Back End)
+
+- In the cloned the repository files, ````server/app/config/db.config.js```` should look like this:
 ``` bash
   module.exports = {
-    HOST: "sql5.freemysqlhosting.net",
-    USER: "sql5408535",
-    PASSWORD: "CNFq9khMkW",
-    DB: "sql5408535",
+    HOST: "freedb.tech",
+    USER: "freedbtech_rou",
+    PASSWORD: "1807Mich@3l",
+    DB: "freedbtech_rousp",
     dialect: "mysql",
     pool: {
       max: 5,
@@ -42,130 +115,91 @@
 
 this will run the server on a hosted server.
 
-* navigate to 'client' directory
-``` cd client ```
-In the project directory, you can run the backend server:
-#### Project setup
-```npm install```
-Runs package.json to install all the dependecies.
-#### Run
-```
-node server.js
-```
-
-Runs the app in the development mode.
-Open http://localhost:8080 to view it in the browser.
-The page will show you the message
-{"message":"Welcome to Rou application by Lette."}
-
-
-### Deploy contract
-#### Locally
-**if you have truffle install, follow these steps.**
-- Make sure you have truffle installed, follow these [steos](https://www.trufflesuite.com/docs/truffle/getting-started/installation)
-* on the src folder, 
-- install dependecies:
-```
-npm install
-```
-
-- Compile the contract:
-```
-  truffle compile
-```
-
-- Migrate the contract:
-```
-  truffle migrate
-```
-- Navegate to: 'client/src/contracts'
-- Open Roulette.json
-- Copy the **ABI** and **Contract Address**
-- Navigate to 'client/src/config.js' 
-- Paste respectivelly 
-
-#### REMIX
-***DEPLOY CONTRACT ON REMIX***
-- Copy contract 'contracts/Roulette.sol'
-- Open [Remix](https://remix.ethereum.org/)
-- Paste and Deploy contract on Remix, follow these [steps](https://remix-ide.readthedocs.io/en/latest/create_deploy.html)
-- Copy **ABI** and **Contract Address**
-- Navigate to 'client/src/config.js' on project 
-- Paste respectivelly 
+1. Create a ***new terminal window*** 
+2. Navigate to 'server' directory: ``` cd server ``` from src folder
+3. Run ```npm install```, this install all the project dependecies.
+4. Run ```node server.js``` which starts the app backend in development mode.
+5. Open http://localhost:8080 to view it in the browser. The page will show you the message ```{"message":"Welcome to Rou application by Lette."}```
 
 ---
 
-### Bot (Back End)
+## Client (Front End)
+1. Create a ***new terminal window*** 
+2. Navigate to 'client' directory: from source folder run ```cd client```
+3. Run ```npm install```, this install all the project dependecies.
+4. ```npm start```, which starts the app front-end in development mode.
+5. Automatically will open [http://localhost:8081](http://localhost:8081) in the browser.The page will reload if you make edits. You will also see any lint errors in the console.
 
-#### Steps to deploy the bot
-
-* Make sure you are in a new **terminal window**
-* Navigate to 'bot' directory
-From source folder run:
-
-```cd bot```
-
-* On the directory, run:
-```npm install```
-* Create .env file and copy contents of .env.example file into it
-* Configure .env variables
--  **RPC_URL** is the network where the contract was deployed
--  **PRIVATE_KEY** is the private key from your Metamask Account for the casino (should be different from the player's account)
--  **ACCOUNT** is the account from metamask the cassino will use
-
-* On 'bot/index.js' update **abi** and **contract address** (copy these from 'client/src/config.js')
-* Run command 
-```npm run start```
-
-#### How does the bot work?
-1.	Casino will deploy the contract
-2.	A contract address will be deployed (we can copy that address directly into the front end). The contract address will always be the same. This is the address needed for players to join the game.
-3.	After deploying contract the Casino must deposit money using the deposit money function (recommended amount is 1 ether)
-4.	Contract can deposit any amount of money to contract at any time
-
-#### After the contract is deployed:
-1. Commitment Hash is called
-2. Casino deposits 1 ether 
-3. Player will join contract by switching account addresses 
-4. Player will deposit their bet amount 
-5. Player can now place their bet 
-  - Player can remove or see their current bets on the table 
 ---
 
 ### Testing (Back End)
 Steps for testing the contract;
+## Testing 
+*Note if you do not have truffle installed, you should follow the steps down below to install truffle on your machine. After installing truffle, you can follow the steps of viewing the available test files for the contract*
 
-1. Begin by installing truffle and a text editor, we used Atom.
-2. After installing both systems, the user would have to import roullette.sol into the contracts folder and roulettetest.js into the test folder.
-3. To begin the testing process, one must run the `testrpc` client from the terminal, which starts the server to connect the contract to the testing file.
-4. Open a new terminal window and run `truffle develop` to deploy the contract and then use the command `test` to see all the available tests written in the javascript file.
-5. There should be 6 available test files to view.
+Steps for testing the contract;
+
+1. To begin the testing process, one must run the `testrpc` client from the terminal, which starts the server to connect the contract to the testing file.
+2. Open a new terminal window and run `truffle develop` to deploy the contract.
+3. Then use the command `test` to see all the available tests written in the javascript file.
+4. There should be 12 available test files to view.
+
+## Dependencies
+
+Install `yarn` if you haven't already:
+
+```
+npm install -g yarn
+```
+
+## Getting Started
+Download zip file or git clone repo:
+
+```
+git clone https://github.com/trufflesuite/trufflesuite.com.git
+```
+
+Navigate into the directory in terminal:
+
+```
+cd trufflesuite.com/
+yarn
+```
+
+## Run dev build
+In terminal run:
+
+```
+yarn dev
+```
+
+Navigate to **[localhost:9000](http://localhost:9000)**/port specified in your terminal
+
+To view Browsersync settings navigate to **[localhost:3001](http://localhost:3001)**
+
+## Compile to a production build
+
+In terminal run:
+
+```
+yarn build
+```
+
+Navigate to ./build folder for the compiled files.
+
+
+
 
 ---
 
-### Client (Front End)
-* Make sure you are in a new **terminal window**
-* Navigate to 'client' directory
-From source folder run:
+### Contributors
 
-```cd client```
-
-In the project directory, you can run the front-end server:
-
-### Project setup
-```
-npm install
-```
-Runs package.json to install all the dependecies.
-
-### Run
-```
-npm start
-```
-*Note: The user should be in the directory dapp/client to run npm start*
-
-Runs the app in the development mode.\
-Open [http://localhost:8081](http://localhost:8080) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+#### Frontend:
+* **Mayra Vazquez-Sanchez** - [mayravs](https://github.com/mayravs)
+* **Pierce Ruddock Taylor**  - [pkrtaylor](https://github.com/pkrtaylor)
+#### Backend:
+* **Avraham Brand**  - [dovbrand](https://github.com/dovbrand)
+* **Hope Dunner**  - [hpdnnr7](https://github.com/hpdnnr7)
+#### General (Front & Backend):
+* **Michael Mayaguari**  - [mgmayagu](https://github.com/mgmayagu)
+* **Inna Baryanova**  - [innabaryanova](https://github.com/innabaryanova)
