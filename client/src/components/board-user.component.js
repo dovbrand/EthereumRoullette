@@ -94,7 +94,6 @@ export default class BoardUser extends Component {
     }
 
     async PlaceBet() {
-        this.btn.setAttribute("disabled", "disabled");
         var betArray = window.BETS_ARRAY;
         var betAmount = window.BETS_TOTAL;
         console.log(betArray)
@@ -104,6 +103,7 @@ export default class BoardUser extends Component {
                 console.log(receipt);
             });
         window.Reset();
+        this.btn.setAttribute("disabled", "disabled");
     };
 
     async getBettingClosed() {
@@ -159,8 +159,8 @@ export default class BoardUser extends Component {
             gamePhaseMsg = 'Game resetting, please wait...'
         } 
         else if (gamePhaseMsg === 'bettingPhase') {
-            this.btn.removeAttribute("disabled");
             gamePhaseMsg = 'You have 1 minute to place your bets'
+            this.btn.removeAttribute("disabled");
         }
         else if (gamePhaseMsg === 'payingPhase') {
             this.btn.setAttribute("disabled", "disabled");
