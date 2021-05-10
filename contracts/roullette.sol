@@ -90,9 +90,9 @@ contract Roullette {
         require(bettingPhase, "Betting is not open");
         address _playerAddress = msg.sender;
         // require(_playerAddress != casino, "Casino cannot be a player");
-        // require(msg.value * 36 < casinoDeposit, "Casino cannot cover bet"); // Bet must be less than the money in the casino deposit to ensure casino can cover the bet
+        require(msg.value * 36 < casinoDeposit, "Casino cannot cover bet"); // Bet must be less than the money in the casino deposit to ensure casino can cover the bet
         require(msg.value >= 1 wei, "Bets must be  at least 1 wei"); // Must be greater or equal to minimum bet of 1 wei
-        require(msg.value <= maxBet, "Max bet exceeded"); // Must be less than or equal to max bet of .001 ether
+        // require(msg.value <= maxBet, "Max bet exceeded"); // Must be less than or equal to max bet of .001 ether
         
         if( !playerMap[_playerAddress].playerExists) { // If player is new
             playerAddressArray.push(msg.sender); // Add player address to array of player addresses
