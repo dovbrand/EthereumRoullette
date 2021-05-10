@@ -2,7 +2,7 @@ pragma solidity ^0.6.6;
 pragma experimental ABIEncoderV2;
 
 
-contract Roulette { 
+contract Roullette { 
     
     struct Bet {
         uint256[] numbers;
@@ -59,19 +59,20 @@ contract Roulette {
     function depositMoney() public payable {
         require(msg.sender == casino, "Only the casino can deposit money");
         casinoDeposit = casinoDeposit + msg.value;
+        sendViaCall(contractAddress, msg.value);
     }
     
     function getCasinoDeposit() public view returns (uint256){
         return casinoDeposit;
     }
     
-    function getCommitmentHash() public view returns (uint256){
-        return casinoDeposit;
+    function getCommitmentHash() public view returns (bytes32){
+        return commitHash;
     }
     
-    function setCommitmentHash(bytes32 _outcomeHash) public returns (bytes32) {
-        require (resetPhase);
-        require(msg.sender == casino, "Only the casino can generate outcome");
+    function setCommitmentHash(bytes32 _outcomeHash) external returns (bytes32) {
+        require (resetPhase, "cannot set commitment hash during this phase");
+        require (msg.sender == casino, "Only the casino can generate outcome");
         require (commitHash == 0, "Hash already created");
         commitHash = _outcomeHash;
         resetPhase = false;
@@ -85,13 +86,13 @@ contract Roulette {
         casinoDeposit = casinoDeposit - _betAmount; // bet amount is deducted from casinoDeposit and but remains in the contract balance
     }
     
-    function placeBet(uint256[][] memory _bets) public payable {
-        require(bettingPhase);
+    function placeBet(uint256[][] calldata _bets) external payable {
+        require(bettingPhase, "Betting is not open");
         address _playerAddress = msg.sender;
-        require(_playerAddress != casino, "Casino cannot be a player");
+        // require(_playerAddress != casino, "Casino cannot be a player");
         require(msg.value * 36 < casinoDeposit, "Casino cannot cover bet"); // Bet must be less than the money in the casino deposit to ensure casino can cover the bet
         require(msg.value >= 1 wei, "Bets must be  at least 1 wei"); // Must be greater or equal to minimum bet of 1 wei
-        require(msg.value <= maxBet, "Max bet exceeded"); // Must be less than or equal to max bet of .001 ether
+        // require(msg.value <= maxBet, "Max bet exceeded"); // Must be less than or equal to max bet of .001 ether
         
         if( !playerMap[_playerAddress].playerExists) { // If player is new
             playerAddressArray.push(msg.sender); // Add player address to array of player addresses
@@ -100,7 +101,12 @@ contract Roulette {
         }
         
         setBet(_playerAddress, _bets, msg.value);
+        sendViaCall(contractAddress, msg.value);
     }
+    
+    // sample nonce: 0x3ac225168df54212a25c1c01fd35bebfea408fdac2e31ddd6f80a4bbf9a5f1cb
+    // sample number: 20
+    // sample commitHash: 0xf93eed68034dba759863259ca8eeb952ef5275db301ee8afe2da218326801d7e
     
     // This is the spin wheel function
     function revealWinningNumber(uint256 _winningNumber, bytes32 _nonce) public payable returns (uint256){
@@ -115,12 +121,12 @@ contract Roulette {
     }
     
     function WinningNumber() public view returns (uint256)  {
-        require(payingPhase);
+        require(payingPhase, "Cannot see winning number during this phase");
         return winningNumber;
     }
     
     function payout() internal{
-        require(payingPhase);
+        require(payingPhase, "Payout cannot occur during this phase");
         for (uint n = 0; n < playerAddressArray.length; n++){
             address _playerAddress = playerAddressArray[n];
             uint256 winAmount = 0;
@@ -192,7 +198,7 @@ contract Roulette {
         
     }
     
-    function setBet(address _playerAddress, uint256[][] memory _bets, uint256 _betTotal) internal{
+    function setBet(address _playerAddress, uint256[][] calldata _bets, uint256 _betTotal) internal{
         // Sample Bets [[100,1,2,3,4],[100,20],[100,1,2,3,4,5,6,7,8,9,10,11,12]]
         uint256 betTotal = 0;
         uint256 n = _bets.length;
@@ -250,7 +256,7 @@ contract Roulette {
     
     function gameReset() external{
         require(msg.sender == casino, "Only the casino can reset game");
-        require(payingPhase);
+        require(payingPhase, "cannot resest game during this phase");
         payingPhase = false;
         resetPhase = true;
         commitHash = 0;
