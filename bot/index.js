@@ -17,8 +17,8 @@ const server = http.createServer(app).listen(PORT, () => console.log(`Listening 
 // WEB3 CONFIG
 const web3 = new Web3(new HDWalletProvider({ privateKeys: [process.env.PRIVATE_KEY], providerOrUrl: process.env.RPC_URL }))
 
-const CONTRACT_ADDRESS = "0xCEB77BBfBEa808842152893A57d6276574b79BEB";// Contract Address here ;
-const CONTRACT_ABI =  [
+const CONTRACT_ADDRESS = "0x7bfdb0569c0214F5A6C188C10dc85065380d0f24";// Contract Address here ;
+const CONTRACT_ABI = [
   {
     "inputs": [],
     "stateMutability": "payable",
@@ -96,6 +96,19 @@ const CONTRACT_ABI =  [
     "stateMutability": "view",
     "type": "function",
     "constant": true
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "withdrawCasinoDeposit",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
     "inputs": [
@@ -261,13 +274,47 @@ const CONTRACT_ABI =  [
     "stateMutability": "view",
     "type": "function",
     "constant": true
+  },
+  {
+    "inputs": [],
+    "name": "getLastGameResults",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      },
+      {
+        "internalType": "int256",
+        "name": "",
+        "type": "int256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
   }
 ];// Contract ABI here
-
 const RouletteContract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
 const account = process.env.ACCOUNT;
 
-const MIN_DEPOSIT = 1000000000000000;
+const MIN_DEPOSIT = 100000000000000000;
+const MAX_DEPOSIT = 1000000000000000000;
 
 var randomBytes;
 var randomNumber;
@@ -282,6 +329,14 @@ async function depositMoney(depositAmount) {
   // Should depsoit money to make casino deposit 1 ether
   await RouletteContract.methods.depositMoney().send({ from: account, value: web3.utils.toWei(web3.utils.toBN(depositAmount), 'wei') }).then(
     () => console.log("Deposit Complete")
+  );
+}
+
+async function withdrawMoney(withdrawAmount) {
+  console.log("withdrawing " + withdrawAmount + "...")
+  // Should depsoit money to make casino deposit 1 ether
+  await RouletteContract.methods.withdrawCasinoDeposit(withdrawAmount).send({ from: account }).then(
+    () => console.log("Withdraw Complete")
   );
 }
 
@@ -361,12 +416,17 @@ async function runScript() {
         let depositAmount = MIN_DEPOSIT - casinoDeposit;
         await depositMoney(depositAmount);
       }
+      else if (casinoDeposit > MAX_DEPOSIT) {
+        let withdrawAmount = MIN_DEPOSIT - casinoDeposit;
+        await depositMoney(withdrawAmount);
+      }
       // After revealing the number reset the contract
       await resetContract();
     }
     else if (currentPhase == "resetPhase") {
       // Create Casino Hash
       await generateHash();
+      await sleep(90000);
     }
     else if (currentPhase == "bettingPhase") {
       // Wait until betting is complete and reveal winning number
@@ -385,5 +445,5 @@ async function runScript() {
 }
 
 // runs script every n seconds
-const POLLING_INTERVAL = 30000 // 30 secs
+const POLLING_INTERVAL = 10000 // 10 seconds
 script = setInterval(async () => { await runScript() }, POLLING_INTERVAL)

@@ -73,6 +73,10 @@ export default class Profile extends Component {
             <strong>Account:</strong>{" "}
             { this.state.account}
           </p>
+          {/* <p className="user-info">
+            <strong>Balance:</strong>{" "}
+            { this.state.balance}
+          </p> */}
         </div>
         </div>: null}
       </div>

@@ -1,6 +1,6 @@
-export const ROU_ADDRESS = '0xCEB77BBfBEa808842152893A57d6276574b79BEB'
+export const ROU_ADDRESS = '0x7bfdb0569c0214F5A6C188C10dc85065380d0f24'
 
-export const ROU_ABI =  [
+export const ROU_ABI = [
   {
     "inputs": [],
     "stateMutability": "payable",
@@ -78,6 +78,19 @@ export const ROU_ABI =  [
     "stateMutability": "view",
     "type": "function",
     "constant": true
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "withdrawCasinoDeposit",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
     "inputs": [
@@ -238,6 +251,40 @@ export const ROU_ABI =  [
         "internalType": "string",
         "name": "",
         "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [],
+    "name": "getLastGameResults",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      },
+      {
+        "internalType": "int256",
+        "name": "",
+        "type": "int256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
       }
     ],
     "stateMutability": "view",

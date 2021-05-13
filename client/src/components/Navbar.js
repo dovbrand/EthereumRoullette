@@ -4,7 +4,7 @@ import logout from '../images/logout-icon.png';
 import { Link } from "react-router-dom";
 import './Navbar.css';
 import account from '../images/account-icon.png';
-import rankings from '../images/rankings-icon.png';
+// import rankings from '../images/rankings-icon.png';
 import howto from '../images/how-to-icon.png';
 
 import AuthService from "../services/auth.service";

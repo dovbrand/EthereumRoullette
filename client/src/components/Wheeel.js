@@ -83,15 +83,35 @@ export default function Wheeel(props) {
             PrizeNumberIndex = i;
         }
         setPrizeNumber(PrizeNumberIndex);
-        setMustSpin(true)
+        setMustSpin(true);
       }
     )
     window.Reset();
   }
 
+  function checkResult(winNum){
+    var bets = window.BETS_ARRAY;
+
+    if (bets === null) {
+      alert("You Did Not Bet!")
+    } else {
+      for (var i = 0; i < bets.length; i++) {
+        for (var x = 0; x < bets[i].length; x++) {
+          console.log(bets[i][x]);
+          if (winNum === bets[i][x]) {
+            alert("You Won!");
+            break;
+          }
+        }
+      }
+      alert("You Lost!")
+    }
+  }
+
   if (props.spinWheel === true) {
-    // console.log(props.spinWheel)
+    console.log(props.spinWheel)
     handleSpinClick();
+    setTimeout(() => { checkResult(winnerNum);}, 5000);
   }
 
   return (

@@ -27,9 +27,8 @@ export default class BoardUser extends Component {
         this.PlaceBet = this.PlaceBet.bind(this);
         this.getBettingClosed = this.getBettingClosed.bind(this);
         this.getBettingOpen = this.getBettingOpen.bind(this);      
-        this.getGameState = this.getGameState.bind(this);      
-
-          
+        this.getGameState = this.getGameState.bind(this);    
+        this.Verify = this.Verify.bind(this);    
     }
 
     // loads web3 and interacts with contract
@@ -107,12 +106,10 @@ export default class BoardUser extends Component {
     };
 
     async getBettingClosed() {
-        this.getGameState();
-
+        // this.getGameState();
         if (this.state.getBetCloseRunning === false) {
             // this.timerUpdate();
             this.setState({ getBetCloseRunning: true})
-            this.setState({spinWheel: true})
             console.log("Get Betting Close Event")
             this.state.rou.once('bettingPhaseClosed', { fromBlock: this.state.lastBlock },
                 (error, event) =>{
@@ -120,14 +117,15 @@ export default class BoardUser extends Component {
                     this.setState({lastBlock: event.blockNumber})
                     this.btn.setAttribute("disabled", "disabled"); // placebet button disables
                     this.setState({getBetOpenRunning: false})
-                    this.setState({spinWheel: false})
+                    this.setState({spinWheel: true})
                     this.getBettingOpen();
             });
         }
     }
 
     async getBettingOpen() {
-        this.getGameState();
+        this.setState({spinWheel: false})
+        // this.getGameState();
 
         if (this.state.getBetOpenRunning === false) {
             // this.timerUpdate()
@@ -146,11 +144,25 @@ export default class BoardUser extends Component {
 
     async  getGameState() {
         await this.state.rou.methods.getGameState().call().then(
-          data => {
-            this.setState({gameState: data});
-          }
+            data => {
+                this.setState({gameState: data});
+            }
         );
-      }
+    }
+
+    async Verify() {
+        await this.state.rou.methods.getLastGameResults().call().then(
+            data => {
+               alert("To verify the winning number, hash together the last winning number and the last random hash using SHA3 or KECCAK256. The result should match the last commit hash." +
+                    "\nWon? " + data[0] + 
+                    "\nAmount won/lost:  " + data[1] + 
+                    "\nLast Winning Number: "+ data[2] + 
+                    "\nLast Random Hash: "+ data[3] +
+                    "\nLast Commit Hash: "+ data[4]);
+               console.log(data)
+            }
+        );
+    }
 
     render() {
         var gamePhaseMsg = this.state.gameState
@@ -173,7 +185,7 @@ export default class BoardUser extends Component {
 
         return (
             <div className="main">
-                <Navbar account = {this.state.account} />  
+                <Navbar account = {this.state.account} /*balance = {this.state.balance}*/ />  
                 <div className="auth-wrapper">
                     <div className="content">
                         <div className="auth-inner-2" style={{position: 'fixed', left: '50%', top: '57%',transform: 'translate(-50%, -50%)'}}>
@@ -197,8 +209,9 @@ export default class BoardUser extends Component {
                                             <div id='result'></div>
                                         </div>
                                         <div>
-                                            <button className="reset-btn btn btn-danger btn-block" onClick={window.Reset}>Clear Bets</button>
                                             <button className="place-btn btn btn-danger btn-block" ref={btn => { this.btn = btn; }} onClick={this.PlaceBet}>Place bet</button>
+                                            <button className="reset-btn btn btn-danger btn-block" onClick={window.Reset}>Clear Bets</button>
+                                            <button className="place-btn btn btn-danger btn-block" onClick={this.Verify}>Verify Result</button>
                                         </div>
                                     </div>
                                 </div>
