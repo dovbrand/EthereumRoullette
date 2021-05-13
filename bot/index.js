@@ -17,7 +17,7 @@ const server = http.createServer(app).listen(PORT, () => console.log(`Listening 
 // WEB3 CONFIG
 const web3 = new Web3(new HDWalletProvider({ privateKeys: [process.env.PRIVATE_KEY], providerOrUrl: process.env.RPC_URL }))
 
-const CONTRACT_ADDRESS = "0x5228eb6fa090ca49E61E8c967efe00db7f9A3CCb";// Contract Address here ;
+const CONTRACT_ADDRESS = "0xC6C63415E00be5dCE8E7f6A47F47fdD7C8178996";// Contract Address here ;
 const CONTRACT_ABI = [
   {
     "inputs": [],
@@ -111,9 +111,9 @@ const CONTRACT_ABI = [
     "name": "getCommitmentHash",
     "outputs": [
       {
-        "internalType": "uint256",
+        "internalType": "bytes32",
         "name": "",
-        "type": "uint256"
+        "type": "bytes32"
       }
     ],
     "stateMutability": "view",
@@ -253,6 +253,7 @@ const RouletteContract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
 const account = process.env.ACCOUNT;
 
 const MIN_DEPOSIT = 1000000000;
+const MAX_DEPOSIT = 100000000000000000;
 
 var randomBytes;
 var randomNumber;
@@ -267,6 +268,14 @@ async function depositMoney(depositAmount) {
   // Should depsoit money to make casino deposit 1 ether
   await RouletteContract.methods.depositMoney().send({ from: account, value: web3.utils.toWei(web3.utils.toBN(depositAmount), 'wei') }).then(
     () => console.log("Deposit Complete")
+  );
+}
+
+async function withdrawMoney(withdrawAmount) {
+  console.log("withdrawing " + withdrawAmount + "...")
+  // Should depsoit money to make casino deposit 1 ether
+  await RouletteContract.methods.withdrawCasinoDeposit(withdrawAmount).send({ from: account }).then(
+    () => console.log("Withdraw Complete")
   );
 }
 
@@ -346,13 +355,17 @@ async function runScript() {
         let depositAmount = MIN_DEPOSIT - casinoDeposit;
         await depositMoney(depositAmount);
       }
+      else if (casinoDeposit > MAX_DEPOSIT) {
+        let withdrawAmount = MIN_DEPOSIT - casinoDeposit;
+        await depositMoney(withdrawAmount);
+      }
       // After revealing the number reset the contract
       await resetContract();
     }
     else if (currentPhase == "resetPhase") {
       // Create Casino Hash
       await generateHash();
-      await sleep(12000);
+      await sleep(90000);
     }
     else if (currentPhase == "bettingPhase") {
       // Wait until betting is complete and reveal winning number
