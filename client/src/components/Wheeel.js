@@ -4,6 +4,8 @@ import './Wheeel.css'
 
 import Web3 from 'web3';
 import { ROU_ABI, ROU_ADDRESS } from '../config'
+import BoardUser from './board-user.component';
+import board from './board';
 
 const data = [
   { option: '32' },
@@ -98,7 +100,7 @@ export default function Wheeel(props) {
     
     <div className='wheel'>
       <div className='wheel win-msg-container'>
-        {/* <h3 className="win-msg">{winnerNum }</h3> */}
+        {mustSpin === false ? <h3 className="win-msg">{winnerNum}</h3> : <h3 className="win-msg"> </h3> }
       </div>
       <Wheel
         mustStartSpinning={mustSpin}
