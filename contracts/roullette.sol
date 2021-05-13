@@ -14,8 +14,9 @@ contract Roullette {
         address payable playerAddress;
         bool playerExists; // Whether the player has already been added to map and array;
         bool win; // Whether the player won or lost
+        bool lastWin; // Result of last game
+        int256 lastAmount; // Amount won or lost in the last game
         // bool gameInProgress; // Whether the player is currently playing a game
-        // uint256 result;
         Bet[] bets;
         int256 totalWinnings; // Keeps track of player balance
     }
@@ -31,8 +32,10 @@ contract Roullette {
     address payable contractAddress = address(this);  // Address of this contract
     bytes32 public commitHash = 0;
     uint256 winningNumber = 38;
+    bytes32 lastCommitHash;
     uint256 lastWinningNumber;
     bool wheelSpun = false;
+    bytes32 nonce;
     
     bool bettingPhase  = false;
     bool payingPhase = true ;
@@ -68,6 +71,13 @@ contract Roullette {
     
     function getCommitmentHash() public view returns (bytes32){
         return commitHash;
+        
+    }
+    
+    function withdrawCasinoDeposit(uint256 amount) external {
+        require(msg.sender == casino, "Only the casino can withdraw money");
+        casinoDeposit = casinoDeposit - amount;
+        sendViaCall(msg.sender, amount);
     }
     
     function setCommitmentHash(bytes32 _outcomeHash) external returns (bytes32) {
@@ -116,6 +126,9 @@ contract Roullette {
         payingPhase = true;
         emit bettingPhaseClosed();
         winningNumber = _winningNumber;
+        lastCommitHash = commitHash;
+        lastWinningNumber = winningNumber;
+        nonce = _nonce;
         payout();
         return winningNumber;
     }
@@ -191,6 +204,8 @@ contract Roullette {
                     winAmount = winAmount + playerMap[_playerAddress].bets[i].multiplier * playerMap[_playerAddress].bets[i].betAmount;
                 }
             }
+            playerMap[_playerAddress].lastWin = playerMap[_playerAddress].win;
+            playerMap[_playerAddress].lastAmount = (int256(winAmount) - int256(loseAmount));
             payCasino(loseAmount);
             payPlayer(winAmount, _playerAddress);
             updateWinnings(winAmount, loseAmount, _playerAddress);
@@ -260,7 +275,6 @@ contract Roullette {
         payingPhase = false;
         resetPhase = true;
         commitHash = 0;
-        lastWinningNumber = winningNumber;
         winningNumber = 38;
         for (uint i = 0; i < playerAddressArray.length; i++){
             while(playerMap[playerAddressArray[i]].bets.length > 0){
@@ -291,6 +305,10 @@ contract Roullette {
             str = "resetPhase";
         }
         return (str);
+    }
+    
+    function getLastGameResults() public view returns (bool, int256, uint256,  bytes32, bytes32) {
+        return (playerMap[msg.sender].lastWin, playerMap[msg.sender].lastAmount, lastWinningNumber, nonce,  lastCommitHash);
     }
     
     
