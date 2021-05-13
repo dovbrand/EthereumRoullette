@@ -1,4 +1,4 @@
-export const ROU_ADDRESS = '0x8f09DB1bBa83d799c154da3944D985Da52429c1F'
+export const ROU_ADDRESS = '0xCEB77BBfBEa808842152893A57d6276574b79BEB'
 
 export const ROU_ABI =  [
   {
@@ -70,9 +70,9 @@ export const ROU_ABI =  [
     "name": "getCommitmentHash",
     "outputs": [
       {
-        "internalType": "uint256",
+        "internalType": "bytes32",
         "name": "",
-        "type": "uint256"
+        "type": "bytes32"
       }
     ],
     "stateMutability": "view",

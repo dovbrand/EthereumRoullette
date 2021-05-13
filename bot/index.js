@@ -17,7 +17,7 @@ const server = http.createServer(app).listen(PORT, () => console.log(`Listening 
 // WEB3 CONFIG
 const web3 = new Web3(new HDWalletProvider({ privateKeys: [process.env.PRIVATE_KEY], providerOrUrl: process.env.RPC_URL }))
 
-const CONTRACT_ADDRESS = "0x5F41589FB3D207AC8dD352ab5EDDB2266E148BC4";// Contract Address here ;
+const CONTRACT_ADDRESS = "0xCEB77BBfBEa808842152893A57d6276574b79BEB";// Contract Address here ;
 const CONTRACT_ABI =  [
   {
     "inputs": [],
@@ -88,9 +88,9 @@ const CONTRACT_ABI =  [
     "name": "getCommitmentHash",
     "outputs": [
       {
-        "internalType": "uint256",
+        "internalType": "bytes32",
         "name": "",
-        "type": "uint256"
+        "type": "bytes32"
       }
     ],
     "stateMutability": "view",
