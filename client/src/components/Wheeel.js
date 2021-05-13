@@ -113,7 +113,7 @@ export default function Wheeel(props) {
   if (props.spinWheel === true) {
     console.log(props.spinWheel)
     handleSpinClick();
-    setTimeout(() => { checkResult(winnerNum);}, 5000);
+    setTimeout(() => { checkResult(winnerNum);}, 15000);
   }
 
   return (
